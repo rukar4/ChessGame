@@ -45,7 +45,7 @@ public class BishopMoves extends Piece {
          if (board.getPiece(next) != null) {
             // If the piece is the opposite color, include space in valid moves
             if (board.getPiece(next).getTeamColor() != color) {
-                  moves.add(new Move(start, next));
+               moves.add(new Move(start, next));
             }
             break;
          } else {
@@ -57,7 +57,7 @@ public class BishopMoves extends Piece {
          if (board.getPiece(next) != null) {
             // If the piece is the opposite color, include space in valid moves
             if (board.getPiece(next).getTeamColor() != color) {
-                  moves.add(new Move(start, next));
+               moves.add(new Move(start, next));
             }
             break;
          } else {

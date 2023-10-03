@@ -17,15 +17,12 @@ public class RookMoves extends Piece {
       int row = start.getRow();
       int col = start.getColumn();
 
-
-
-
       // Iterate over rows and columns until the end of the row or until a piece is found
-      for (int i = col + 1; i <= 8; ++i){
+      for (int i = col + 1; i <= 8; ++i) {
          Position next = new Position(row, i);
          if (board.getPiece(next) != null) {
             // If the piece is the opposite color, include space in valid moves
-            if (board.getPiece(next).getTeamColor() != color){
+            if (board.getPiece(next).getTeamColor() != color) {
                moves.add(new Move(start, next));
             }
             break;
@@ -33,10 +30,10 @@ public class RookMoves extends Piece {
             moves.add(new Move(start, next));
          }
       }
-      for (int i = col - 1; i >= 1; --i){
+      for (int i = col - 1; i >= 1; --i) {
          Position next = new Position(row, i);
          if (board.getPiece(next) != null) {
-            if (board.getPiece(next).getTeamColor() != color){
+            if (board.getPiece(next).getTeamColor() != color) {
                moves.add(new Move(start, next));
             }
             break;
@@ -44,10 +41,10 @@ public class RookMoves extends Piece {
             moves.add(new Move(start, next));
          }
       }
-      for (int i = row + 1; i <= 8; ++i){
+      for (int i = row + 1; i <= 8; ++i) {
          Position next = new Position(i, col);
          if (board.getPiece(next) != null) {
-            if (board.getPiece(next).getTeamColor() != color){
+            if (board.getPiece(next).getTeamColor() != color) {
                moves.add(new Move(start, next));
             }
             break;
@@ -55,10 +52,10 @@ public class RookMoves extends Piece {
             moves.add(new Move(start, next));
          }
       }
-      for (int i = row - 1; i >= 1; --i){
+      for (int i = row - 1; i >= 1; --i) {
          Position next = new Position(i, col);
          if (board.getPiece(next) != null) {
-            if (board.getPiece(next).getTeamColor() != color){
+            if (board.getPiece(next).getTeamColor() != color) {
                moves.add(new Move(start, next));
             }
             break;

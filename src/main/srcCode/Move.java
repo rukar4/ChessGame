@@ -8,16 +8,18 @@ public class Move implements ChessMove {
    Position position;
    Position endPosition;
    ChessPiece.PieceType piece = null;
-   public Move(ChessPosition position, ChessPosition endPosition){
+
+   public Move(ChessPosition position, ChessPosition endPosition) {
       this.position = (Position) position;
       this.endPosition = (Position) endPosition;
    }
 
-   public Move(ChessPosition position, ChessPosition endPosition, ChessPiece.PieceType piece){
+   public Move(ChessPosition position, ChessPosition endPosition, ChessPiece.PieceType piece) {
       this.position = (Position) position;
       this.endPosition = (Position) endPosition;
       this.piece = piece;
    }
+
    @Override
    public ChessPosition getStartPosition() {
       return position;

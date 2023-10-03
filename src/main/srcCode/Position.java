@@ -3,10 +3,10 @@ package srcCode;
 import chess.ChessPosition;
 
 public class Position implements ChessPosition {
-   int row = 1;
-   int col = 1;
+   int row;
+   int col;
 
-   public Position(int row, int col){
+   public Position(int row, int col) {
       this.row = row;
       this.col = col;
    }
@@ -43,7 +43,7 @@ public class Position implements ChessPosition {
    @Override
    public boolean equals(Object obj) {
       if (obj == this) return true;
-      if (obj instanceof Position objPos){
+      if (obj instanceof Position objPos) {
          return objPos.col == col && objPos.row == row;
       } else {
          return false;

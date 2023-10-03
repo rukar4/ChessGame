@@ -15,7 +15,7 @@ public class Game implements ChessGame {
 
    @Override
    public void setTeamTurn(TeamColor team) {
-      if (turn == TeamColor.WHITE){
+      if (turn == TeamColor.WHITE) {
          turn = TeamColor.BLACK;
       } else {
          turn = TeamColor.WHITE;

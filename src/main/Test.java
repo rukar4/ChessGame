@@ -1,9 +1,6 @@
 import chess.ChessGame;
 import chess.ChessPiece;
-import srcCode.Board;
-import srcCode.KingMoves;
-import srcCode.Piece;
-import srcCode.Position;
+import srcCode.*;
 
 public class Test {
 
@@ -12,11 +9,12 @@ public class Test {
       Piece rook = new Piece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.ROOK);
       Piece bishop = new Piece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.BISHOP);
       Piece king = new KingMoves(ChessGame.TeamColor.WHITE);
-      Position position = new Position(1, 8);
+      Piece knight = new KnightMoves(ChessGame.TeamColor.BLACK);
+      Position position = new Position(4, 3);
 //      chess.addPiece(position, rook);
 //      chess.addPiece(position, bishop);
-      chess.addPiece(position, king);
-      king.pieceMoves(chess, position);
+      chess.addPiece(position, knight);
+      knight.pieceMoves(chess, position);
 
 
       System.out.println(chess.toString());

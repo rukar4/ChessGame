@@ -23,7 +23,7 @@ public class Board implements ChessBoard {
       return chessBoard[pieceIndex[0]][pieceIndex[1]];
    }
 
-   private int[] getPieceIndex(ChessPosition position){
+   private int[] getPieceIndex(ChessPosition position) {
       // Convert row and column number to array index
       int[] index = new int[2];
       index[0] = -(position.getRow() - BOARD_LENGTH);
@@ -39,7 +39,7 @@ public class Board implements ChessBoard {
       resetHelper(ChessGame.TeamColor.BLACK);
    }
 
-   private void resetHelper(ChessGame.TeamColor color){
+   private void resetHelper(ChessGame.TeamColor color) {
       Position position = new Position(1, 1);
       int row;
       if (color == ChessGame.TeamColor.WHITE) {
@@ -48,11 +48,11 @@ public class Board implements ChessBoard {
          // If black, set row to 7 to begin loop
          row = 7;
       }
-      for (int i = row; i <= row + 1; ++i){
+      for (int i = row; i <= row + 1; ++i) {
          position.setRow(i);
-         for (int column = 1; column <= BOARD_LENGTH; ++column){
+         for (int column = 1; column <= BOARD_LENGTH; ++column) {
             position.setColumn(column);
-            if (position.getRow() == 2 || position.getRow() == 7){
+            if (position.getRow() == 2 || position.getRow() == 7) {
                addPiece(position, new Piece(color, ChessPiece.PieceType.PAWN));
             } else {
                switch (position.getColumn()) {
@@ -80,10 +80,10 @@ public class Board implements ChessBoard {
    @Override
    public String toString() {
       StringBuilder sb = new StringBuilder();
-      for (int row = 0; row < BOARD_LENGTH; ++row){
+      for (int row = 0; row < BOARD_LENGTH; ++row) {
          sb.append('|');
-         for (int col = 0; col < BOARD_LENGTH; ++col){
-            if (chessBoard[row][col] == null){
+         for (int col = 0; col < BOARD_LENGTH; ++col) {
+            if (chessBoard[row][col] == null) {
                sb.append("   |");
             } else {
                switch (chessBoard[row][col].getPieceType()) {

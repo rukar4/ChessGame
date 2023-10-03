@@ -11,10 +11,11 @@ public class Piece implements ChessPiece {
    Collection<ChessMove> moves = new HashSet<>();
    boolean hasMoved = false;
 
-   public Piece(ChessGame.TeamColor color, PieceType piece){
+   public Piece(ChessGame.TeamColor color, PieceType piece) {
       this.color = color;
       this.piece = piece;
    }
+
    @Override
    public ChessGame.TeamColor getTeamColor() {
       return color;
@@ -28,12 +29,12 @@ public class Piece implements ChessPiece {
    @Override
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
       moves.clear();
-      switch (piece){
+      switch (piece) {
          case ROOK:
             moves = new RookMoves(color).pieceMoves(board, myPosition);
             break;
          case KNIGHT:
-            moves = new RookMoves(color).pieceMoves(board, myPosition);
+            moves = new KnightMoves(color).pieceMoves(board, myPosition);
             break;
          case BISHOP:
             moves = new BishopMoves(color).pieceMoves(board, myPosition);
@@ -45,14 +46,18 @@ public class Piece implements ChessPiece {
             moves = new QueenMoves(color).pieceMoves(board, myPosition);
             break;
          case PAWN:
-            moves = new RookMoves(color).pieceMoves(board, myPosition);
+            moves = new PawnMoves(color).pieceMoves(board, myPosition);
             break;
       }
       return moves;
    }
 
-   public boolean getHasMoved(){
+   public boolean getHasMoved() {
       return hasMoved;
+   }
+
+   public void setHasMoved(boolean hasMoved){
+      this.hasMoved = hasMoved;
    }
 
    @Override
