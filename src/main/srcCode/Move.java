@@ -46,7 +46,8 @@ public class Move implements ChessMove {
       if (obj == null) return false;
       if (obj instanceof ChessMove) {
          Move objMove = (Move) obj;
-         return objMove.position == position
+         return objMove.position.getRow() == position.getRow()
+                 && objMove.position.getColumn() == position.getColumn()
                  && objMove.endPosition.getRow() == endPosition.getRow()
                  && objMove.endPosition.getColumn() == endPosition.getColumn()
                  && objMove.piece == piece;

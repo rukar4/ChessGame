@@ -13,7 +13,12 @@ public class Board implements ChessBoard {
       for (int i = 1; i <= BOARD_LENGTH; ++i) {
          for (int j = 1; j <= BOARD_LENGTH; ++j) {
             Position position = new Position(i, j);
-            addPiece(position, board.getPiece(position));
+            Piece piece = (Piece) board.getPiece(position);
+            if (piece != null) {
+               Piece copyPiece = new Piece(piece.getTeamColor(), piece.getPieceType());
+               copyPiece.setHasMoved(piece.hasMoved);
+               addPiece(position, copyPiece);
+            }
          }
       }
    }

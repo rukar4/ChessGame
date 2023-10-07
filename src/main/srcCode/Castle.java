@@ -1,15 +1,35 @@
 package srcCode;
 
+import chess.ChessMove;
 import chess.ChessPosition;
 
 public class Castle extends Move {
+   int QUEEN_CASTLE_COL = 3;
+   int KING_CASTLE_COL = 7;
    Position rookStart;
    Position rookEnd;
+   int row;
 
-   public Castle(ChessPosition position, ChessPosition endPosition, ChessPosition rookStart, ChessPosition rookEnd) {
+   CastleType type;
+
+   enum CastleType{
+      QUEEN_SIDE,
+      KING_SIDE
+   }
+
+   public Castle(ChessPosition position, ChessPosition endPosition) {
       super(position, endPosition);
-      this.rookStart = (Position) rookStart;
-      this.rookEnd = (Position) rookEnd;
+      row = endPosition.getRow();
+      // Check for side
+      if (endPosition.getColumn() == QUEEN_CASTLE_COL) {
+         type = CastleType.QUEEN_SIDE;
+         rookStart = new Position(row, 1);
+         rookEnd = new Position(row, QUEEN_CASTLE_COL + 1);
+      } else {
+         type = CastleType.KING_SIDE;
+         rookStart = new Position(row, 8);
+         rookEnd = new Position(row, KING_CASTLE_COL - 1);
+      }
    }
 
    public Position getRookStart() {
@@ -19,4 +39,18 @@ public class Castle extends Move {
    public Position getRookEnd() {
       return rookEnd;
    }
+
+//   @Override
+//   public boolean equals(Object obj) {
+//      if (this == obj) return true;
+//      if (obj == null) return false;
+//      if (obj instanceof Castle objMove) {
+//         return objMove.position == position
+//                 && objMove.endPosition.getRow() == endPosition.getRow()
+//                 && objMove.endPosition.getColumn() == endPosition.getColumn()
+//                 && objMove.rookStart == rookStart
+//                 && objMove.rookEnd == rookEnd
+//                 && objMove.piece == piece;
+//      } else return false;
+//   }
 }

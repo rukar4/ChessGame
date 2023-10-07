@@ -2,8 +2,8 @@ package srcCode;
 
 import chess.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 public class Game implements ChessGame {
    TeamColor TeamTurn = TeamColor.WHITE;
@@ -21,26 +21,57 @@ public class Game implements ChessGame {
 
    @Override
    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-      ChessPiece piece = chessBoard.getPiece(startPosition);
-      Collection<ChessMove> pieceMoves = new HashSet<>();
+      Piece piece = (Piece) chessBoard.getPiece(startPosition);
+      Collection<ChessMove> pieceMoves = new ArrayList<>();
       for (ChessMove move : piece.pieceMoves(chessBoard, startPosition)) {
          Game testGame = new Game();
          testGame.setBoard(chessBoard);
-         testGame.movePiece(move, piece);
+         ChessPiece testPiece = testGame.getBoard().getPiece(startPosition);
+
+         testGame.movePiece(move, testPiece);
 
          if (!testGame.isInCheck(piece.getTeamColor())) pieceMoves.add(move);
       }
+      //TODO: Remove castles through check
+      checkValidCastles(pieceMoves, startPosition);
       return pieceMoves;
+   }
+
+   private void checkValidCastles(Collection<ChessMove> validMoves, ChessPosition startPosition) {
+      // No valid castles if in check
+      if (isInCheck(getTeamTurn())) {
+         validMoves.removeIf(move -> move instanceof Castle);
+         return;
+      }
+
+      ArrayList<Castle.CastleType> castleSides = new ArrayList<>();
+      castleSides.add(Castle.CastleType.KING_SIDE);
+      castleSides.add(Castle.CastleType.QUEEN_SIDE);
+
+      // Cannot castle through check
+      int direction = 1;
+      for (Castle.CastleType side : castleSides) {
+         if (side == Castle.CastleType.QUEEN_SIDE) direction = -1;
+         if (!validMoves.contains(new Move(startPosition, new Position(startPosition.getRow(), startPosition.getColumn() + direction)))) {
+            validMoves.removeIf(move -> move instanceof Castle castle && castle.type == side);
+         }
+      }
    }
 
    @Override
    public void makeMove(ChessMove move) throws InvalidMoveException {
       System.out.println("Before Move -----------------------------------------------------------------------");
       System.out.println(chessBoard.toString());
+
       ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
-      if (validMoves(move.getStartPosition()).contains(move) && piece.getTeamColor() == getTeamTurn()) {
+      ArrayList<ChessMove> validMoves = (ArrayList<ChessMove>) validMoves(move.getStartPosition());
+      if (validMoves.contains(move) && piece.getTeamColor() == getTeamTurn()) {
          System.out.println(move.getStartPosition().toString() + " to " + move.getEndPosition().toString());
-         movePiece(move, piece);
+
+         ChessMove validMove = validMoves.get(validMoves.indexOf(move));
+         movePiece(validMove, piece);
+
+         System.out.println(piece.getPieceType());
       } else if (chessBoard.getPiece(move.getStartPosition()) != null) {
          throw new InvalidMoveException("Invalid move for " + chessBoard.getPiece(move.getStartPosition()).getTeamColor() + " " +
                  chessBoard.getPiece(move.getStartPosition()).getPieceType() +
@@ -58,21 +89,11 @@ public class Game implements ChessGame {
       if (move.getPromotionPiece() == null) {
          chessBoard.addPiece(move.getEndPosition(), chessPiece);
          chessBoard.addPiece(move.getStartPosition(), null);
-         if (move instanceof Castle castle){
-            switch (piece.getPieceType()) {
-               case KING:
-                  Piece rook = (Piece) chessBoard.getPiece(castle.getRookStart());
-                  chessBoard.addPiece(castle.getRookEnd(), rook);
-                  chessBoard.addPiece(castle.getRookStart(), null);
-                  rook.setHasMoved(true);
-                  break;
-               case ROOK:
-                  Piece king = (Piece) chessBoard.getPiece(castle.getStartPosition());
-                  chessBoard.addPiece(castle.getStartPosition(), king);
-                  chessBoard.addPiece(castle.getEndPosition(), null);
-                  king.setHasMoved(true);
-                  break;
-            }
+         if (move instanceof Castle castle) {
+            Piece rook = (Piece) chessBoard.getPiece(castle.getRookStart());
+            chessBoard.addPiece(castle.getRookEnd(), rook);
+            chessBoard.addPiece(castle.getRookStart(), null);
+            rook.setHasMoved(true);
          }
       } else {
          chessBoard.addPiece(move.getEndPosition(), new Piece(piece.getTeamColor(), move.getPromotionPiece()));

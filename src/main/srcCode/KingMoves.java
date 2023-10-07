@@ -51,26 +51,23 @@ public class KingMoves extends Piece {
       return possibleMoves;
    }
 
-   private void addCastles(ChessBoard board, ChessPosition start, int col){
+   private void addCastles(ChessBoard board, ChessPosition start, int rookCol){
       if (hasMoved) return;
 
+      // Check for valid rook piece
       int row = start.getRow();
-      Position rookHome = new Position(row, col);
+      Position rookHome = new Position(row, rookCol);
       Piece rook = (Piece) board.getPiece(rookHome);
       if (rook == null || rook.hasMoved || rook.getPieceType() != PieceType.ROOK || rook.getTeamColor() != color) return;
-      switch (col){
-         case 1:
-            for (int i = col + 1; i < 5; ++i){
-               if (board.getPiece(new Position(row, i)) != null) return;
-            }
-            moves.add(new Castle(start, new Position(row, start.getColumn() - 2), rookHome, new Position(row, col + 3)));
-            break;
-         case 8:
-            for (int i = col - 1; i > 5; --i){
-               if (board.getPiece(new Position(row, i)) != null) return;
-            }
-            moves.add(new Castle(start, new Position(row, start.getColumn() + 2), rookHome, new Position(row, col - 2)));
-            break;
+
+      // Initialize the rest of variables
+      int kingCol = start.getColumn();
+      int direction = 1;
+      if (rookCol == 1) direction = -1;
+
+      for (int i = 1; i <= 2; ++i){
+         if (board.getPiece(new Position(row, kingCol + direction * i)) != null) return;
       }
+      moves.add(new Castle(start, new Position(row, kingCol + direction * 2)));
    }
 }
