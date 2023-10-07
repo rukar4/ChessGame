@@ -58,6 +58,22 @@ public class Game implements ChessGame {
       if (move.getPromotionPiece() == null) {
          chessBoard.addPiece(move.getEndPosition(), chessPiece);
          chessBoard.addPiece(move.getStartPosition(), null);
+         if (move instanceof Castle castle){
+            switch (piece.getPieceType()) {
+               case KING:
+                  Piece rook = (Piece) chessBoard.getPiece(castle.getRookStart());
+                  chessBoard.addPiece(castle.getRookEnd(), rook);
+                  chessBoard.addPiece(castle.getRookStart(), null);
+                  rook.setHasMoved(true);
+                  break;
+               case ROOK:
+                  Piece king = (Piece) chessBoard.getPiece(castle.getStartPosition());
+                  chessBoard.addPiece(castle.getStartPosition(), king);
+                  chessBoard.addPiece(castle.getEndPosition(), null);
+                  king.setHasMoved(true);
+                  break;
+            }
+         }
       } else {
          chessBoard.addPiece(move.getEndPosition(), new Piece(piece.getTeamColor(), move.getPromotionPiece()));
          chessBoard.addPiece(move.getStartPosition(), null);
