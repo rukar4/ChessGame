@@ -9,6 +9,18 @@ public class Board implements ChessBoard {
    int BOARD_LENGTH = 8;
    ChessPiece[][] chessBoard = new ChessPiece[BOARD_LENGTH][BOARD_LENGTH];
 
+   public Board(ChessBoard board) {
+      for (int i = 1; i <= BOARD_LENGTH; ++i) {
+         for (int j = 1; j <= BOARD_LENGTH; ++j) {
+            Position position = new Position(i, j);
+            addPiece(position, board.getPiece(position));
+         }
+      }
+   }
+
+   public Board() {
+   }
+
    @Override
    public void addPiece(ChessPosition position, ChessPiece piece) {
       int[] pieceIndex = getPieceIndex(position);
@@ -83,33 +95,43 @@ public class Board implements ChessBoard {
       for (int row = 0; row < BOARD_LENGTH; ++row) {
          sb.append('|');
          for (int col = 0; col < BOARD_LENGTH; ++col) {
+            StringBuilder pieceString = new StringBuilder();
             if (chessBoard[row][col] == null) {
                sb.append("   |");
             } else {
                switch (chessBoard[row][col].getPieceType()) {
                   case ROOK:
-                     sb.append(" r |");
+                     pieceString.append(" r |");
                      break;
                   case KNIGHT:
-                     sb.append(" n |");
+                     pieceString.append(" n |");
                      break;
                   case BISHOP:
-                     sb.append(" b |");
+                     pieceString.append(" b |");
                      break;
                   case KING:
-                     sb.append(" k |");
+                     pieceString.append(" k |");
                      break;
                   case QUEEN:
-                     sb.append(" q |");
+                     pieceString.append(" q |");
                      break;
                   case PAWN:
-                     sb.append(" p |");
+                     pieceString.append(" p |");
                      break;
+               }
+               if (chessBoard[row][col].getTeamColor() == ChessGame.TeamColor.WHITE) {
+                  sb.append(pieceString.toString().toUpperCase());
+               } else {
+                  sb.append(pieceString);
                }
             }
          }
          sb.append("\n");
       }
       return sb.toString();
+   }
+
+   public int getLength() {
+      return BOARD_LENGTH;
    }
 }

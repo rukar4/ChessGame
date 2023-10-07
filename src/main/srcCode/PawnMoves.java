@@ -36,7 +36,7 @@ public class PawnMoves extends Piece {
                   if (board.getPiece(twoSpace) == null) possiblePositions.add(twoSpace);
                }
             }
-         } else if (board.getPiece(next) != null && board.getPiece(next).getTeamColor() != color) {
+         } else if (next.isInBounds() && board.getPiece(next) != null && board.getPiece(next).getTeamColor() != color) {
             possiblePositions.add(next);
          }
       }

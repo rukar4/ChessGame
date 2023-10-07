@@ -11,6 +11,10 @@ public class Position implements ChessPosition {
       this.col = col;
    }
 
+   public boolean isInBounds() {
+      return row > 0 && row <= 8 && col > 0 && col <= 8;
+   }
+
    @Override
    public int getRow() {
       return row;
