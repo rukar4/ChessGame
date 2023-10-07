@@ -69,8 +69,17 @@ public class Game implements ChessGame {
       if (validMoves.contains(move) && piece.getTeamColor() == getTeamTurn()) {
          System.out.println(move.getStartPosition().toString() + " to " + move.getEndPosition().toString());
 
+         Piece chessPiece = (Piece) piece;
+
          ChessMove validMove = validMoves.get(validMoves.indexOf(move));
-         movePiece(validMove, piece);
+         movePiece(validMove, chessPiece);
+
+         if (!chessPiece.hasMoved) chessPiece.setHasMoved(true);
+         if (chessPiece.getTeamColor() == TeamColor.WHITE) {
+            setTeamTurn(TeamColor.BLACK);
+         } else {
+            setTeamTurn(TeamColor.WHITE);
+         }
 
          System.out.println(piece.getPieceType());
       } else if (chessBoard.getPiece(move.getStartPosition()) != null) {
@@ -92,8 +101,8 @@ public class Game implements ChessGame {
          chessBoard.addPiece(move.getStartPosition(), null);
 
          if (chessPiece.getPieceType() == ChessPiece.PieceType.PAWN && !chessPiece.hasMoved){
-            chessPiece = new PawnMoves(chessPiece.color);
-            ((PawnMoves) chessPiece).setMovedTwice(Math.abs(move.getStartPosition().getRow() - move.getEndPosition().getRow()) > 1);
+            ((PawnMoves) chessPiece).setMovedTwice(
+                    Math.abs(move.getStartPosition().getRow() - move.getEndPosition().getRow()) > 1);
          }
 
          if (move instanceof Castle castle) {
@@ -107,14 +116,8 @@ public class Game implements ChessGame {
          }
       }
       else {
-         chessBoard.addPiece(move.getEndPosition(), chessBoard.createNewPiece(move.getPromotionPiece(), piece.getTeamColor()));
+         chessBoard.addPiece(move.getEndPosition(), chessBoard.createNewPiece(move.getPromotionPiece(), chessPiece.getTeamColor()));
          chessBoard.addPiece(move.getStartPosition(), null);
-      }
-      if (!chessPiece.hasMoved) chessPiece.setHasMoved(true);
-      if (piece.getTeamColor() == TeamColor.WHITE) {
-         setTeamTurn(TeamColor.BLACK);
-      } else {
-         setTeamTurn(TeamColor.WHITE);
       }
    }
 

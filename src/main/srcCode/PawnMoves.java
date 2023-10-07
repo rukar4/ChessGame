@@ -55,12 +55,12 @@ public class PawnMoves extends Piece {
          }
          moves.add(new Move(start, position));
       }
-      addEnPassant(board, start);
+      addEnPassant(board, start, direction);
       return moves;
    }
 
-   private void addEnPassant(ChessBoard board, ChessPosition start) {
-      if (hasMoved) return;
+   private void addEnPassant(ChessBoard board, ChessPosition start, int direction) {
+      if (!hasMoved) return;
 
       Collection<Position> positions = new ArrayList<>();
       positions.add(new Position(start.getRow(), start.getColumn() - 1));
@@ -69,12 +69,9 @@ public class PawnMoves extends Piece {
       for (Position pawnToTake : positions) {
          if (pawnToTake.isInBounds()) {
             Piece piece = (Piece) board.getPiece(pawnToTake);
-            if (piece != null && piece.getPieceType() == PieceType.PAWN) {
-               piece = new PawnMoves(piece.color);
-               PawnMoves pawn = (PawnMoves) piece;
-               pawn.setMovedTwice(false);
+            if (piece instanceof PawnMoves pawn) {
                if (pawn.hasMovedTwice()) {
-                  moves.add(new EnPassant(start, new Position(start.getRow() + 1, pawnToTake.getColumn()), pawnToTake));
+                  moves.add(new EnPassant(start, new Position(start.getRow() + direction, pawnToTake.getColumn()), pawnToTake));
                }
             }
          }
