@@ -69,19 +69,19 @@ public class Board implements ChessBoard {
             } else {
                switch (position.getColumn()) {
                   case 1, 8:
-                     addPiece(position, new RookMoves(color));
+                     addPiece(position, new Piece(color, ChessPiece.PieceType.ROOK));
                      break;
                   case 2, 7:
-                     addPiece(position, new KnightMoves(color));
+                     addPiece(position, new Piece(color, ChessPiece.PieceType.KNIGHT));
                      break;
                   case 3, 6:
-                     addPiece(position, new BishopMoves(color));
+                     addPiece(position, new Piece(color, ChessPiece.PieceType.BISHOP));
                      break;
                   case 4:
-                     addPiece(position, new QueenMoves(color));
+                     addPiece(position, new Piece(color, ChessPiece.PieceType.QUEEN));
                      break;
                   case 5:
-                     addPiece(position, new KingMoves(color));
+                     addPiece(position, new Piece(color, ChessPiece.PieceType.KING));
                      break;
                }
             }
