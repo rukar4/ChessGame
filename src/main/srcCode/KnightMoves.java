@@ -34,7 +34,7 @@ public class KnightMoves extends Piece {
       }
 
       for (Position position : possiblePositions) {
-         if (position.row > 8 || position.row < 1 || position.col > 8 || position.col < 1) continue;
+         if (!position.isInBounds()) continue;
          if (board.getPiece(position) != null) {
             if (board.getPiece(position).getTeamColor() == color) continue;
          }

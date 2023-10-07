@@ -42,7 +42,7 @@ public class PawnMoves extends Piece {
       }
 
       for (Position position : possiblePositions) {
-         if (position.row > 8 || position.row < 1 || position.col > 8 || position.col < 1) continue;
+         if (!position.isInBounds()) continue;
          if ((position.row == 8 && color == ChessGame.TeamColor.WHITE) || (position.row == 1 && color == ChessGame.TeamColor.BLACK)){
             moves.add(new Move(start, position, PieceType.QUEEN));
             moves.add(new Move(start, position, PieceType.KNIGHT));
