@@ -33,13 +33,15 @@ public class Game implements ChessGame {
          if (!testGame.isInCheck(piece.getTeamColor())) pieceMoves.add(move);
       }
       //TODO: Remove castles through check
-      checkValidCastles(pieceMoves, startPosition);
+      if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+         checkValidCastles(piece, pieceMoves, startPosition);
+      }
       return pieceMoves;
    }
 
-   private void checkValidCastles(Collection<ChessMove> validMoves, ChessPosition startPosition) {
-      // No valid castles if in check
-      if (isInCheck(getTeamTurn())) {
+   private void checkValidCastles(Piece king, Collection<ChessMove> validMoves, ChessPosition startPosition) {
+      // No valid castles if in check or if king has moved
+      if (isInCheck(getTeamTurn()) || king.hasMoved) {
          validMoves.removeIf(move -> move instanceof Castle);
          return;
       }
