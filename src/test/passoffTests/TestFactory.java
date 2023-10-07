@@ -20,7 +20,27 @@ public class TestFactory {
    }
 
    public static ChessPiece getNewPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-      return new Piece(pieceColor, type);
+      switch (type){
+         case PAWN -> {
+            return new PawnMoves(pieceColor);
+         }
+         case ROOK -> {
+            return new RookMoves(pieceColor);
+         }
+         case BISHOP -> {
+            return new BishopMoves(pieceColor);
+         }
+         case KNIGHT -> {
+            return new KnightMoves(pieceColor);
+         }
+         case KING -> {
+            return new KingMoves(pieceColor);
+         }
+         case QUEEN -> {
+            return new QueenMoves(pieceColor);
+         }
+      }
+      return null;
    }
 
    public static ChessPosition getNewPosition(Integer row, Integer col) {

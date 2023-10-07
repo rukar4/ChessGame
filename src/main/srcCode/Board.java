@@ -1,9 +1,6 @@
 package srcCode;
 
-import chess.ChessBoard;
-import chess.ChessGame;
-import chess.ChessPiece;
-import chess.ChessPosition;
+import chess.*;
 
 public class Board implements ChessBoard {
    int BOARD_LENGTH = 8;
@@ -15,7 +12,8 @@ public class Board implements ChessBoard {
             Position position = new Position(i, j);
             Piece piece = (Piece) board.getPiece(position);
             if (piece != null) {
-               Piece copyPiece = new Piece(piece.getTeamColor(), piece.getPieceType());
+               Piece copyPiece = createNewPiece(piece.getPieceType(), piece.getTeamColor());
+               assert copyPiece != null;
                copyPiece.setHasMoved(piece.hasMoved);
                addPiece(position, copyPiece);
             }
@@ -23,14 +21,37 @@ public class Board implements ChessBoard {
       }
    }
 
-   public Board() {
-   }
+   public Board() {}
 
    @Override
    public void addPiece(ChessPosition position, ChessPiece piece) {
       int[] pieceIndex = getPieceIndex(position);
 
       chessBoard[pieceIndex[0]][pieceIndex[1]] = piece;
+   }
+
+   public Piece createNewPiece(ChessPiece.PieceType pieceType, ChessGame.TeamColor color){
+      switch (pieceType){
+         case PAWN -> {
+            return new PawnMoves(color);
+         }
+         case ROOK -> {
+            return new RookMoves(color);
+         }
+         case BISHOP -> {
+            return new BishopMoves(color);
+         }
+         case KNIGHT -> {
+            return new KnightMoves(color);
+         }
+         case KING -> {
+            return new KingMoves(color);
+         }
+         case QUEEN -> {
+            return new QueenMoves(color);
+         }
+      }
+      return null;
    }
 
    @Override
@@ -70,23 +91,23 @@ public class Board implements ChessBoard {
          for (int column = 1; column <= BOARD_LENGTH; ++column) {
             position.setColumn(column);
             if (position.getRow() == 2 || position.getRow() == 7) {
-               addPiece(position, new Piece(color, ChessPiece.PieceType.PAWN));
+               addPiece(position, new PawnMoves(color));
             } else {
                switch (position.getColumn()) {
                   case 1, 8:
-                     addPiece(position, new Piece(color, ChessPiece.PieceType.ROOK));
+                     addPiece(position, new RookMoves(color));
                      break;
                   case 2, 7:
-                     addPiece(position, new Piece(color, ChessPiece.PieceType.KNIGHT));
+                     addPiece(position, new KnightMoves(color));
                      break;
                   case 3, 6:
-                     addPiece(position, new Piece(color, ChessPiece.PieceType.BISHOP));
+                     addPiece(position, new BishopMoves(color));
                      break;
                   case 4:
-                     addPiece(position, new Piece(color, ChessPiece.PieceType.QUEEN));
+                     addPiece(position, new QueenMoves(color));
                      break;
                   case 5:
-                     addPiece(position, new Piece(color, ChessPiece.PieceType.KING));
+                     addPiece(position, new KingMoves(color));
                      break;
                }
             }

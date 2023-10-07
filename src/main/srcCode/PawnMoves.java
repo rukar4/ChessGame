@@ -5,6 +5,7 @@ import chess.ChessGame;
 import chess.ChessMove;
 import chess.ChessPosition;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -12,6 +13,8 @@ public class PawnMoves extends Piece {
    public PawnMoves(ChessGame.TeamColor color) {
       super(color, PieceType.PAWN);
    }
+
+   boolean movedTwice = false;
 
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
       int row = start.getRow();
@@ -43,7 +46,7 @@ public class PawnMoves extends Piece {
 
       for (Position position : possiblePositions) {
          if (!position.isInBounds()) continue;
-         if ((position.row == 8 && color == ChessGame.TeamColor.WHITE) || (position.row == 1 && color == ChessGame.TeamColor.BLACK)){
+         if ((position.row == 8 && color == ChessGame.TeamColor.WHITE) || (position.row == 1 && color == ChessGame.TeamColor.BLACK)) {
             moves.add(new Move(start, position, PieceType.QUEEN));
             moves.add(new Move(start, position, PieceType.KNIGHT));
             moves.add(new Move(start, position, PieceType.ROOK));
@@ -52,7 +55,37 @@ public class PawnMoves extends Piece {
          }
          moves.add(new Move(start, position));
       }
-
+      addEnPassant(board, start);
       return moves;
+   }
+
+   private void addEnPassant(ChessBoard board, ChessPosition start) {
+      if (hasMoved) return;
+
+      Collection<Position> positions = new ArrayList<>();
+      positions.add(new Position(start.getRow(), start.getColumn() - 1));
+      positions.add(new Position(start.getRow(), start.getColumn() + 1));
+
+      for (Position pawnToTake : positions) {
+         if (pawnToTake.isInBounds()) {
+            Piece piece = (Piece) board.getPiece(pawnToTake);
+            if (piece != null && piece.getPieceType() == PieceType.PAWN) {
+               piece = new PawnMoves(piece.color);
+               PawnMoves pawn = (PawnMoves) piece;
+               pawn.setMovedTwice(false);
+               if (pawn.hasMovedTwice()) {
+                  moves.add(new EnPassant(start, new Position(start.getRow() + 1, pawnToTake.getColumn()), pawnToTake));
+               }
+            }
+         }
+      }
+   }
+
+   public boolean hasMovedTwice() {
+      return movedTwice;
+   }
+
+   public void setMovedTwice(boolean movedTwice) {
+      this.movedTwice = movedTwice;
    }
 }

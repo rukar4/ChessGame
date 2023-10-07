@@ -12,7 +12,7 @@ public class Castle extends Move {
 
    CastleType type;
 
-   enum CastleType{
+   enum CastleType {
       QUEEN_SIDE,
       KING_SIDE
    }
@@ -39,18 +39,4 @@ public class Castle extends Move {
    public Position getRookEnd() {
       return rookEnd;
    }
-
-//   @Override
-//   public boolean equals(Object obj) {
-//      if (this == obj) return true;
-//      if (obj == null) return false;
-//      if (obj instanceof Castle objMove) {
-//         return objMove.position == position
-//                 && objMove.endPosition.getRow() == endPosition.getRow()
-//                 && objMove.endPosition.getColumn() == endPosition.getColumn()
-//                 && objMove.rookStart == rookStart
-//                 && objMove.rookEnd == rookEnd
-//                 && objMove.piece == piece;
-//      } else return false;
-//   }
 }

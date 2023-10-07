@@ -5,7 +5,7 @@ import chess.*;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class Piece implements ChessPiece {
+public abstract class Piece implements ChessPiece {
    ChessGame.TeamColor color;
    PieceType piece;
    Collection<ChessMove> moves = new HashSet<>();
@@ -14,6 +14,13 @@ public class Piece implements ChessPiece {
    public Piece(ChessGame.TeamColor color, PieceType piece) {
       this.color = color;
       this.piece = piece;
+   }
+
+   public Piece(Piece otherPiece) {
+      this.color = otherPiece.color;
+      this.piece = otherPiece.piece;
+      this.moves = otherPiece.moves;
+      this.hasMoved = otherPiece.hasMoved;
    }
 
    @Override
@@ -27,30 +34,7 @@ public class Piece implements ChessPiece {
    }
 
    @Override
-   public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-      moves.clear();
-      switch (piece) {
-         case ROOK:
-            moves = new RookMoves(color).pieceMoves(board, myPosition);
-            break;
-         case KNIGHT:
-            moves = new KnightMoves(color).pieceMoves(board, myPosition);
-            break;
-         case BISHOP:
-            moves = new BishopMoves(color).pieceMoves(board, myPosition);
-            break;
-         case KING:
-            moves = new KingMoves(color).pieceMoves(board, myPosition);
-            break;
-         case QUEEN:
-            moves = new QueenMoves(color).pieceMoves(board, myPosition);
-            break;
-         case PAWN:
-            moves = new PawnMoves(color).pieceMoves(board, myPosition);
-            break;
-      }
-      return moves;
-   }
+   public abstract Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition);
 
    public void setHasMoved(boolean hasMoved){
       this.hasMoved = hasMoved;

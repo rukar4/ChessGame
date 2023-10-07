@@ -16,6 +16,7 @@ public class Game implements ChessGame {
 
    @Override
    public void setTeamTurn(TeamColor team) {
+      resetEnPassant(team);
       TeamTurn = team;
    }
 
@@ -29,10 +30,8 @@ public class Game implements ChessGame {
          ChessPiece testPiece = testGame.getBoard().getPiece(startPosition);
 
          testGame.movePiece(move, testPiece);
-
          if (!testGame.isInCheck(piece.getTeamColor())) pieceMoves.add(move);
       }
-      //TODO: Remove castles through check
       if (piece.getPieceType() == ChessPiece.PieceType.KING) {
          checkValidCastles(piece, pieceMoves, startPosition);
       }
@@ -91,14 +90,24 @@ public class Game implements ChessGame {
       if (move.getPromotionPiece() == null) {
          chessBoard.addPiece(move.getEndPosition(), chessPiece);
          chessBoard.addPiece(move.getStartPosition(), null);
+
+         if (chessPiece.getPieceType() == ChessPiece.PieceType.PAWN && !chessPiece.hasMoved){
+            chessPiece = new PawnMoves(chessPiece.color);
+            ((PawnMoves) chessPiece).setMovedTwice(Math.abs(move.getStartPosition().getRow() - move.getEndPosition().getRow()) > 1);
+         }
+
          if (move instanceof Castle castle) {
             Piece rook = (Piece) chessBoard.getPiece(castle.getRookStart());
             chessBoard.addPiece(castle.getRookEnd(), rook);
             chessBoard.addPiece(castle.getRookStart(), null);
             rook.setHasMoved(true);
          }
-      } else {
-         chessBoard.addPiece(move.getEndPosition(), new Piece(piece.getTeamColor(), move.getPromotionPiece()));
+         if (move instanceof EnPassant enPassant) {
+            chessBoard.addPiece(enPassant.pawnToCapture, null);
+         }
+      }
+      else {
+         chessBoard.addPiece(move.getEndPosition(), chessBoard.createNewPiece(move.getPromotionPiece(), piece.getTeamColor()));
          chessBoard.addPiece(move.getStartPosition(), null);
       }
       if (!chessPiece.hasMoved) chessPiece.setHasMoved(true);
@@ -156,6 +165,19 @@ public class Game implements ChessGame {
          }
       }
       return true;
+   }
+
+   private void resetEnPassant(TeamColor team){
+      for (int i = 1; i <= chessBoard.getLength(); ++i) {
+         for (int j = 1; j <= chessBoard.getLength(); ++j) {
+            Position position = new Position(i, j);
+            Piece piece = (Piece) chessBoard.getPiece(position);
+            if (piece != null && piece.getPieceType() == ChessPiece.PieceType.PAWN && piece.getTeamColor() == team) {
+               piece = new PawnMoves(piece.color);
+               ((PawnMoves) piece).setMovedTwice(false);
+            }
+         }
+      }
    }
 
    @Override
