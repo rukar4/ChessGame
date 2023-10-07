@@ -29,10 +29,16 @@ public class Test {
 
       System.out.println(chess.getBoard().toString());
 
-      Move invalid = new Move(new Position(2, 1), new Position(5, 1));
+      Move move = new Move(new Position(2, 1), new Position(3, 1));
 
-      chess.makeMove(invalid);
+      chess.makeMove(move);
 
-      System.out.println(chess.getBoard().toString());
+      move = new Move(new Position(7, 4), new Position(5, 4));
+
+      chess.makeMove(move);
+
+      move = new Move(new Position(1, 2), new Position(3, 3));
+
+      chess.makeMove(move);
    }
 }

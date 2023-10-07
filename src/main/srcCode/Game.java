@@ -35,23 +35,39 @@ public class Game implements ChessGame {
 
    @Override
    public void makeMove(ChessMove move) throws InvalidMoveException {
-      if (validMoves(move.getStartPosition()).contains(move)) {
-         ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
+      System.out.println("Before Move -----------------------------------------------------------------------");
+      System.out.println(chessBoard.toString());
+      ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
+      if (validMoves(move.getStartPosition()).contains(move) && piece.getTeamColor() == getTeamTurn()) {
+         System.out.println(move.getStartPosition().toString() + " to " + move.getEndPosition().toString());
          movePiece(move, piece);
       } else if (chessBoard.getPiece(move.getStartPosition()) != null) {
-         throw new InvalidMoveException("Invalid move for " + chessBoard.getPiece(move.getStartPosition()).getPieceType() +
+         throw new InvalidMoveException("Invalid move for " + chessBoard.getPiece(move.getStartPosition()).getTeamColor() + " " +
+                 chessBoard.getPiece(move.getStartPosition()).getPieceType() +
                  " from " + move.getStartPosition().toString() + " to " + move.getEndPosition().toString());
       } else {
          throw new InvalidMoveException("Invalid move for " + move.getStartPosition().toString() +
                  " to " + move.getEndPosition().toString() + "\nNo piece found");
       }
+      System.out.println("After Move -----------------------------------------------------------------------");
+      System.out.println(chessBoard.toString());
    }
 
    private void movePiece(ChessMove move, ChessPiece piece) {
       Piece chessPiece = (Piece) piece;
-      chessBoard.addPiece(move.getEndPosition(), chessPiece);
-      chessBoard.addPiece(move.getStartPosition(), null);
+      if (move.getPromotionPiece() == null) {
+         chessBoard.addPiece(move.getEndPosition(), chessPiece);
+         chessBoard.addPiece(move.getStartPosition(), null);
+      } else {
+         chessBoard.addPiece(move.getEndPosition(), new Piece(piece.getTeamColor(), move.getPromotionPiece()));
+         chessBoard.addPiece(move.getStartPosition(), null);
+      }
       if (!chessPiece.hasMoved) chessPiece.setHasMoved(true);
+      if (piece.getTeamColor() == TeamColor.WHITE) {
+         setTeamTurn(TeamColor.BLACK);
+      } else {
+         setTeamTurn(TeamColor.WHITE);
+      }
    }
 
    private Position getKingPosition(TeamColor kingColor) {
@@ -64,7 +80,7 @@ public class Game implements ChessGame {
             }
          }
       }
-      System.out.println("Warning: King not found");
+//      System.out.println("Warning: King not found");
       return null;
    }
 

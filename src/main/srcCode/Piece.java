@@ -52,10 +52,6 @@ public class Piece implements ChessPiece {
       return moves;
    }
 
-   public boolean getHasMoved() {
-      return hasMoved;
-   }
-
    public void setHasMoved(boolean hasMoved){
       this.hasMoved = hasMoved;
    }
