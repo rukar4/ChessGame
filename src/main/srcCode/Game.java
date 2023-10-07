@@ -61,14 +61,10 @@ public class Game implements ChessGame {
 
    @Override
    public void makeMove(ChessMove move) throws InvalidMoveException {
-      System.out.println("Before Move -----------------------------------------------------------------------");
-      System.out.println(chessBoard.toString());
 
       ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
       ArrayList<ChessMove> validMoves = (ArrayList<ChessMove>) validMoves(move.getStartPosition());
       if (validMoves.contains(move) && piece.getTeamColor() == getTeamTurn()) {
-         System.out.println(move.getStartPosition().toString() + " to " + move.getEndPosition().toString());
-
          Piece chessPiece = (Piece) piece;
 
          ChessMove validMove = validMoves.get(validMoves.indexOf(move));
@@ -80,8 +76,6 @@ public class Game implements ChessGame {
          } else {
             setTeamTurn(TeamColor.WHITE);
          }
-
-         System.out.println(piece.getPieceType());
       } else if (chessBoard.getPiece(move.getStartPosition()) != null) {
          throw new InvalidMoveException("Invalid move for " + chessBoard.getPiece(move.getStartPosition()).getTeamColor() + " " +
                  chessBoard.getPiece(move.getStartPosition()).getPieceType() +
@@ -90,8 +84,6 @@ public class Game implements ChessGame {
          throw new InvalidMoveException("Invalid move for " + move.getStartPosition().toString() +
                  " to " + move.getEndPosition().toString() + "\nNo piece found");
       }
-      System.out.println("After Move -----------------------------------------------------------------------");
-      System.out.println(chessBoard.toString());
    }
 
    private void movePiece(ChessMove move, ChessPiece piece) {
@@ -100,7 +92,7 @@ public class Game implements ChessGame {
          chessBoard.addPiece(move.getEndPosition(), chessPiece);
          chessBoard.addPiece(move.getStartPosition(), null);
 
-         if (chessPiece.getPieceType() == ChessPiece.PieceType.PAWN && !chessPiece.hasMoved){
+         if (chessPiece.getPieceType() == ChessPiece.PieceType.PAWN && !chessPiece.hasMoved) {
             ((PawnMoves) chessPiece).setMovedTwice(
                     Math.abs(move.getStartPosition().getRow() - move.getEndPosition().getRow()) > 1);
          }
@@ -114,8 +106,7 @@ public class Game implements ChessGame {
          if (move instanceof EnPassant enPassant) {
             chessBoard.addPiece(enPassant.pawnToCapture, null);
          }
-      }
-      else {
+      } else {
          chessBoard.addPiece(move.getEndPosition(), chessBoard.createNewPiece(move.getPromotionPiece(), chessPiece.getTeamColor()));
          chessBoard.addPiece(move.getStartPosition(), null);
       }
@@ -131,7 +122,6 @@ public class Game implements ChessGame {
             }
          }
       }
-//      System.out.println("Warning: King not found");
       return null;
    }
 
@@ -170,14 +160,13 @@ public class Game implements ChessGame {
       return true;
    }
 
-   private void resetEnPassant(TeamColor team){
+   private void resetEnPassant(TeamColor team) {
       for (int i = 1; i <= chessBoard.getLength(); ++i) {
          for (int j = 1; j <= chessBoard.getLength(); ++j) {
             Position position = new Position(i, j);
             Piece piece = (Piece) chessBoard.getPiece(position);
-            if (piece != null && piece.getPieceType() == ChessPiece.PieceType.PAWN && piece.getTeamColor() == team) {
-               piece = new PawnMoves(piece.color);
-               ((PawnMoves) piece).setMovedTwice(false);
+            if (piece instanceof PawnMoves pawn && piece.getTeamColor() == team) {
+               pawn.setMovedTwice(false);
             }
          }
       }
