@@ -13,10 +13,11 @@ public class Test {
       Piece wRook = new RookMoves(ChessGame.TeamColor.WHITE);
 //      Piece bKing = new KingMoves(ChessGame.TeamColor.BLACK);
 //
-      chessBoard.addPiece(new Position(1, 5), wKing);
-      chessBoard.addPiece(new Position(1, 1), wRook);
-      chessBoard.addPiece(new Position(1, 8), wRook);
+//      chessBoard.addPiece(new Position(1, 5), wKing);
+      chessBoard.addPiece(new Position(4, 5), wRook);
+//      chessBoard.addPiece(new Position(1, 8), wRook);
 
+      wRook.pieceMoves(chessBoard, new Position(4, 5));
       chess.setBoard(chessBoard);
 
 //      chessBoard.addPiece(new Position(6, 8), bKing);
@@ -31,11 +32,11 @@ public class Test {
 //      boolean check = chess.isInCheck(ChessGame.TeamColor.WHITE);
 //      System.out.printf("Is is check? ------------- %b\n", check);
 
-      System.out.println(chess.getBoard().toString());
+//      System.out.println(chess.getBoard().toString());
 
-      Move move = new Move(new Position(1, 5), new Position(1, 7));
+//      Move move = new Move(new Position(1, 5), new Position(1, 7));
 
-      chess.makeMove(move);
+//      chess.makeMove(move);
 
 //      move = new Move(new Position(7, 4), new Position(5, 4));
 //
@@ -45,6 +46,6 @@ public class Test {
 //
 //      chess.makeMove(move);
 
-      System.out.println(chess.getBoard().toString());
+      System.out.println(chessBoard);
    }
 }

@@ -38,7 +38,6 @@ public class KnightMoves extends Piece {
          if (board.getPiece(position) != null) {
             if (board.getPiece(position).getTeamColor() == color) continue;
          }
-//         board.addPiece(position, new KnightMoves(color));
          moves.add(new Move(start, position));
       }
 

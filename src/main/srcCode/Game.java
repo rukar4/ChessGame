@@ -96,7 +96,6 @@ public class Game implements ChessGame {
             ((PawnMoves) chessPiece).setMovedTwice(
                     Math.abs(move.getStartPosition().getRow() - move.getEndPosition().getRow()) > 1);
          }
-
          if (move instanceof Castle castle) {
             Piece rook = (Piece) chessBoard.getPiece(castle.getRookStart());
             chessBoard.addPiece(castle.getRookEnd(), rook);
