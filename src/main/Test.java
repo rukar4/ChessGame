@@ -11,40 +11,21 @@ public class Test {
       ChessBoard chessBoard = new Board();
       Piece wKing = new KingMoves(ChessGame.TeamColor.WHITE);
       Piece wRook = new RookMoves(ChessGame.TeamColor.WHITE);
-//      Piece bKing = new KingMoves(ChessGame.TeamColor.BLACK);
-//
+      Piece bKing = new KingMoves(ChessGame.TeamColor.BLACK);
+      Piece bishop = new BishopMoves(ChessGame.TeamColor.WHITE);
+
 //      chessBoard.addPiece(new Position(1, 5), wKing);
-      chessBoard.addPiece(new Position(4, 5), wRook);
+      chessBoard.addPiece(new Position(4, 5), bishop);
 //      chessBoard.addPiece(new Position(1, 8), wRook);
 
-      wRook.pieceMoves(chessBoard, new Position(4, 5));
-      chess.setBoard(chessBoard);
+      final long startTime = System.currentTimeMillis();
+      bishop.pieceMoves(chessBoard, new Position(4, 5));
+      final long endTime = System.currentTimeMillis();
+      System.out.println("Total execution time: " + (endTime - startTime));
 
-//      chessBoard.addPiece(new Position(6, 8), bKing);
-//      chessBoard.addPiece(new Position(3, 6), new RookMoves(ChessGame.TeamColor.BLACK));
-//
-//      Move kingMove = new Move(new Position(5, 6), new Position(5, 5));
-//
-//      chess.setBoard(chessBoard);
-//      System.out.println(chess.getBoard().toString());
 
-//      chess.makeMove(kingMove);
-//      boolean check = chess.isInCheck(ChessGame.TeamColor.WHITE);
-//      System.out.printf("Is is check? ------------- %b\n", check);
-
-//      System.out.println(chess.getBoard().toString());
-
-//      Move move = new Move(new Position(1, 5), new Position(1, 7));
-
-//      chess.makeMove(move);
-
-//      move = new Move(new Position(7, 4), new Position(5, 4));
-//
-//      chess.makeMove(move);
-//
-//      move = new Move(new Position(1, 2), new Position(3, 3));
-//
-//      chess.makeMove(move);
+      Move bishopMove = new Move(new Position(4, 5), new Position(5,6));
+      System.out.println(bishopMove);
 
       System.out.println(chessBoard);
    }

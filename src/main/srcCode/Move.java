@@ -7,17 +7,17 @@ import chess.ChessPosition;
 public class Move implements ChessMove {
    Position position;
    Position endPosition;
-   ChessPiece.PieceType piece = null;
+   ChessPiece.PieceType promotionPiece = null;
 
    public Move(ChessPosition position, ChessPosition endPosition) {
       this.position = (Position) position;
       this.endPosition = (Position) endPosition;
    }
 
-   public Move(ChessPosition position, ChessPosition endPosition, ChessPiece.PieceType piece) {
+   public Move(ChessPosition position, ChessPosition endPosition, ChessPiece.PieceType promotionPiece) {
       this.position = (Position) position;
       this.endPosition = (Position) endPosition;
-      this.piece = piece;
+      this.promotionPiece = promotionPiece;
    }
 
    @Override
@@ -32,7 +32,7 @@ public class Move implements ChessMove {
 
    @Override
    public ChessPiece.PieceType getPromotionPiece() {
-      return piece;
+      return promotionPiece;
    }
 
    @Override
@@ -50,7 +50,12 @@ public class Move implements ChessMove {
                  && objMove.position.getColumn() == position.getColumn()
                  && objMove.endPosition.getRow() == endPosition.getRow()
                  && objMove.endPosition.getColumn() == endPosition.getColumn()
-                 && objMove.piece == piece;
+                 && objMove.promotionPiece == promotionPiece;
       } else return false;
+   }
+
+   @Override
+   public String toString(){
+      return position.toString() + " to " + endPosition.toString();
    }
 }
