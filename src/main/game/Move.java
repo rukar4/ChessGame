@@ -1,4 +1,4 @@
-package srcCode;
+package game;
 
 import chess.ChessMove;
 import chess.ChessPiece;

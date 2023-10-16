@@ -1,8 +1,8 @@
+package game;
+
 import chess.ChessBoard;
 import chess.ChessGame;
-import chess.ChessPiece;
 import chess.InvalidMoveException;
-import srcCode.*;
 
 public class Test {
 

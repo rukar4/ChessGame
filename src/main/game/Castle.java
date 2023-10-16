@@ -1,6 +1,5 @@
-package srcCode;
+package game;
 
-import chess.ChessMove;
 import chess.ChessPosition;
 
 public class Castle extends Move {
