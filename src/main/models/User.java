@@ -6,6 +6,17 @@ public class User {
    String password;
    String email;
 
+   /**
+    * Create a new user with the given username and password
+    *
+    * @param username The user's username
+    * @param password The user's password
+    */
+   public User(String username, String password) {
+      this.username = username;
+      this.password = password;
+   }
+
    public int getUserId() {
       return userId;
    }
