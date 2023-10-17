@@ -4,11 +4,11 @@ import chess.ChessGame;
 
 
 public class Game {
-   int gameId;
-   String whiteUsername;
-   String blackUsername;
-   String gameName;
-   ChessGame game;
+   private int gameId;
+   private String whiteUsername;
+   private String blackUsername;
+   private String gameName;
+   private ChessGame game;
 
    /**
     * Game constructor generates a gameId and initializes the

@@ -1,10 +1,10 @@
 package models;
 
 public class User {
-   int userId;
-   String username;
-   String password;
-   String email;
+   private int userId;
+   private String username;
+   private String password;
+   private String email;
 
    /**
     * Create a new user with the given username and password

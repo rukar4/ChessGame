@@ -9,8 +9,8 @@ public class AuthDAO {
     * Return a token for a given user
     *
     * @param user The user to find the token for
-    * @return the authentication token of the user
-    * @throws DataAccessException if the token does not exist
+    * @return the authentication token of the user or null if one does not exist for the given user
+    * @throws DataAccessException if database is inaccessible
     */
    public AuthToken getToken(User user) throws DataAccessException {
       return null;

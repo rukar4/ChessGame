@@ -1,8 +1,8 @@
 package models;
 
 public class AuthToken {
-   String authToken;
-   String username;
+   private String authToken;
+   private String username;
 
    /**
     * Create new authentication token for given user
