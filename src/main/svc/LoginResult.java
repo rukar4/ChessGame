@@ -1,39 +1,20 @@
 package svc;
 
-import models.AuthToken;
-
-public class LoginResult {
-   private String message;
-   private String username;
-   private String authToken;
+/**
+ * LoginResult stores the username and auth token from a given request. It returns an error if the request has invalid
+ * credentials. If the login is successful, it creates a new authorization token and adds it to the database.
+ */
+public class LoginResult extends Result {
+   protected String username;
+   protected String authToken;
 
    /**
-    * Create the result of a given request. If the username and password are valid,
-    * the result includes the username and authentication token. Otherwise, the result
-    * is an unauthorized message.
+    * Create the result of a given request. If the username and password are valid, the result includes the username
+    * and a newly generated authentication token. Otherwise, the result is an unauthorized message.
     *
-    * @param request The request to evaluate
+    * @param request The client request
     */
    public LoginResult(LoginRequest request) {
-      // TODO: Get AuthToken
-      // TODO: if (AuthToken) set username and authToken else: set message to unauthorized
-   }
-
-   /**
-    * Verify that the given user and password are valid
-    *
-    * @return new AuthToken if authenticated, null if not
-    */
-   private AuthToken authenticateUser(String username, String password) {
-      return null;
-   }
-
-   public String getMessage() {
-      return message;
-   }
-
-   public void setMessage(String message) {
-      this.message = message;
    }
 
    public String getUsername() {
