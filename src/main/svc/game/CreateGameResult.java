@@ -10,12 +10,19 @@ public class CreateGameResult extends Result {
    String gameId;
 
    /**
-    * Construct CreateGameResult from the request. If the request is valid, create a new game and set the status code
-    * to 200. Otherwise, return a message detailing the error.
+    * Construct CreateGameResult.
     *
     * @return the result from the request
     */
    public CreateGameResult result() {
       return null;
+   }
+
+   public String getGameId() {
+      return gameId;
+   }
+
+   public void setGameId(String gameId) {
+      this.gameId = gameId;
    }
 }
