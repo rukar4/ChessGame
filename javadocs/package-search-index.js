@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"svc"},{"l":"svc.account"},{"l":"svc.clearApp"},{"l":"svc.game"}];updateSearchResults();
