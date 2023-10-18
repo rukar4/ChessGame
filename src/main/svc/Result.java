@@ -6,6 +6,21 @@ package svc;
  */
 public class Result {
    private String message;
+   private ResultCode apiCode;
+
+   /**
+    * Generic constructor for results without a special response body
+    */
+   public Result(){
+   }
+
+   /**
+    * Generate the default message for each result code
+    *
+    * @param apiCode The code that the API generated
+    */
+   private static void generateMessage(ResultCode apiCode) {
+   }
 
    /**
     * List of result codes
@@ -26,20 +41,11 @@ public class Result {
        */
       ResultCode(int code) {
          this.code = code;
-         generateMessage(code);
       }
 
       public int getCode() {
          return code;
       }
-   }
-
-   /**
-    * Generate the default message for each result code
-    *
-    * @param code The code that the API generated
-    */
-   private static void generateMessage(int code) {
    }
 
    public String getMessage() {
@@ -48,5 +54,13 @@ public class Result {
 
    public void setMessage(String message) {
       this.message = message;
+   }
+
+   public ResultCode getApiCode() {
+      return apiCode;
+   }
+
+   public void setApiCode(ResultCode apiCode) {
+      this.apiCode = apiCode;
    }
 }

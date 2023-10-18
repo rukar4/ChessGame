@@ -1,4 +1,4 @@
-package svc;
+package svc.game;
 
 /**
  * JoinGameRequest stores the game id for the game the caller wants to join and the color that they want to join as.

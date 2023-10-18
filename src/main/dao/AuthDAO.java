@@ -4,6 +4,9 @@ import dataAccess.DataAccessException;
 import models.AuthToken;
 import models.User;
 
+/**
+ * Data access object for auth tokens.
+ */
 public class AuthDAO {
    /**
     * Return a token for a given user
@@ -38,7 +41,7 @@ public class AuthDAO {
    /**
     * Update the token for a given user to the given token
     *
-    * @param user The user whose token will be updated
+    * @param user      The user whose token will be updated
     * @param authToken The new token to replace the old one
     * @throws DataAccessException if the user does not have a token to update
     */

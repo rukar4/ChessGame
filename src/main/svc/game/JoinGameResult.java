@@ -1,4 +1,6 @@
-package svc;
+package svc.game;
+
+import svc.Result;
 
 /**
  * Result object for joining a game with a request.

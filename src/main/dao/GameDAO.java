@@ -4,7 +4,21 @@ import dataAccess.DataAccessException;
 import models.Game;
 import models.User;
 
+/**
+ * Data access object for the Game database
+ */
 public class GameDAO {
+   private int numGames = 0;
+
+   /**
+    * Method to return the number of games in the database. This will allow game ids to be incremented.
+    *
+    * @return the number of games in the database
+    */
+   public int getNumGames() {
+      return numGames;
+   }
+
    /**
     * Finds and returns the game with the given id from the database
     *
@@ -27,19 +41,20 @@ public class GameDAO {
    }
 
    /**
-    * Inserts a game into the database
+    * Inserts a game into the database and increments the count of games in the database.
     *
     * @param game The game to be inserted
     * @throws DataAccessException when database is inaccessible
     */
    public void insertGame(Game game) throws DataAccessException {
+      ++numGames;
    }
 
    /**
     * Sets a given user to a particular color in a game
     *
     * @param player User claiming a color
-    * @param color Color being claimed
+    * @param color  Color being claimed
     * @param gameId Game that the user is claiming the color
     * @throws DataAccessException if the color is already claimed or the gameId is invalid
     */
@@ -50,11 +65,11 @@ public class GameDAO {
     * Updates the game string at the given gameId by converting the given Game object
     * to a string and replacing the game string with the new string
     *
-    * @param gameId The game to be updated
+    * @param gameId      The game to be updated
     * @param updatedGame The updated game
     * @throws DataAccessException when the gameId is invalid
     */
-   public void updateGame(int gameId, Game updatedGame) throws DataAccessException{
+   public void updateGame(int gameId, Game updatedGame) throws DataAccessException {
       String dbString = updatedGame.toString();
       //TODO: Add string to DB
    }

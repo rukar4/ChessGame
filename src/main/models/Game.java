@@ -2,7 +2,10 @@ package models;
 
 import chess.ChessGame;
 
-
+/**
+ * Game class manages the creation of a chess game. It stores its id, the usernames of the players, the game name, and
+ * the chess game itself.
+ */
 public class Game {
    private int gameId;
    private String whiteUsername;
@@ -11,12 +14,12 @@ public class Game {
    private ChessGame game;
 
    /**
-    * Game constructor generates a gameId and initializes the
-    * chess game
+    * Game constructor initializes the chess game with the given name and game id
     *
     * @param gameName Name of the game
+    * @param gameId The game id
     */
-   public Game (String gameName){
+   public Game(String gameName, int gameId) {
    }
 
    /**
@@ -31,10 +34,6 @@ public class Game {
 
    public int getGameId() {
       return gameId;
-   }
-
-   public void setGameId(int gameId) {
-      this.gameId = gameId;
    }
 
    public String getWhiteUsername() {
@@ -55,5 +54,13 @@ public class Game {
 
    public String getGameName() {
       return gameName;
+   }
+
+   public void setGameName(String gameName) {
+      this.gameName = gameName;
+   }
+
+   public ChessGame getGame() {
+      return game;
    }
 }

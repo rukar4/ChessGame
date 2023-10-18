@@ -1,0 +1,31 @@
+package svc.account;
+
+/**
+ * LoginRequest object contains a username and password to try to verify credentials
+ */
+public class LoginRequest {
+   protected String username;
+   protected String password;
+
+   /**
+    * Create new LoginRequest
+    */
+   public LoginRequest() {
+   }
+
+   public String getUsername() {
+      return username;
+   }
+
+   public void setUsername(String username) {
+      this.username = username;
+   }
+
+   public String getPassword() {
+      return password;
+   }
+
+   public void setPassword(String password) {
+      this.password = password;
+   }
+}

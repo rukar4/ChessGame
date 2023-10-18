@@ -55,7 +55,7 @@ public class Move implements ChessMove {
    }
 
    @Override
-   public String toString(){
+   public String toString() {
       return position.toString() + " to " + endPosition.toString();
    }
 }

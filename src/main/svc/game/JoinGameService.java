@@ -1,4 +1,4 @@
-package svc;
+package svc.game;
 
 /**
  * JoinGameService manages joining a chess game from a given result. If the client is authorized and the request

@@ -12,34 +12,34 @@ import passoffTests.TestFactory;
 
 public class ChessBoardTests {
 
-    private ChessBoard board;
+   private ChessBoard board;
 
-    @BeforeEach
-    public void setup() {
-        board = TestFactory.getNewBoard();
-    }
-
-
-    @Test
-    @DisplayName("Add and Get implementation.Piece")
-    public void getAddPiece() {
-        ChessPosition position = TestFactory.getNewPosition(4, 4);
-        ChessPiece piece = TestFactory.getNewPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
-
-        board.addPiece(position, piece);
-
-        ChessPiece foundPiece = board.getPiece(position);
-
-        Assertions.assertEquals(piece.getPieceType(), foundPiece.getPieceType(),
-                "ChessPiece returned by getPiece had the wrong piece type");
-        Assertions.assertEquals(piece.getTeamColor(), foundPiece.getTeamColor(),
-                "ChessPiece returned by getPiece had the wrong team color");
-    }
+   @BeforeEach
+   public void setup() {
+      board = TestFactory.getNewBoard();
+   }
 
 
-    @Test
-    @DisplayName("Reset implementation.Board")
-    public void defaultGameBoard() {
+   @Test
+   @DisplayName("Add and Get implementation.Piece")
+   public void getAddPiece() {
+      ChessPosition position = TestFactory.getNewPosition(4, 4);
+      ChessPiece piece = TestFactory.getNewPiece(ChessGame.TeamColor.BLACK, ChessPiece.PieceType.BISHOP);
+
+      board.addPiece(position, piece);
+
+      ChessPiece foundPiece = board.getPiece(position);
+
+      Assertions.assertEquals(piece.getPieceType(), foundPiece.getPieceType(),
+              "ChessPiece returned by getPiece had the wrong piece type");
+      Assertions.assertEquals(piece.getTeamColor(), foundPiece.getTeamColor(),
+              "ChessPiece returned by getPiece had the wrong team color");
+   }
+
+
+   @Test
+   @DisplayName("Reset implementation.Board")
+   public void defaultGameBoard() {
 
         /*
         |r|n|b|q|k|b|n|r|
@@ -52,90 +52,90 @@ public class ChessBoardTests {
 		|R|N|B|Q|K|B|N|R|
          */
 
-        //set board to default
-        board.resetBoard();
+      //set board to default
+      board.resetBoard();
 
-        //back row pieces
-        //white
-        Assertions.assertEquals(ChessPiece.PieceType.ROOK,
-                board.getPiece(TestFactory.getNewPosition(1, 1)).getPieceType(),
-                "implementation.Piece at rook starting position was not a rook");
-        Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
-                board.getPiece(TestFactory.getNewPosition(1, 2)).getPieceType(),
-                "implementation.Piece at knight starting position was not a knight");
-        Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
-                board.getPiece(TestFactory.getNewPosition(1, 3)).getPieceType(),
-                "implementation.Piece at bishop starting position was not a bishop");
-        Assertions.assertEquals(ChessPiece.PieceType.QUEEN,
-                board.getPiece(TestFactory.getNewPosition(1, 4)).getPieceType(),
-                "implementation.Piece at queen starting position was not a queen");
-        Assertions.assertEquals(ChessPiece.PieceType.KING,
-                board.getPiece(TestFactory.getNewPosition(1, 5)).getPieceType(),
-                "implementation.Piece at king starting position was not a king");
-        Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
-                board.getPiece(TestFactory.getNewPosition(1, 6)).getPieceType(),
-                "implementation.Piece at bishop starting position was not a bishop");
-        Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
-                board.getPiece(TestFactory.getNewPosition(1, 7)).getPieceType(),
-                "implementation.Piece at knight starting position was not a knight");
-        Assertions.assertEquals(ChessPiece.PieceType.ROOK,
-                board.getPiece(TestFactory.getNewPosition(1, 8)).getPieceType(),
-                "implementation.Piece at rook starting position was not a rook");
+      //back row pieces
+      //white
+      Assertions.assertEquals(ChessPiece.PieceType.ROOK,
+              board.getPiece(TestFactory.getNewPosition(1, 1)).getPieceType(),
+              "implementation.Piece at rook starting position was not a rook");
+      Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
+              board.getPiece(TestFactory.getNewPosition(1, 2)).getPieceType(),
+              "implementation.Piece at knight starting position was not a knight");
+      Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
+              board.getPiece(TestFactory.getNewPosition(1, 3)).getPieceType(),
+              "implementation.Piece at bishop starting position was not a bishop");
+      Assertions.assertEquals(ChessPiece.PieceType.QUEEN,
+              board.getPiece(TestFactory.getNewPosition(1, 4)).getPieceType(),
+              "implementation.Piece at queen starting position was not a queen");
+      Assertions.assertEquals(ChessPiece.PieceType.KING,
+              board.getPiece(TestFactory.getNewPosition(1, 5)).getPieceType(),
+              "implementation.Piece at king starting position was not a king");
+      Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
+              board.getPiece(TestFactory.getNewPosition(1, 6)).getPieceType(),
+              "implementation.Piece at bishop starting position was not a bishop");
+      Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
+              board.getPiece(TestFactory.getNewPosition(1, 7)).getPieceType(),
+              "implementation.Piece at knight starting position was not a knight");
+      Assertions.assertEquals(ChessPiece.PieceType.ROOK,
+              board.getPiece(TestFactory.getNewPosition(1, 8)).getPieceType(),
+              "implementation.Piece at rook starting position was not a rook");
 
-        //black
-        Assertions.assertEquals(ChessPiece.PieceType.ROOK,
-                board.getPiece(TestFactory.getNewPosition(8, 1)).getPieceType(),
-                "implementation.Piece at rook starting position was not a rook");
-        Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
-                board.getPiece(TestFactory.getNewPosition(8, 2)).getPieceType(),
-                "implementation.Piece at knight starting position was not a knight");
-        Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
-                board.getPiece(TestFactory.getNewPosition(8, 3)).getPieceType(),
-                "implementation.Piece at bishop starting position was not a bishop");
-        Assertions.assertEquals(ChessPiece.PieceType.QUEEN,
-                board.getPiece(TestFactory.getNewPosition(8, 4)).getPieceType(),
-                "implementation.Piece at queen starting position was not a queen");
-        Assertions.assertEquals(ChessPiece.PieceType.KING,
-                board.getPiece(TestFactory.getNewPosition(8, 5)).getPieceType(),
-                "implementation.Piece at king starting position was not a king");
-        Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
-                board.getPiece(TestFactory.getNewPosition(8, 6)).getPieceType(),
-                "implementation.Piece at bishop starting position was not a bishop");
-        Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
-                board.getPiece(TestFactory.getNewPosition(8, 7)).getPieceType(),
-                "implementation.Piece at knight starting position was not a knight");
-        Assertions.assertEquals(ChessPiece.PieceType.ROOK,
-                board.getPiece(TestFactory.getNewPosition(8, 8)).getPieceType(),
-                "implementation.Piece at rook starting position was not a rook");
+      //black
+      Assertions.assertEquals(ChessPiece.PieceType.ROOK,
+              board.getPiece(TestFactory.getNewPosition(8, 1)).getPieceType(),
+              "implementation.Piece at rook starting position was not a rook");
+      Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
+              board.getPiece(TestFactory.getNewPosition(8, 2)).getPieceType(),
+              "implementation.Piece at knight starting position was not a knight");
+      Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
+              board.getPiece(TestFactory.getNewPosition(8, 3)).getPieceType(),
+              "implementation.Piece at bishop starting position was not a bishop");
+      Assertions.assertEquals(ChessPiece.PieceType.QUEEN,
+              board.getPiece(TestFactory.getNewPosition(8, 4)).getPieceType(),
+              "implementation.Piece at queen starting position was not a queen");
+      Assertions.assertEquals(ChessPiece.PieceType.KING,
+              board.getPiece(TestFactory.getNewPosition(8, 5)).getPieceType(),
+              "implementation.Piece at king starting position was not a king");
+      Assertions.assertEquals(ChessPiece.PieceType.BISHOP,
+              board.getPiece(TestFactory.getNewPosition(8, 6)).getPieceType(),
+              "implementation.Piece at bishop starting position was not a bishop");
+      Assertions.assertEquals(ChessPiece.PieceType.KNIGHT,
+              board.getPiece(TestFactory.getNewPosition(8, 7)).getPieceType(),
+              "implementation.Piece at knight starting position was not a knight");
+      Assertions.assertEquals(ChessPiece.PieceType.ROOK,
+              board.getPiece(TestFactory.getNewPosition(8, 8)).getPieceType(),
+              "implementation.Piece at rook starting position was not a rook");
 
-        //pawns
-        for (int column = 1; column <= 8; ++column) {
-            Assertions.assertEquals(ChessPiece.PieceType.PAWN,
-                    board.getPiece(TestFactory.getNewPosition(2, column)).getPieceType(),
-                    "implementation.Piece at pawn starting position was not a pawn");
-            Assertions.assertEquals(ChessPiece.PieceType.PAWN,
-                    board.getPiece(TestFactory.getNewPosition(7, column)).getPieceType(),
-                    "implementation.Piece at pawn starting position was not a pawn");
-        }
+      //pawns
+      for (int column = 1; column <= 8; ++column) {
+         Assertions.assertEquals(ChessPiece.PieceType.PAWN,
+                 board.getPiece(TestFactory.getNewPosition(2, column)).getPieceType(),
+                 "implementation.Piece at pawn starting position was not a pawn");
+         Assertions.assertEquals(ChessPiece.PieceType.PAWN,
+                 board.getPiece(TestFactory.getNewPosition(7, column)).getPieceType(),
+                 "implementation.Piece at pawn starting position was not a pawn");
+      }
 
-        //check color
-        for (int column = 1; column <= 8; ++column) {
-            //white team
-            Assertions.assertEquals(ChessGame.TeamColor.WHITE,
-                    board.getPiece(TestFactory.getNewPosition(1, column)).getTeamColor(),
-                    "implementation.Piece at starting position was incorrect color");
-            Assertions.assertEquals(ChessGame.TeamColor.WHITE,
-                    board.getPiece(TestFactory.getNewPosition(2, column)).getTeamColor(),
-                    "implementation.Piece at starting position was incorrect color");
+      //check color
+      for (int column = 1; column <= 8; ++column) {
+         //white team
+         Assertions.assertEquals(ChessGame.TeamColor.WHITE,
+                 board.getPiece(TestFactory.getNewPosition(1, column)).getTeamColor(),
+                 "implementation.Piece at starting position was incorrect color");
+         Assertions.assertEquals(ChessGame.TeamColor.WHITE,
+                 board.getPiece(TestFactory.getNewPosition(2, column)).getTeamColor(),
+                 "implementation.Piece at starting position was incorrect color");
 
-            //black team
-            Assertions.assertEquals(ChessGame.TeamColor.BLACK,
-                    board.getPiece(TestFactory.getNewPosition(7, column)).getTeamColor(),
-                    "implementation.Piece at starting position was incorrect color");
-            Assertions.assertEquals(ChessGame.TeamColor.BLACK,
-                    board.getPiece(TestFactory.getNewPosition(8, column)).getTeamColor(),
-                    "implementation.Piece at starting position was incorrect color");
-        }
-    }
+         //black team
+         Assertions.assertEquals(ChessGame.TeamColor.BLACK,
+                 board.getPiece(TestFactory.getNewPosition(7, column)).getTeamColor(),
+                 "implementation.Piece at starting position was incorrect color");
+         Assertions.assertEquals(ChessGame.TeamColor.BLACK,
+                 board.getPiece(TestFactory.getNewPosition(8, column)).getTeamColor(),
+                 "implementation.Piece at starting position was incorrect color");
+      }
+   }
 
 }

@@ -1,6 +1,9 @@
 package game;
 
-import chess.*;
+import chess.ChessBoard;
+import chess.ChessGame;
+import chess.ChessPiece;
+import chess.ChessPosition;
 
 public class Board implements ChessBoard {
    int BOARD_LENGTH = 8;
@@ -21,7 +24,8 @@ public class Board implements ChessBoard {
       }
    }
 
-   public Board() {}
+   public Board() {
+   }
 
    @Override
    public void addPiece(ChessPosition position, ChessPiece piece) {
@@ -30,8 +34,8 @@ public class Board implements ChessBoard {
       chessBoard[pieceIndex[0]][pieceIndex[1]] = piece;
    }
 
-   public Piece createNewPiece(ChessPiece.PieceType pieceType, ChessGame.TeamColor color){
-      switch (pieceType){
+   public Piece createNewPiece(ChessPiece.PieceType pieceType, ChessGame.TeamColor color) {
+      switch (pieceType) {
          case PAWN -> {
             return new PawnMoves(color);
          }

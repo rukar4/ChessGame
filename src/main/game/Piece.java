@@ -36,7 +36,7 @@ public abstract class Piece implements ChessPiece {
    @Override
    public abstract Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition);
 
-   public void setHasMoved(boolean hasMoved){
+   public void setHasMoved(boolean hasMoved) {
       this.hasMoved = hasMoved;
    }
 

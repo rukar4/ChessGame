@@ -3,6 +3,9 @@ package dao;
 import dataAccess.DataAccessException;
 import models.User;
 
+/**
+ * Data access object for the User database
+ */
 public class UserDAO {
    /**
     * Retrieve a user from the database

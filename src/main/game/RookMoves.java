@@ -42,7 +42,7 @@ public class RookMoves extends Piece {
                moves.add(new Move(start, next));
             }
          }
-         switch (direction){
+         switch (direction) {
             // Switch the direction to forward after first loop and 0 after second
             case -1 -> direction = 1;
             case 1 -> direction = 0;

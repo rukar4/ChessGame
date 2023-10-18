@@ -24,7 +24,7 @@ public class Test {
       System.out.println("Total execution time: " + (endTime - startTime));
 
 
-      Move bishopMove = new Move(new Position(4, 5), new Position(5,6));
+      Move bishopMove = new Move(new Position(4, 5), new Position(5, 6));
       System.out.println(bishopMove);
 
       System.out.println(chessBoard);

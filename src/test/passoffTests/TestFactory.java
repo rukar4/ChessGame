@@ -16,7 +16,7 @@ public class TestFactory {
    }
 
    public static ChessPiece getNewPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-      switch (type){
+      switch (type) {
          case PAWN -> {
             return new PawnMoves(pieceColor);
          }
