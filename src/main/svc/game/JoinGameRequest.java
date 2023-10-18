@@ -14,6 +14,6 @@ public class JoinGameRequest {
     * @param playerColor The color to join game as. If it is empty, the user is added as an observer
     * @param gameId      The game to join
     */
-   public JoinGameRequest(String username, String playerColor, int gameId) {
+   public JoinGameRequest(String playerColor, int gameId) {
    }
 }

@@ -8,13 +8,14 @@ import models.Game;
  */
 public class CreateGameService {
    /**
-    * Create a game from the request. If the request is valid, the game is created and the response includes the game id
-    * of the newly created game.
+    * Create a game from the request.
+    * Return 200 and gameId in result on a success.
+    * Return error code and message on failure.
     *
     * @param request The client request with the game name
     * @return the result of attempting to create a game
     */
-   public CreateGameResult createGame(CreateGameRequest request){
+   public CreateGameResult createGame(CreateGameRequest request) {
       return null;
    }
 

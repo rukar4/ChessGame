@@ -1,7 +1,5 @@
 package svc.account;
 
-import models.AuthToken;
-
 /**
  * LoginService object manages LoginRequests and creates LoginResults.
  */

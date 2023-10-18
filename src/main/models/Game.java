@@ -17,7 +17,7 @@ public class Game {
     * Game constructor initializes the chess game with the given name and game id
     *
     * @param gameName Name of the game
-    * @param gameId The game id
+    * @param gameId   The game id
     */
    public Game(String gameName, int gameId) {
    }

@@ -1,6 +1,5 @@
 package svc.game;
 
-import models.Game;
 import svc.Result;
 
 /**
@@ -14,10 +13,9 @@ public class CreateGameResult extends Result {
     * Construct CreateGameResult from the request. If the request is valid, create a new game and set the status code
     * to 200. Otherwise, return a message detailing the error.
     *
-    * @param request The client request
     * @return the result from the request
     */
-   public CreateGameResult result(CreateGameRequest request) {
+   public CreateGameResult result() {
       return null;
    }
 }

@@ -11,7 +11,7 @@ public class Result {
    /**
     * Generic constructor for results without a special response body
     */
-   public Result(){
+   public Result() {
    }
 
    /**
