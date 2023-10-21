@@ -6,7 +6,15 @@ import svc.Result;
  * LoginResult stores a username and authToken
  */
 public class LoginResult extends Result {
+
+   /**
+    * Username from the request if the request is valid
+    */
    protected String username;
+
+   /**
+    * Auth token given to the user if the request is valid
+    */
    protected String authToken;
 
    /**

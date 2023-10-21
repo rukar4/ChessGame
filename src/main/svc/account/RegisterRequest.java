@@ -5,6 +5,9 @@ package svc.account;
  * LoginRequest) and email.
  */
 public class RegisterRequest extends LoginRequest {
+   /**
+    * Email given in the request
+    */
    String email;
 
    /**

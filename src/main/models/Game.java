@@ -7,10 +7,29 @@ import chess.ChessGame;
  * the chess game itself.
  */
 public class Game {
+   /**
+    * ID number for the game instance
+    */
    private int gameId;
+
+   /**
+    * Username for white
+    */
    private String whiteUsername;
+
+   /**
+    * Username for black
+    */
    private String blackUsername;
+
+   /**
+    * Name of the game
+    */
    private String gameName;
+
+   /**
+    * The chess game object holds all the information to play the game
+    */
    private ChessGame game;
 
    /**

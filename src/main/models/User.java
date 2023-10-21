@@ -4,9 +4,24 @@ package models;
  * User objects store the variables for users credentials as well as their id and email.
  */
 public class User {
+   /**
+    * ID number for the user
+    */
    private int userId;
+
+   /**
+    * The user's name
+    */
    private String username;
+
+   /**
+    * The user's password
+    */
    private String password;
+
+   /**
+    * The user's email
+    */
    private String email;
 
    /**

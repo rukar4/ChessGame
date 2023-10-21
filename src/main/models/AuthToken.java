@@ -4,7 +4,14 @@ package models;
  * AuthToken class generates and stores auth tokens for a certain username.
  */
 public class AuthToken {
+   /**
+    * UUID for authentication of users
+    */
    private String authToken;
+
+   /**
+    * Username for the associated auth token
+    */
    private String username;
 
    /**

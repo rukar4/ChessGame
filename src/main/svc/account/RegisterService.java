@@ -10,6 +10,7 @@ public class RegisterService extends LoginService {
     * Register the user from the given request and return the corresponding login result.
     * A new user is created from the request information.
     * The request is invalid if the username or email is already taken (403).
+    * The request is invalid if the email is not in a valid format
     *
     * @param request The client request
     * @return the result from the request

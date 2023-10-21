@@ -7,6 +7,9 @@ import svc.Result;
  * game is successfully created.
  */
 public class CreateGameResult extends Result {
+   /**
+    * Generated game ID number if the request is valid
+    */
    String gameId;
 
    /**

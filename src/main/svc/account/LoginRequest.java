@@ -4,7 +4,14 @@ package svc.account;
  * LoginRequest object contains a username and password to try to verify credentials
  */
 public class LoginRequest {
+   /**
+    * Username given in the request
+    */
    protected String username;
+
+   /**
+    * Password given in the request
+    */
    protected String password;
 
    /**

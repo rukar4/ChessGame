@@ -5,7 +5,14 @@ package svc.game;
  * The color can be WHITE, BLACK, or null. A null color means the caller will join as an observer.
  */
 public class JoinGameRequest {
+   /**
+    * Color given in the request
+    */
    String playerColor = null;
+
+   /**
+    * Game ID number given in the request
+    */
    int gameId;
 
    /**

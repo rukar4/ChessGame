@@ -7,6 +7,9 @@ import svc.Result;
  * Result that stores the entire list of games in the database
  */
 public class ListGamesResult extends Result {
+   /**
+    * List of games in the database if the request is valid
+    */
    private Game[] games;
 
    /**

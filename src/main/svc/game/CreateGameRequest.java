@@ -4,6 +4,9 @@ package svc.game;
  * Request structure for creating a new game. CreateGameRequest stores the gameName.
  */
 public class CreateGameRequest {
+   /**
+    * Name given in the request
+    */
    private String gameName;
 
    /**

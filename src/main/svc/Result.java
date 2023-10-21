@@ -5,8 +5,15 @@ package svc;
  * utilized by all the subclasses. It manages the default messages for each status code as well.
  */
 public class Result {
+   /**
+    * Result message for the given request
+    */
    private String message;
-   private ResultCode apiCode;
+
+   /**
+    * Response code for the given request
+    */
+   private ResponseCode apiCode;
 
    /**
     * Generic constructor for results without a special response body
@@ -19,19 +26,42 @@ public class Result {
     *
     * @param apiCode The code that the API generated
     */
-   private static void generateMessage(ResultCode apiCode) {
+   private static void generateMessage(ResponseCode apiCode) {
    }
 
    /**
     * List of result codes
     */
-   public enum ResultCode {
+   public enum ResponseCode {
+      /**
+       * If the result is successful, return 200
+       */
       SUCCESS(200),
+
+      /**
+       * If the request is incorrectly formatted, return 400
+       */
       BAD_REQUEST(400),
+
+      /**
+       * If the user is not authorized, return 401
+       */
       UNAUTHORIZED(401),
+
+      /**
+       * If the requested name (ie username, game name, etc.) is already in use, return 403
+       */
       ALREADY_TAKEN(403),
+
+      /**
+       * If there is an error in the code or the request was unable to be fulfilled, or an unknown error occurred,
+       * return 500
+       */
       INTERNAL_ERROR(500);
 
+      /**
+       * The result code
+       */
       private final int code;
 
       /**
@@ -39,7 +69,7 @@ public class Result {
        *
        * @param code The code that the API returns
        */
-      ResultCode(int code) {
+      ResponseCode(int code) {
          this.code = code;
       }
 
@@ -56,11 +86,11 @@ public class Result {
       this.message = message;
    }
 
-   public ResultCode getApiCode() {
+   public ResponseCode getApiCode() {
       return apiCode;
    }
 
-   public void setApiCode(ResultCode apiCode) {
+   public void setApiCode(ResponseCode apiCode) {
       this.apiCode = apiCode;
    }
 }
