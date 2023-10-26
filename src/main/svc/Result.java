@@ -18,15 +18,22 @@ public class Result {
    /**
     * Generic constructor for results without a special response body
     */
-   public Result() {
-   }
+   public Result() {}
 
    /**
     * Generate the default message for each result code
     *
     * @param apiCode The code that the API generated
     */
-   private static void generateMessage(ResponseCode apiCode) {
+   private void generateMessage(ResponseCode apiCode) {
+      switch (apiCode) {
+         case SUCCESS ->         message = null;
+         case BAD_REQUEST ->     message = "Error: bad request";
+         case UNAUTHORIZED ->    message = "Error: unauthorized";
+         case ALREADY_TAKEN ->   message = "Error: already taken";
+         case INTERNAL_ERROR ->  message = "Error: internal server error";
+
+      }
    }
 
    /**
@@ -92,5 +99,6 @@ public class Result {
 
    public void setApiCode(ResponseCode apiCode) {
       this.apiCode = apiCode;
+      generateMessage(apiCode);
    }
 }

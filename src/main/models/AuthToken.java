@@ -1,5 +1,7 @@
 package models;
 
+import java.util.UUID;
+
 /**
  * AuthToken class generates and stores auth tokens for a certain username.
  */
@@ -12,7 +14,7 @@ public class AuthToken {
    /**
     * Username for the associated auth token
     */
-   private String username;
+   private final String username;
 
    /**
     * Create new authentication token for given user
@@ -20,18 +22,16 @@ public class AuthToken {
     * @param username The user with the AuthToken
     */
    public AuthToken(String username) {
+      this.username = username;
+      generateToken();
    }
 
    /**
     * Method to manage token generation
     */
    private void generateToken() {
-   }
-
-   /**
-    * Method to update the token
-    */
-   public void updateToken() {
+      UUID token = UUID.randomUUID();
+      this.authToken = token.toString();
    }
 
    public String getAuthToken() {

@@ -17,8 +17,7 @@ public class LoginRequest {
    /**
     * Create new LoginRequest
     */
-   public LoginRequest() {
-   }
+   public LoginRequest() {}
 
    public String getUsername() {
       return username;

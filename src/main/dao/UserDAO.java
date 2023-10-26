@@ -3,10 +3,15 @@ package dao;
 import dataAccess.DataAccessException;
 import models.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Data access object for the User database
  */
 public class UserDAO {
+   private final Map<String, User> tempUserDB = new HashMap<>();
+
    /**
     * Retrieve a user from the database
     *
@@ -15,7 +20,7 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public User getUser(String username) throws DataAccessException {
-      return null;
+      return tempUserDB.get(username);
    }
 
    /**
@@ -35,6 +40,7 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public void insertUser(User user) throws DataAccessException {
+      tempUserDB.put(user.getUsername(), user);
    }
 
    /**
@@ -44,6 +50,7 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public void removeUser(String username) throws DataAccessException {
+      tempUserDB.remove(username);
    }
 
    /**
@@ -54,6 +61,9 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public void updateUsername(User user, String newUsername) throws DataAccessException {
+      User updatedUser = new User(newUsername, user.getPassword());
+      removeUser(user.getUsername());
+      insertUser(updatedUser);
    }
 
    /**
@@ -64,6 +74,8 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public void updatePassword(User user, String newPass) throws DataAccessException {
+      User updatedUser = new User(user.getUsername(), newPass);
+      tempUserDB.put(user.getUsername(), updatedUser);
    }
 
    /**
@@ -72,5 +84,6 @@ public class UserDAO {
     * @throws DataAccessException when database is inaccessible
     */
    public void clearUsers() throws DataAccessException {
+      tempUserDB.clear();
    }
 }
