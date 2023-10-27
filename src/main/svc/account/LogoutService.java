@@ -17,7 +17,7 @@ public class LogoutService {
     * @param token The client request
     * @return the result of the request
     */
-   public Result logout(AuthToken token) {
+   public Result logout(String token) {
       Result result = new Result();
 
       if (token == null) {
@@ -26,9 +26,9 @@ public class LogoutService {
       }
 
       try {
-         AuthToken userToken = authDAO.getTokenByUser(token.getUsername());
+         AuthToken userToken = authDAO.getToken(token);
 
-         if (userToken == null || !userToken.equals(token)) {
+         if (userToken == null || !userToken.getAuthToken().equals(token)) {
             result.setApiRes(Result.ApiRes.UNAUTHORIZED);
             return result;
          }

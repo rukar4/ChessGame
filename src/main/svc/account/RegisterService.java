@@ -37,7 +37,8 @@ public class RegisterService extends LoginService {
       String password = request.password;
       String email = request.email;
 
-      if (username == null || password == null || email == null || !isValidEmail(email)) {
+      if (username == null || password == null || email == null || !isValidEmail(email) ||
+              username.isEmpty() || password.isEmpty()) {
          result.setApiRes(Result.ApiRes.BAD_REQUEST);
          return result;
       }

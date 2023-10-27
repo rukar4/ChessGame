@@ -2,7 +2,6 @@ package dao;
 
 import dataAccess.DataAccessException;
 import models.AuthToken;
-import models.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,12 +26,12 @@ public class AuthDAO {
    /**
     * Return a token for a given user
     *
-    * @param username The user to find the token for
+    * @param authToken The token to find
     * @return the authentication token of the user or null if one does not exist for the given user
     * @throws DataAccessException if database is inaccessible
     */
-   public AuthToken getTokenByUser(String username) throws DataAccessException {
-      return tempAuthDB.get(username);
+   public AuthToken getToken(String authToken) throws DataAccessException {
+      return tempAuthDB.get(authToken);
    }
 
    /**
@@ -52,7 +51,7 @@ public class AuthDAO {
     * @throws DataAccessException if database is inaccessible
     */
    public void insertToken(AuthToken authToken) throws DataAccessException {
-      tempAuthDB.put(authToken.getUsername(), authToken);
+      tempAuthDB.put(authToken.getAuthToken(), authToken);
    }
 
    /**
@@ -71,8 +70,8 @@ public class AuthDAO {
     * @param authToken The token to be removed
     * @throws DataAccessException if the token cannot be found
     */
-   public void removeToken(AuthToken authToken) throws DataAccessException {
-      tempAuthDB.remove(authToken.getUsername());
+   public void removeToken(String authToken) throws DataAccessException {
+      tempAuthDB.remove(authToken);
    }
 
    /**

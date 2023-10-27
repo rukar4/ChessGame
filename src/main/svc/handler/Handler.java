@@ -27,9 +27,7 @@ public class Handler {
             break;
          case "logout":
             LogoutService logoutService = new LogoutService();
-            result = new Result();
-            result.setApiRes(Result.ApiRes.SUCCESS);
-            AuthToken authToken = new Gson().fromJson(req.headers("authorization"), AuthToken.class);
+            String authToken = new Gson().fromJson(req.headers("authorization"), String.class);
             result = logoutService.logout(authToken);
             break;
          default:
