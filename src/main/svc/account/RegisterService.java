@@ -28,17 +28,17 @@ public class RegisterService extends LoginService {
     * The request is invalid if the username is already taken (403).
     * The request is invalid if the email is not in a valid format
     *
-    * @param request The client request
+    * @param req The client request
     * @return the result from the request
     */
-   public LoginResult register(RegisterRequest request) {
+   public LoginResult register(RegisterRequest req) {
       LoginResult result = new LoginResult();
-      String username = request.username;
-      String password = request.password;
-      String email = request.email;
+      String username = req.username;
+      String password = req.password;
+      String email = req.email;
 
-      if (username == null || password == null || email == null || !isValidEmail(email) ||
-              username.isEmpty() || password.isEmpty()) {
+      if (username == null || password == null || email == null || !isValidEmail(email)
+              || username.isEmpty() || password.isEmpty()) {
          result.setApiRes(Result.ApiRes.BAD_REQUEST);
          return result;
       }

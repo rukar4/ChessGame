@@ -1,5 +1,8 @@
 package svc.game;
 
+import dao.AuthDAO;
+import dao.GameDAO;
+import svc.ErrorLogger;
 import svc.Result;
 
 /**
@@ -7,24 +10,31 @@ import svc.Result;
  * is valid, the service adds them to the game requested.
  */
 public class JoinGameService {
+   GameDAO gameDAO = GameDAO.getInstance();
+   AuthDAO authDAO = AuthDAO.getInstance();
+
    /**
     * Add user to the game. Takes in the client auth token and client request to add them to the game.
     *
-    * @param authToken The user trying to join
-    * @param request  The client request with desired color and game id
+    * @param request The client request with desired color and game id
     * @return the result from the request
     */
    public Result joinGame(String authToken, JoinGameRequest request) {
-      return null;
-   }
+      Result result = new Result();
+      int gameID = request.getGameID();
+      String color = request.getPlayerColor();
 
-   /**
-    * Add user to an existing game in the database.
-    *
-    * @param gameId      The game to add the user to
-    * @param username    The user to add
-    * @param playerColor The color the user will join as. This can be WHITE, BLACK, or null
-    */
-   private void addToGame(int gameId, String username, String playerColor) {
+      try {
+         String username = authDAO.getToken(authToken).getUsername();
+
+         if (color != null && !color.isEmpty()) {
+            gameDAO.claimColor(username, color, gameID);
+         }
+         result.setApiRes(Result.ApiRes.SUCCESS);
+      } catch (Exception e) {
+         ErrorLogger err = new ErrorLogger();
+         err.errMessage(e, "JoinGameService", result);
+      }
+      return result;
    }
 }

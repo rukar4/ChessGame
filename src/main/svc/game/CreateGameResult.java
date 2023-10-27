@@ -10,7 +10,7 @@ public class CreateGameResult extends Result {
    /**
     * Generated game ID number if the request is valid
     */
-   String gameId;
+   private Integer gameID;
 
    /**
     * Construct CreateGameResult.
@@ -21,11 +21,11 @@ public class CreateGameResult extends Result {
       return null;
    }
 
-   public String getGameId() {
-      return gameId;
+   public int getGameID() {
+      return gameID;
    }
 
-   public void setGameId(String gameId) {
-      this.gameId = gameId;
+   public void setGameID(Integer gameID) {
+      this.gameID = gameID;
    }
 }

@@ -8,19 +8,32 @@ public class JoinGameRequest {
    /**
     * Color given in the request
     */
-   String playerColor = null;
+   private String playerColor = null;
 
    /**
     * Game ID number given in the request
     */
-   int gameId;
+   private int gameID;
 
    /**
     * Create JoinGameRequest from given playerColor and the gameId.
-    *
-    * @param playerColor The color to join game as. If it is empty, the user is added as an observer
-    * @param gameId      The game to join
     */
-   public JoinGameRequest(String playerColor, int gameId) {
+   public JoinGameRequest() {
+   }
+
+   public String getPlayerColor() {
+      return playerColor;
+   }
+
+   public void setPlayerColor(String playerColor) {
+      this.playerColor = playerColor;
+   }
+
+   public int getGameID() {
+      return gameID;
+   }
+
+   public void setGameID(int gameID) {
+      this.gameID = gameID;
    }
 }

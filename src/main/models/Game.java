@@ -10,7 +10,7 @@ public class Game {
    /**
     * ID number for the game instance
     */
-   private int gameId;
+   private int gameID;
 
    /**
     * Username for white
@@ -51,12 +51,12 @@ public class Game {
       return "Game{}"; // JSON?
    }
 
-   public int getGameId() {
-      return gameId;
+   public int getGameID() {
+      return gameID;
    }
 
-   public void setGameId(int gameId) {
-      this.gameId = gameId;
+   public void setGameID(int gameID) {
+      this.gameID = gameID;
    }
 
    public String getWhiteUsername() {
