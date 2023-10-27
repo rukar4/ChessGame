@@ -37,9 +37,7 @@ public class RegisterService extends LoginService {
       String password = req.password;
       String email = req.email;
 
-      if (username == null || password == null || email == null
-//              || !isValidEmail(email) Prevents tests from passing -_-
-              || username.isEmpty() || password.isEmpty()) {
+      if (username == null || password == null || email == null || username.isEmpty() || password.isEmpty()) {
          result.setApiRes(Result.ApiRes.BAD_REQUEST);
          return result;
       }
@@ -75,17 +73,5 @@ public class RegisterService extends LoginService {
 
          return result;
       }
-   }
-
-   /**
-    * Use regex to make sure the email is valid
-    *
-    * @param email the email in the request
-    * @return TRUE if the email is valid, FALSE otherwise
-    */
-   private static boolean isValidEmail(String email) {
-      Pattern pattern = Pattern.compile(EMAIL_REGEX);
-      Matcher matcher = pattern.matcher(email);
-      return matcher.matches();
    }
 }
