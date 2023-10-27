@@ -1,5 +1,5 @@
 import spark.Spark;
-import svc.handler.Handler;
+import svc.Handler;
 
 public class Server {
    Handler handler = new Handler();
@@ -20,5 +20,10 @@ public class Server {
 
       Spark.post("/session", (req, res) -> handler.handler(req, res, "login"));
       Spark.delete("/session", (req, res) -> handler.handler(req, res, "logout"));
+
+      Spark.get("/game", (req, res) -> handler.handler(req, res, "listGames"));
+      Spark.put("/game", (req, res) -> handler.handler(req, res, "joinGame"));
+
+      Spark.delete("/db", (req, res) -> handler.handler(req, res, "clearApp"));
    }
 }

@@ -2,7 +2,7 @@ package svc.account;
 
 import dao.AuthDAO;
 import models.AuthToken;
-import svc.ErrorConstructor;
+import svc.ErrorLogger;
 import svc.Result;
 
 /**
@@ -37,8 +37,8 @@ public class LogoutService {
          result.setApiRes(Result.ApiRes.SUCCESS);
          return result;
       } catch (Exception e) {
-         ErrorConstructor err = new ErrorConstructor();
-         err.errorConstructor(e, "LogoutService", result);
+         ErrorLogger err = new ErrorLogger();
+         err.errMessage(e, "LogoutService", result);
 
          return result;
       }

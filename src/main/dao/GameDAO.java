@@ -5,6 +5,8 @@ import models.AuthToken;
 import models.Game;
 import models.User;
 
+import java.security.cert.CertificateRevokedException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +14,7 @@ import java.util.Map;
  * Data access object for the Game database
  */
 public class GameDAO {
-   private final Map<String, AuthToken> tempGameDB = new HashMap<>();
+   private final ArrayList<Game> tempGameDB = new ArrayList<>();
    private static GameDAO instance;
 
    private GameDAO() {
@@ -33,7 +35,12 @@ public class GameDAO {
     * @throws DataAccessException when gameId is invalid or no games exist with that id
     */
    public Game getGame(int gameId) throws DataAccessException {
-      return null;
+      for (Game game : tempGameDB) {
+         if (game.getGameId() == gameId) {
+            return game;
+         }
+      }
+      throw new DataAccessException("Error: game " + gameId + " not found");
    }
 
    /**
@@ -53,6 +60,9 @@ public class GameDAO {
     * @throws DataAccessException when database is inaccessible
     */
    public void insertGame(Game game) throws DataAccessException {
+      // Generate new game id to be one greater than the last game in the db
+      int gameId = tempGameDB.get(tempGameDB.size() - 1).getGameId() + 1;
+      tempGameDB.add(game);
    }
 
    /**
@@ -64,6 +74,26 @@ public class GameDAO {
     * @throws DataAccessException if the color is already claimed or the gameId is invalid
     */
    public void claimColor(User player, String color, int gameId) throws DataAccessException {
+      Game game = getGame(gameId);
+      if (game == null) throw new DataAccessException("Error: game not found");
+      switch (color.toLowerCase()) {
+         case "white":
+            if (game.getWhiteUsername() == null) {
+               game.setWhiteUsername(player.getUsername());
+            } else {
+               throw new DataAccessException("Error: already taken", 403);
+            }
+            break;
+         case "black":
+            if (game.getBlackUsername() == null) {
+               game.setBlackUsername(player.getUsername());
+            } else {
+               throw new DataAccessException("Error: already taken", 403);
+            }
+            break;
+         default:
+            throw new DataAccessException("Error: invalid color");
+      }
    }
 
    /**
@@ -76,7 +106,6 @@ public class GameDAO {
     */
    public void updateGame(int gameId, Game updatedGame) throws DataAccessException {
       String dbString = updatedGame.toString();
-      //TODO: Add string to DB
    }
 
    /**
@@ -86,6 +115,9 @@ public class GameDAO {
     * @throws DataAccessException when the gameId is invalid
     */
    public void removeGame(int gameId) throws DataAccessException {
+      if (!tempGameDB.removeIf(game -> game.getGameId() == gameId)) {
+         throw new DataAccessException("Error: invalid game ID");
+      };
    }
 
    /**

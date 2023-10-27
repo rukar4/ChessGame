@@ -1,4 +1,4 @@
-package svc.handler;
+package svc;
 
 import models.AuthToken;
 import spark.Request;
@@ -6,6 +6,7 @@ import spark.Response;
 import svc.Result;
 import svc.account.*;
 import com.google.gson.Gson;
+import svc.clearApp.ClearAppService;
 
 import java.util.Set;
 
@@ -15,15 +16,19 @@ public class Handler {
       Result result;
 
       switch (endPoint) {
-         case "login":
-            LoginService loginService = new LoginService();
-            LoginRequest loginRequest = new Gson().fromJson(reqBody, LoginRequest.class);
-            result = loginService.login(loginRequest);
+         case "clearApp":
+            ClearAppService clearAppService = new ClearAppService();
+            result = clearAppService.clearApp();
             break;
          case "register":
             RegisterService registerService = new RegisterService();
             RegisterRequest registerRequest = new Gson().fromJson(reqBody, RegisterRequest.class);
             result = registerService.register(registerRequest);
+            break;
+         case "login":
+            LoginService loginService = new LoginService();
+            LoginRequest loginRequest = new Gson().fromJson(reqBody, LoginRequest.class);
+            result = loginService.login(loginRequest);
             break;
          case "logout":
             LogoutService logoutService = new LogoutService();

@@ -35,16 +35,6 @@ public class AuthDAO {
    }
 
    /**
-    * Return a list of all the authentication tokens in the database
-    *
-    * @return an array of tokens
-    * @throws DataAccessException if database is inaccessible
-    */
-   public AuthToken[] getTokens() throws DataAccessException {
-      return null;
-   }
-
-   /**
     * Inserts a given token into the database
     *
     * @param authToken The token to insert

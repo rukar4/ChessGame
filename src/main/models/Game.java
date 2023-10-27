@@ -33,12 +33,12 @@ public class Game {
    private ChessGame game;
 
    /**
-    * Game constructor initializes the chess game with the given name and game id
+    * Game constructor initializes the chess game with the given name
     *
     * @param gameName Name of the game
-    * @param gameId   The game id
     */
-   public Game(String gameName, int gameId) {
+   public Game(String gameName) {
+      this.gameName = gameName;
    }
 
    /**
@@ -53,6 +53,10 @@ public class Game {
 
    public int getGameId() {
       return gameId;
+   }
+
+   public void setGameId(int gameId) {
+      this.gameId = gameId;
    }
 
    public String getWhiteUsername() {

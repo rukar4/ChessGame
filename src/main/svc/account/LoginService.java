@@ -2,10 +2,9 @@ package svc.account;
 
 import dao.AuthDAO;
 import dao.UserDAO;
-import dataAccess.DataAccessException;
 import models.AuthToken;
 import models.User;
-import svc.ErrorConstructor;
+import svc.ErrorLogger;
 import svc.Result;
 
 import java.util.Objects;
@@ -52,8 +51,8 @@ public class LoginService {
          result.setApiRes(Result.ApiRes.UNAUTHORIZED);
          return result;
       } catch (Exception e) {
-         ErrorConstructor err = new ErrorConstructor();
-         err.errorConstructor(e, "LoginService", result);
+         ErrorLogger err = new ErrorLogger();
+         err.errMessage(e, "LoginService", result);
 
          return result;
       }
