@@ -1,5 +1,6 @@
 package svc;
 
+import dao.AuthDAO;
 import models.AuthToken;
 import spark.Request;
 import spark.Response;
@@ -7,13 +8,17 @@ import svc.Result;
 import svc.account.*;
 import com.google.gson.Gson;
 import svc.clearApp.ClearAppService;
+import svc.game.*;
 
 import java.util.Set;
 
 public class Handler {
+   private final AuthDAO authDAO = AuthDAO.getInstance();
+
    public Object handler(Request req, Response res, String endPoint) {
       String reqBody = req.body();
-      Result result;
+      String authToken = new Gson().fromJson(req.headers("authorization"), String.class);
+      Result result = new Result();
 
       switch (endPoint) {
          case "clearApp":
@@ -31,9 +36,30 @@ public class Handler {
             result = loginService.login(loginRequest);
             break;
          case "logout":
+            if (!isAuthorized(authToken, result)) return result;
+
             LogoutService logoutService = new LogoutService();
-            String authToken = new Gson().fromJson(req.headers("authorization"), String.class);
             result = logoutService.logout(authToken);
+            break;
+         case "listGames":
+            if (!isAuthorized(authToken, result)) return result;
+
+            ListGamesService listGamesService = new ListGamesService();
+            result = listGamesService.getGames(authToken);
+            break;
+         case "createGame":
+            if (!isAuthorized(authToken, result)) return result;
+
+            CreateGameService createGameService = new CreateGameService();
+            CreateGameRequest createGameRequest = new Gson().fromJson(reqBody, CreateGameRequest.class);
+            result = createGameService.createGame(authToken, createGameRequest);
+            break;
+         case "joinGame":
+            if (!isAuthorized(authToken, result)) return result;
+
+            JoinGameService joinGameService = new JoinGameService();
+            JoinGameRequest joinGameRequest = new Gson().fromJson(reqBody, JoinGameRequest.class);
+            result = joinGameService.joinGame(authToken, joinGameRequest);
             break;
          default:
             // If none of the cases are hit, something is horribly wrong
@@ -45,5 +71,27 @@ public class Handler {
       res.status(result.getApiRes().getCode());
 
       return new Gson().toJson(result);
+   }
+
+   private boolean isAuthorized(String authToken, Result result) {
+      try {
+         if (authToken == null) {
+            result.setApiRes(Result.ApiRes.UNAUTHORIZED);
+            return false;
+         }
+
+         AuthToken userToken = authDAO.getToken(authToken);
+
+         if (userToken == null || !userToken.getAuthToken().equals(authToken)) {
+            result.setApiRes(Result.ApiRes.UNAUTHORIZED);
+            return false;
+         }
+         return true;
+      } catch (Exception e) {
+         ErrorLogger err = new ErrorLogger();
+         err.errMessage(e, "Handler", result);
+
+         return false;
+      }
    }
 }

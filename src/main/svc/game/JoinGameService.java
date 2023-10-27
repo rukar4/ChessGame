@@ -8,13 +8,13 @@ import svc.Result;
  */
 public class JoinGameService {
    /**
-    * Add user to the game. Takes in the client username and client request to add them to the game.
+    * Add user to the game. Takes in the client auth token and client request to add them to the game.
     *
-    * @param username The user trying to join
+    * @param authToken The user trying to join
     * @param request  The client request with desired color and game id
     * @return the result from the request
     */
-   public Result joinGame(String username, JoinGameRequest request) {
+   public Result joinGame(String authToken, JoinGameRequest request) {
       return null;
    }
 

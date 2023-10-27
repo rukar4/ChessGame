@@ -20,19 +20,7 @@ public class LogoutService {
    public Result logout(String token) {
       Result result = new Result();
 
-      if (token == null) {
-         result.setApiRes(Result.ApiRes.UNAUTHORIZED);
-         return result;
-      }
-
       try {
-         AuthToken userToken = authDAO.getToken(token);
-
-         if (userToken == null || !userToken.getAuthToken().equals(token)) {
-            result.setApiRes(Result.ApiRes.UNAUTHORIZED);
-            return result;
-         }
-
          authDAO.removeToken(token);
          result.setApiRes(Result.ApiRes.SUCCESS);
          return result;

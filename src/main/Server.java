@@ -22,6 +22,7 @@ public class Server {
       Spark.delete("/session", (req, res) -> handler.handler(req, res, "logout"));
 
       Spark.get("/game", (req, res) -> handler.handler(req, res, "listGames"));
+      Spark.post("/game", (req, res) -> handler.handler(req, res, "createGame"));
       Spark.put("/game", (req, res) -> handler.handler(req, res, "joinGame"));
 
       Spark.delete("/db", (req, res) -> handler.handler(req, res, "clearApp"));

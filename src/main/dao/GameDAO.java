@@ -4,6 +4,7 @@ import dataAccess.DataAccessException;
 import models.AuthToken;
 import models.Game;
 import models.User;
+import svc.Result;
 
 import java.security.cert.CertificateRevokedException;
 import java.util.ArrayList;
@@ -81,14 +82,14 @@ public class GameDAO {
             if (game.getWhiteUsername() == null) {
                game.setWhiteUsername(player.getUsername());
             } else {
-               throw new DataAccessException("Error: already taken", 403);
+               throw new DataAccessException("Error: already taken", Result.ApiRes.ALREADY_TAKEN);
             }
             break;
          case "black":
             if (game.getBlackUsername() == null) {
                game.setBlackUsername(player.getUsername());
             } else {
-               throw new DataAccessException("Error: already taken", 403);
+               throw new DataAccessException("Error: already taken", Result.ApiRes.ALREADY_TAKEN);
             }
             break;
          default:

@@ -2,6 +2,7 @@ package dao;
 
 import dataAccess.DataAccessException;
 import models.AuthToken;
+import svc.Result;
 
 import java.util.HashMap;
 import java.util.Map;

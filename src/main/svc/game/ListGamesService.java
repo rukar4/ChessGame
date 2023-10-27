@@ -15,7 +15,7 @@ public class ListGamesService {
     * @param authToken The client's auth token
     * @return the result of the request
     */
-   public ListGamesResult getGames(AuthToken authToken) {
+   public ListGamesResult getGames(String authToken) {
       return null;
    }
 }

@@ -12,10 +12,11 @@ public class CreateGameService {
     * Return 200 and gameId in result on a success.
     * Return error code and message on failure.
     *
+    * @param authToken The client requesting to join
     * @param request The client request with the game name
     * @return the result of attempting to create a game
     */
-   public CreateGameResult createGame(CreateGameRequest request) {
+   public CreateGameResult createGame(String authToken, CreateGameRequest request) {
       return null;
    }
 
