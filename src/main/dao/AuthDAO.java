@@ -62,7 +62,7 @@ public class AuthDAO {
     * @throws DataAccessException if the token cannot be found
     */
    public void removeToken(String authToken) throws DataAccessException {
-      tempAuthDB.remove(authToken);
+      AuthToken removedToken = tempAuthDB.remove(authToken);
    }
 
    /**

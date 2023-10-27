@@ -37,7 +37,7 @@ public class GameDAO {
             return game;
          }
       }
-      throw new DataAccessException("Error: game " + gameID + " not found", Result.ApiRes.NOT_FOUND);
+      throw new DataAccessException("Error: game " + gameID + " not found", Result.ApiRes.BAD_REQUEST);
    }
 
    /**
@@ -59,7 +59,7 @@ public class GameDAO {
    public void insertGame(Game game) throws DataAccessException {
       // Generate new game id to be one greater than the last game in the db
       int gameID;
-      if (tempGameDB.isEmpty()) gameID = 0;
+      if (tempGameDB.isEmpty()) gameID = 1;
       else gameID = tempGameDB.get(tempGameDB.size() - 1).getGameID() + 1;
 
       game.setGameID(gameID);
@@ -69,14 +69,14 @@ public class GameDAO {
    /**
     * Sets a given user to a particular color in a game
     *
-    * @param player User claiming a color
+    * @param username User claiming a color
     * @param color  Color being claimed
     * @param gameId Game that the user is claiming the color
     * @throws DataAccessException if the color is already claimed or the gameId is invalid
     */
    public void claimColor(String username, String color, int gameId) throws DataAccessException {
       Game game = getGame(gameId);
-      if (game == null) throw new DataAccessException("Error: game not found", Result.ApiRes.NOT_FOUND);
+      if (game == null) throw new DataAccessException("Error: game not found", Result.ApiRes.BAD_REQUEST);
       switch (color.toLowerCase()) {
          case "white":
             if (game.getWhiteUsername() == null) {
@@ -117,7 +117,7 @@ public class GameDAO {
     */
    public void removeGame(int gameId) throws DataAccessException {
       if (!tempGameDB.removeIf(game -> game.getGameID() == gameId)) {
-         throw new DataAccessException("Error: invalid game ID", Result.ApiRes.NOT_FOUND);
+         throw new DataAccessException("Error: invalid game ID", Result.ApiRes.BAD_REQUEST);
       };
    }
 

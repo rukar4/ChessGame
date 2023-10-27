@@ -14,7 +14,7 @@ public class Handler {
 
    public Object handler(Request req, Response res, String endPoint) {
       String reqBody = req.body();
-      String authToken = new Gson().fromJson(req.headers("authorization"), String.class);
+      String authToken = req.headers("authorization");
       Result result = new Result();
 
       switch (endPoint) {

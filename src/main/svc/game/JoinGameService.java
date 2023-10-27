@@ -29,6 +29,8 @@ public class JoinGameService {
 
          if (color != null && !color.isEmpty()) {
             gameDAO.claimColor(username, color, gameID);
+         } else {
+            gameDAO.getGame(gameID);
          }
          result.setApiRes(Result.ApiRes.SUCCESS);
       } catch (Exception e) {
