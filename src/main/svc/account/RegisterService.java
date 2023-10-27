@@ -38,8 +38,7 @@ public class RegisterService extends LoginService {
       String email = req.email;
 
       if (username == null || password == null || email == null
-//              || !isValidEmail(email) Prevents tests from passing -_-
-              || username.isEmpty() || password.isEmpty()) {
+              || username.isEmpty() || password.isEmpty() || !isValidEmail(email)) {
          result.setApiRes(Result.ApiRes.BAD_REQUEST);
          return result;
       }
