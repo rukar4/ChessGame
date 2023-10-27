@@ -70,7 +70,7 @@ public class Handler {
       return new Gson().toJson(result);
    }
 
-   private boolean isNotAuthorized(String authToken, Result result) {
+   public boolean isNotAuthorized(String authToken, Result result) {
       try {
          if (authToken == null) {
             result.setApiRes(Result.ApiRes.UNAUTHORIZED);

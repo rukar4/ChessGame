@@ -40,8 +40,8 @@ public class UserDAO {
     * @return an array of all the users
     * @throws DataAccessException when database is inaccessible
     */
-   public User[] getAllUsers() throws DataAccessException {
-      return null;
+   public Map<String, User> getAllUsers() throws DataAccessException {
+      return tempUserDB;
    }
 
    /**

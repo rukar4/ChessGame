@@ -2,7 +2,6 @@ package dao;
 
 import dataAccess.DataAccessException;
 import models.AuthToken;
-import svc.Result;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +32,16 @@ public class AuthDAO {
     */
    public AuthToken getToken(String authToken) throws DataAccessException {
       return tempAuthDB.get(authToken);
+   }
+
+   /**
+    * Returns all tokens
+    *
+    * @return all tokens in the database
+    * @throws DataAccessException if database is inaccessible
+    */
+   public Map<String, AuthToken> getAllTokens() throws DataAccessException {
+      return tempAuthDB;
    }
 
    /**

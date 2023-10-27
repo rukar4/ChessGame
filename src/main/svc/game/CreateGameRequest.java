@@ -12,7 +12,8 @@ public class CreateGameRequest {
    /**
     * Generate CreateGameRequest from the given game name
     */
-   public CreateGameRequest() {
+   public CreateGameRequest(String gameName) {
+      this.gameName = gameName;
    }
 
    public String getGameName() {
