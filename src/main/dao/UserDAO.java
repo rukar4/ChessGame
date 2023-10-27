@@ -11,6 +11,17 @@ import java.util.Map;
  */
 public class UserDAO {
    private final Map<String, User> tempUserDB = new HashMap<>();
+   private static UserDAO instance;
+
+   private UserDAO() {
+   }
+
+   public static UserDAO getInstance() {
+      if (instance == null){
+         instance = new UserDAO();
+      }
+      return instance;
+   }
 
    /**
     * Retrieve a user from the database

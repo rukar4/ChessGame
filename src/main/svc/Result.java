@@ -13,7 +13,7 @@ public class Result {
    /**
     * Response code for the given request
     */
-   private ResponseCode apiCode;
+   private transient ApiRes apiRes;
 
    /**
     * Generic constructor for results without a special response body
@@ -25,7 +25,7 @@ public class Result {
     *
     * @param apiCode The code that the API generated
     */
-   private void generateMessage(ResponseCode apiCode) {
+   private void generateMessage(ApiRes apiCode) {
       switch (apiCode) {
          case SUCCESS ->         message = null;
          case BAD_REQUEST ->     message = "Error: bad request";
@@ -39,7 +39,7 @@ public class Result {
    /**
     * List of result codes
     */
-   public enum ResponseCode {
+   public enum ApiRes {
       /**
        * If the result is successful, return 200
        */
@@ -61,6 +61,11 @@ public class Result {
       ALREADY_TAKEN(403),
 
       /**
+       * If the requested endpoint does not exist, return 404
+       */
+      NOT_FOUND(404),
+
+      /**
        * If there is an error in the code or the request was unable to be fulfilled, or an unknown error occurred,
        * return 500
        */
@@ -76,7 +81,7 @@ public class Result {
        *
        * @param code The code that the API returns
        */
-      ResponseCode(int code) {
+      ApiRes(int code) {
          this.code = code;
       }
 
@@ -93,12 +98,12 @@ public class Result {
       this.message = message;
    }
 
-   public ResponseCode getApiCode() {
-      return apiCode;
+   public ApiRes getApiRes() {
+      return apiRes;
    }
 
-   public void setApiCode(ResponseCode apiCode) {
-      this.apiCode = apiCode;
-      generateMessage(apiCode);
+   public void setApiRes(ApiRes apiRes) {
+      this.apiRes = apiRes;
+      generateMessage(apiRes);
    }
 }

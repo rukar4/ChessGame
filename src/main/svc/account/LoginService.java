@@ -5,6 +5,7 @@ import dao.UserDAO;
 import dataAccess.DataAccessException;
 import models.AuthToken;
 import models.User;
+import svc.ErrorConstructor;
 import svc.Result;
 
 import java.util.Objects;
@@ -13,53 +14,48 @@ import java.util.Objects;
  * LoginService object manages LoginRequests and creates LoginResults.
  */
 public class LoginService {
-   private UserDAO userDAO;
-   private AuthDAO authDAO;
+   private final UserDAO userDAO = UserDAO.getInstance();
+   private final AuthDAO authDAO = AuthDAO.getInstance();
 
    /**
     * Generate the login result from a given request. If the request is valid, generate a new auth token for the caller.
     *
-    * @param request The received request from the client
+    * @param req The received request from the client
     * @return the login result from the request
     */
-   public LoginResult login(LoginRequest request) {
-      LoginResult loginResult = new LoginResult();
-      String username = request.username;
-      String password = request.password;
+   public LoginResult login(LoginRequest req) {
+      LoginResult result = new LoginResult();
+      String username = req.username;
+      String password = req.password;
 
       if (username == null || password == null) {
-         loginResult.setApiCode(Result.ResponseCode.BAD_REQUEST);
-         return loginResult;
+         result.setApiRes(Result.ApiRes.BAD_REQUEST);
+         return result;
       }
 
       try {
          User user = userDAO.getUser(username);
+         // If the user is found and the credentials are correct, return 200
          if (user != null) {
             if (Objects.equals(user.getPassword(), password)) {
                AuthToken authToken = new AuthToken(username);
+               authDAO.insertToken(authToken);
 
-               loginResult.setUsername(username);
-               loginResult.setAuthToken(authToken.getAuthToken());
+               result.setUsername(username);
+               result.setAuthToken(authToken.getAuthToken());
+               result.setApiRes(Result.ApiRes.SUCCESS);
 
-               loginResult.setApiCode(Result.ResponseCode.SUCCESS);
-            } else {
-               loginResult.setApiCode(Result.ResponseCode.UNAUTHORIZED);
+               return result;
             }
          }
-         return loginResult;
+         // If the user is not found or the credentials do not match, return 401
+         result.setApiRes(Result.ApiRes.UNAUTHORIZED);
+         return result;
       } catch (Exception e) {
-         String message;
-         if (e instanceof DataAccessException) {
-            message = "Error: error accessing the database";
-         } else {
-            message = "Error: unknown error";
-         }
-         System.out.println(message + "\nError caught in the LoginService---------------------------\n" + e);
+         ErrorConstructor err = new ErrorConstructor();
+         err.errorConstructor(e, "LoginService", result);
 
-         loginResult.setApiCode(Result.ResponseCode.INTERNAL_ERROR);
-         loginResult.setMessage(message);
-
-         return loginResult;
+         return result;
       }
    }
 }

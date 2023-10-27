@@ -1,13 +1,30 @@
 package dao;
 
 import dataAccess.DataAccessException;
+import models.AuthToken;
 import models.Game;
 import models.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Data access object for the Game database
  */
 public class GameDAO {
+   private final Map<String, AuthToken> tempGameDB = new HashMap<>();
+   private static GameDAO instance;
+
+   private GameDAO() {
+   }
+
+   public static GameDAO getInstance(){
+      if (instance == null){
+         instance = new GameDAO();
+      }
+      return instance;
+   }
+
    /**
     * Finds and returns the game with the given id from the database
     *

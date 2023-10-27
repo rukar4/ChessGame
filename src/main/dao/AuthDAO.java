@@ -12,16 +12,27 @@ import java.util.Map;
  */
 public class AuthDAO {
    private final Map<String, AuthToken> tempAuthDB = new HashMap<>();
+   private static AuthDAO instance;
+
+   private AuthDAO() {
+   }
+
+   public static AuthDAO getInstance(){
+      if (instance == null){
+         instance = new AuthDAO();
+      }
+      return instance;
+   }
 
    /**
     * Return a token for a given user
     *
-    * @param user The user to find the token for
+    * @param username The user to find the token for
     * @return the authentication token of the user or null if one does not exist for the given user
     * @throws DataAccessException if database is inaccessible
     */
-   public AuthToken getToken(User user) throws DataAccessException {
-      return tempAuthDB.get(user.getUsername());
+   public AuthToken getTokenByUser(String username) throws DataAccessException {
+      return tempAuthDB.get(username);
    }
 
    /**

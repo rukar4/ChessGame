@@ -13,7 +13,8 @@ public class RegisterRequest extends LoginRequest {
    /**
     * RegisterRequest includes all the variables from LoginRequest and a new email
     */
-   public RegisterRequest() {
-
+   public RegisterRequest(String username, String password, String email) {
+      super(username, password);
+      this.email = email;
    }
 }

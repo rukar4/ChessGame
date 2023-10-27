@@ -41,4 +41,16 @@ public class AuthToken {
    public String getUsername() {
       return username;
    }
+
+   @Override
+   public int hashCode() {
+      return (int) authToken.charAt(3) * (int) username.charAt(0) / 13;
+   }
+
+   @Override
+   public boolean equals(Object obj) {
+      if (obj == null || obj.getClass() != getClass()) return false;
+      AuthToken objToken = (AuthToken) obj;
+      return objToken.username.equals(username) && objToken.authToken.equals(authToken);
+   }
 }
