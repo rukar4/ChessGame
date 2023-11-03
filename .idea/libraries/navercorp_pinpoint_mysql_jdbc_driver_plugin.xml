@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="navercorp.pinpoint.mysql.jdbc.driver.plugin" type="repository">
+    <properties maven-id="com.navercorp.pinpoint:pinpoint-mysql-jdbc-driver-plugin:2.5.3" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/navercorp/pinpoint/pinpoint-mysql-jdbc-driver-plugin/2.5.3/pinpoint-mysql-jdbc-driver-plugin-2.5.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

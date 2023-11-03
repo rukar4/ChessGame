@@ -4,6 +4,7 @@ import dao.AuthDAO;
 import dao.GameDAO;
 import dao.UserDAO;
 import dataAccess.DataAccessException;
+import dataAccess.Database;
 import models.AuthToken;
 import models.Game;
 import models.User;
@@ -27,6 +28,7 @@ public class ServiceTests {
    private final String white = "white";
    private final String black = "black";
    private final User user = new User(username, password);
+   private final Database db = new Database();
 
    @BeforeEach
    public void setup() {

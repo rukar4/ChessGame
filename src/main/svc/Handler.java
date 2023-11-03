@@ -1,6 +1,7 @@
 package svc;
 
 import dao.AuthDAO;
+import dataAccess.Database;
 import models.AuthToken;
 import spark.Request;
 import spark.Response;
@@ -8,6 +9,9 @@ import svc.account.*;
 import com.google.gson.Gson;
 import svc.clearApp.ClearAppService;
 import svc.game.*;
+
+import javax.xml.crypto.Data;
+import java.sql.Connection;
 
 public class Handler {
    private final AuthDAO authDAO = AuthDAO.getInstance();
