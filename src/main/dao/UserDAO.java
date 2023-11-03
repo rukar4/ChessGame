@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class UserDAO {
    private final Database db;
-   private final Map<String, User> tempUserDB = new HashMap<>();
    private static UserDAO instance;
 
    private UserDAO() {
@@ -121,41 +120,6 @@ public class UserDAO {
       } finally {
          db.returnConnection(conn);
       }
-   }
-
-   /**
-    * Remove a user from the database
-    *
-    * @param username User to remove
-    * @throws DataAccessException when user is not found
-    */
-   public void removeUser(String username) throws DataAccessException {
-      tempUserDB.remove(username);
-   }
-
-   /**
-    * Updates the user's username
-    *
-    * @param user        The user to update
-    * @param newUsername The new username
-    * @throws DataAccessException when user is not found
-    */
-   public void updateUsername(User user, String newUsername) throws DataAccessException {
-      User updatedUser = new User(newUsername, user.getPassword());
-      removeUser(user.getUsername());
-      insertUser(updatedUser);
-   }
-
-   /**
-    * Updates the user's password
-    *
-    * @param user    The user to update
-    * @param newPass The new password
-    * @throws DataAccessException when user is not found
-    */
-   public void updatePassword(User user, String newPass) throws DataAccessException {
-      User updatedUser = new User(user.getUsername(), newPass);
-      tempUserDB.put(user.getUsername(), updatedUser);
    }
 
    /**
