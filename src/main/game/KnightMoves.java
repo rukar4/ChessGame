@@ -43,5 +43,4 @@ public class KnightMoves extends Piece {
 
       return moves;
    }
-
 }

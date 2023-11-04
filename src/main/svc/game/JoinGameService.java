@@ -2,8 +2,11 @@ package svc.game;
 
 import dao.AuthDAO;
 import dao.GameDAO;
+import dataAccess.DataAccessException;
 import svc.ErrorLogger;
 import svc.Result;
+
+import java.util.Objects;
 
 /**
  * JoinGameService manages joining a chess game from a given result. If the client is authorized and the request
@@ -28,6 +31,10 @@ public class JoinGameService {
          String username = authDAO.getToken(authToken).getUsername();
 
          if (color != null && !color.isEmpty()) {
+            if (!color.equalsIgnoreCase("white") && !color.equalsIgnoreCase("black")) {
+               result.setApiRes(Result.ApiRes.BAD_REQUEST);
+               return result;
+            }
             gameDAO.claimColor(username, color, gameID);
          } else {
             gameDAO.getGame(gameID);

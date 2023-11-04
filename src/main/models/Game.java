@@ -1,6 +1,7 @@
 package models;
 
 import chess.ChessGame;
+import game.ChsGame;
 
 /**
  * Game class manages the creation of a chess game. It stores its id, the usernames of the players, the game name, and
@@ -30,7 +31,7 @@ public class Game {
    /**
     * The chess game object holds all the information to play the game
     */
-   private ChessGame game;
+   transient private ChessGame game = new ChsGame();
 
    /**
     * Game constructor initializes the chess game with the given name
@@ -39,16 +40,14 @@ public class Game {
     */
    public Game(String gameName) {
       this.gameName = gameName;
+      game.getBoard().resetBoard();
    }
 
-   /**
-    * Convert Game to a string
-    *
-    * @return Game string
-    */
-   @Override
-   public String toString() {
-      return "Game{}"; // JSON?
+   public Game(int gameID, String whiteUsername, String blackUsername, String gameName) {
+      this.gameID = gameID;
+      this.whiteUsername = whiteUsername;
+      this.blackUsername = blackUsername;
+      this.gameName = gameName;
    }
 
    public int getGameID() {
@@ -85,5 +84,9 @@ public class Game {
 
    public ChessGame getGame() {
       return game;
+   }
+
+   public void setGame(ChessGame game) {
+      this.game = game;
    }
 }

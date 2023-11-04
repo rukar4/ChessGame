@@ -8,9 +8,7 @@ import svc.Server;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Data access object for the User database
@@ -39,7 +37,7 @@ public class UserDAO {
     */
    public User getUser(String username) throws DataAccessException {
       var conn = db.getConnection();
-      String sql = "SELECT password, email FROM users WHERE username = ?";
+      String sql = "SELECT password, email FROM users WHERE username = ?;";
 
       try (PreparedStatement query = conn.prepareStatement(sql)) {
          query.setString(1, username);
@@ -64,7 +62,7 @@ public class UserDAO {
    /**
     * Retrieve all users in the database
     *
-    * @return an array of all the users
+    * @return a list of all the users
     * @throws DataAccessException when database is inaccessible
     */
    public List<User> getAllUsers() throws DataAccessException {
@@ -100,7 +98,7 @@ public class UserDAO {
     */
    public void insertUser(User user) throws DataAccessException {
       var conn = db.getConnection();
-      String sql = "INSERT INTO users (username, password, email) VALUE (?, ?, ?)";
+      String sql = "INSERT INTO users (username, password, email) VALUE (?, ?, ?);";
 
       try (PreparedStatement query = conn.prepareStatement(sql)) {
          query.setString(1, user.getUsername());
@@ -129,7 +127,7 @@ public class UserDAO {
     */
    public void clearUsers() throws DataAccessException {
       var conn = db.getConnection();
-      String sql = "DELETE FROM users";
+      String sql = "DELETE FROM users;";
 
       try (PreparedStatement query = conn.prepareStatement(sql)) {
          int removedRows = query.executeUpdate();

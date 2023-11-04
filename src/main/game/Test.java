@@ -7,7 +7,7 @@ import chess.InvalidMoveException;
 public class Test {
 
    public static void main(String[] args) throws InvalidMoveException {
-      ChessGame chess = new Game();
+      ChessGame chess = new ChsGame();
       ChessBoard chessBoard = new Board();
       Piece wKing = new KingMoves(ChessGame.TeamColor.WHITE);
       Piece wRook = new RookMoves(ChessGame.TeamColor.WHITE);

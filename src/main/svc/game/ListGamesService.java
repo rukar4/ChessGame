@@ -7,6 +7,7 @@ import svc.ErrorLogger;
 import svc.Result;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service to list all the games in the database. The request only requires a valid auth token to retrieve the list of
@@ -25,7 +26,7 @@ public class ListGamesService {
       ListGamesResult result = new ListGamesResult();
 
       try {
-         ArrayList<Game> games = gameDAO.getAllGames();
+         List<Game> games = gameDAO.getAllGames();
          result.setGames(games);
          result.setApiRes(Result.ApiRes.SUCCESS);
       } catch (Exception e) {

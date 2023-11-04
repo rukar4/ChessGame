@@ -6,7 +6,7 @@ import chess.ChessPiece;
 import chess.ChessPosition;
 
 public class Board implements ChessBoard {
-   int BOARD_LENGTH = 8;
+   transient int BOARD_LENGTH = 8;
    ChessPiece[][] chessBoard = new ChessPiece[BOARD_LENGTH][BOARD_LENGTH];
 
    public Board(ChessBoard board) {

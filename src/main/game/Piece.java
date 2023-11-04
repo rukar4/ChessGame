@@ -40,6 +40,10 @@ public abstract class Piece implements ChessPiece {
       this.hasMoved = hasMoved;
    }
 
+   public boolean hasMoved() {
+      return hasMoved;
+   }
+
    @Override
    public boolean equals(Object obj) {
       if (this == obj) return true;

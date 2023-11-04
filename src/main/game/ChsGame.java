@@ -5,9 +5,9 @@ import chess.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Game implements ChessGame {
-   TeamColor TeamTurn = TeamColor.WHITE;
-   Board chessBoard = new Board();
+public class ChsGame implements ChessGame {
+   private TeamColor TeamTurn = TeamColor.WHITE;
+   private Board chessBoard = new Board();
 
    @Override
    public TeamColor getTeamTurn() {
@@ -25,7 +25,7 @@ public class Game implements ChessGame {
       Piece piece = (Piece) chessBoard.getPiece(startPosition);
       Collection<ChessMove> pieceMoves = new ArrayList<>();
       for (ChessMove move : piece.pieceMoves(chessBoard, startPosition)) {
-         Game testGame = new Game();
+         ChsGame testGame = new ChsGame();
          testGame.setBoard(chessBoard);
          ChessPiece testPiece = testGame.getBoard().getPiece(startPosition);
 
