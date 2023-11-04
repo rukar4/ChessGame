@@ -4,10 +4,6 @@ package models;
  * User objects store the variables for users credentials as well as their id and email.
  */
 public class User {
-   /**
-    * ID number for the user
-    */
-   private int userId;
 
    /**
     * The user's name
@@ -39,14 +35,6 @@ public class User {
       this.username = username;
       this.password = password;
       this.email = email;
-   }
-
-   public int getUserId() {
-      return userId;
-   }
-
-   public void setUserId(int userId) {
-      this.userId = userId;
    }
 
    public String getUsername() {

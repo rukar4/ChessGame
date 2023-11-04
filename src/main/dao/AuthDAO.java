@@ -16,10 +16,8 @@ import java.util.Map;
  * Data access object for auth tokens.
  */
 public class AuthDAO {
-   private final Database db;
-   private final Map<String, AuthToken> tempAuthDB = new HashMap<>();
    private static AuthDAO instance;
-
+   private final Database db;
    private AuthDAO() {
       this.db = Server.db;
    }

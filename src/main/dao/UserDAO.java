@@ -14,8 +14,8 @@ import java.util.List;
  * Data access object for the User database
  */
 public class UserDAO {
-   private final Database db;
    private static UserDAO instance;
+   private final Database db;
 
    private UserDAO() {
       this.db = Server.db;

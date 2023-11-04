@@ -2,26 +2,21 @@ package svc.account;
 
 import dao.AuthDAO;
 import dao.UserDAO;
-import dataAccess.DataAccessException;
 import models.AuthToken;
 import models.User;
 import svc.ErrorLogger;
 import svc.Result;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * The RegisterService extends LoginService to inherit variables. This service manages registering a new user.
  */
 public class RegisterService extends LoginService {
-   private final UserDAO userDAO = UserDAO.getInstance();
-   private final AuthDAO authDAO = AuthDAO.getInstance();
-
    /**
     * Regex to check for valid emails
     */
    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+   private final UserDAO userDAO = UserDAO.getInstance();
+   private final AuthDAO authDAO = AuthDAO.getInstance();
 
    /**
     * Register the user from the given request and return the corresponding login result.

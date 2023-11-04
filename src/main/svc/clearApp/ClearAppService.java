@@ -29,7 +29,7 @@ public class ClearAppService {
          userDAO.clearUsers();
 
          result.setApiRes(Result.ApiRes.SUCCESS);
-      } catch (Exception e){
+      } catch (Exception e) {
          ErrorLogger err = new ErrorLogger();
          err.errMessage(e, "ClearAppService", result);
       }

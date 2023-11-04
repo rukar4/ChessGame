@@ -14,23 +14,6 @@ public class KingMoves extends Piece {
       super(color, PieceType.KING);
    }
 
-   public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
-      Collection<Position> possiblePositions = getPositions(start);
-
-      for (Position position : possiblePositions) {
-         if (!position.isInBounds()) continue;
-         if (board.getPiece(position) != null) {
-            if (board.getPiece(position).getTeamColor() == color) continue;
-         }
-         moves.add(new Move(start, position));
-      }
-
-      addCastles(board, start, 1);
-      addCastles(board, start, 8);
-
-      return moves;
-   }
-
    private static Collection<Position> getPositions(ChessPosition start) {
       int row = start.getRow();
       int col = start.getColumn();
@@ -49,6 +32,23 @@ public class KingMoves extends Piece {
          possibleMoves.add(left);
       }
       return possibleMoves;
+   }
+
+   public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<Position> possiblePositions = getPositions(start);
+
+      for (Position position : possiblePositions) {
+         if (!position.isInBounds()) continue;
+         if (board.getPiece(position) != null) {
+            if (board.getPiece(position).getTeamColor() == color) continue;
+         }
+         moves.add(new Move(start, position));
+      }
+
+      addCastles(board, start, 1);
+      addCastles(board, start, 8);
+
+      return moves;
    }
 
    private void addCastles(ChessBoard board, ChessPosition start, int rookCol) {

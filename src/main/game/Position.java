@@ -20,13 +20,13 @@ public class Position implements ChessPosition {
       return row;
    }
 
+   public void setRow(int row) {
+      this.row = row;
+   }
+
    @Override
    public int getColumn() {
       return col;
-   }
-
-   public void setRow(int row) {
-      this.row = row;
    }
 
    public void setColumn(int column) {

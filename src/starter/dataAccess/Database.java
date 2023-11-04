@@ -24,42 +24,42 @@ import java.util.LinkedList;
  * </pre>
  */
 public class Database {
-    public static final String DB_NAME = "chess";
-    private static final String DB_USERNAME = "root";
-    private static final String DB_PASSWORD = "admin";
-    private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306";
+   public static final String DB_NAME = "chess";
+   private static final String DB_USERNAME = "root";
+   private static final String DB_PASSWORD = "admin";
+   private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306";
 
-    private final LinkedList<Connection> connections = new LinkedList<>();
+   private final LinkedList<Connection> connections = new LinkedList<>();
 
-    /**
-     * Get a connection to the database. This pulls a connection out of a simple
-     * pool implementation. The connection must be returned to the pool after
-     * you are done with it by calling {@link #returnConnection(Connection) returnConnection}.
-     *
-     * @return Connection
-     */
-    synchronized public Connection getConnection() throws DataAccessException {
-        try {
-            Connection connection;
-            if (connections.isEmpty()) {
-                connection = DriverManager.getConnection(CONNECTION_URL, DB_USERNAME, DB_PASSWORD);
-                connection.setCatalog(DB_NAME);
-            } else {
-                connection = connections.removeFirst();
-            }
-            return connection;
-        } catch (SQLException e) {
-            throw new DataAccessException(e.getMessage());
-        }
-    }
+   /**
+    * Get a connection to the database. This pulls a connection out of a simple
+    * pool implementation. The connection must be returned to the pool after
+    * you are done with it by calling {@link #returnConnection(Connection) returnConnection}.
+    *
+    * @return Connection
+    */
+   synchronized public Connection getConnection() throws DataAccessException {
+      try {
+         Connection connection;
+         if (connections.isEmpty()) {
+            connection = DriverManager.getConnection(CONNECTION_URL, DB_USERNAME, DB_PASSWORD);
+            connection.setCatalog(DB_NAME);
+         } else {
+            connection = connections.removeFirst();
+         }
+         return connection;
+      } catch (SQLException e) {
+         throw new DataAccessException(e.getMessage());
+      }
+   }
 
-    /**
-     * Return a previously acquired connection to the pool.
-     *
-     * @param connection previous obtained by calling {@link #getConnection() getConnection}.
-     */
-    synchronized public void returnConnection(Connection connection) {
-        connections.add(connection);
-    }
+   /**
+    * Return a previously acquired connection to the pool.
+    *
+    * @param connection previous obtained by calling {@link #getConnection() getConnection}.
+    */
+   synchronized public void returnConnection(Connection connection) {
+      connections.add(connection);
+   }
 }
 

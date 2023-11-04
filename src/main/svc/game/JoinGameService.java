@@ -2,11 +2,8 @@ package svc.game;
 
 import dao.AuthDAO;
 import dao.GameDAO;
-import dataAccess.DataAccessException;
 import svc.ErrorLogger;
 import svc.Result;
-
-import java.util.Objects;
 
 /**
  * JoinGameService manages joining a chess game from a given result. If the client is authorized and the request

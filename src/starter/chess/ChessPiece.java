@@ -8,18 +8,6 @@ import java.util.Collection;
 public interface ChessPiece {
 
    /**
-    * The various different chess piece options
-    */
-   enum PieceType {
-      KING,
-      QUEEN,
-      BISHOP,
-      KNIGHT,
-      ROOK,
-      PAWN
-   }
-
-   /**
     * @return Which team this chess piece belongs to
     */
    ChessGame.TeamColor getTeamColor();
@@ -36,4 +24,16 @@ public interface ChessPiece {
     * @return Collection of valid moves
     */
    Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition);
+
+   /**
+    * The various different chess piece options
+    */
+   enum PieceType {
+      KING,
+      QUEEN,
+      BISHOP,
+      KNIGHT,
+      ROOK,
+      PAWN
+   }
 }

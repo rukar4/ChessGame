@@ -1,7 +1,5 @@
 package models;
 
-import dao.AuthDAO;
-
 import java.util.UUID;
 
 /**
@@ -9,14 +7,13 @@ import java.util.UUID;
  */
 public class AuthToken {
    /**
-    * UUID for authentication of users
-    */
-   private String authToken;
-
-   /**
     * Username for the associated auth token
     */
    private final String username;
+   /**
+    * UUID for authentication of users
+    */
+   private String authToken;
 
    /**
     * Create new authentication token for given user

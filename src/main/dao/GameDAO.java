@@ -20,8 +20,8 @@ import java.util.List;
  * Data access object for the Game database
  */
 public class GameDAO {
-   private final Database db;
    private static GameDAO instance;
+   private final Database db;
    private final Gson gson = new Gson();
 
    private GameDAO() {
@@ -61,7 +61,7 @@ public class GameDAO {
 
                String json = resultSet.getString("gameData");
                var builder = new GsonBuilder();
-                   builder.registerTypeAdapter(ChessPiece.class, new ChessPieceAdapter());
+               builder.registerTypeAdapter(ChessPiece.class, new ChessPieceAdapter());
 
                game.setGame(builder.create().fromJson(json, ChsGame.class));
 
@@ -101,7 +101,7 @@ public class GameDAO {
                     resultSet.getString("white"),
                     resultSet.getString("black"),
                     resultSet.getString("gameName")
-                    );
+            );
             games.add(game);
          }
       } catch (Exception e) {

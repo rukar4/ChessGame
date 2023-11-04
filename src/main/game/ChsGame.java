@@ -172,12 +172,12 @@ public class ChsGame implements ChessGame {
    }
 
    @Override
-   public void setBoard(ChessBoard board) {
-      this.chessBoard = new Board(board);
+   public ChessBoard getBoard() {
+      return chessBoard;
    }
 
    @Override
-   public ChessBoard getBoard() {
-      return chessBoard;
+   public void setBoard(ChessBoard board) {
+      this.chessBoard = new Board(board);
    }
 }

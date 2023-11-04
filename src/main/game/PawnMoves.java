@@ -10,11 +10,11 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class PawnMoves extends Piece {
+   boolean movedTwice = false;
+
    public PawnMoves(ChessGame.TeamColor color) {
       super(color, PieceType.PAWN);
    }
-
-   boolean movedTwice = false;
 
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
       int row = start.getRow();

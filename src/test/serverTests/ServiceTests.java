@@ -133,7 +133,7 @@ public class ServiceTests {
    @Order(7)
    @DisplayName("Clear Application")
    public void clearAppSuccess() throws DataAccessException {
-      for (int i = 0; i < 100; ++i){
+      for (int i = 0; i < 100; ++i) {
          User newUser = new User(String.valueOf(i), password);
          AuthToken token = new AuthToken(newUser.getUsername());
          Game game = new Game(String.valueOf(i));
@@ -261,7 +261,7 @@ public class ServiceTests {
       int numGames = 21;
 
       // Insert games into database with players and colors
-      for (int i = 1; i <= numGames; ++i){
+      for (int i = 1; i <= numGames; ++i) {
          User user1 = new User("user" + i, password);
          User user2 = new User("user100" + i, password);
 

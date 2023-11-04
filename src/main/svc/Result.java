@@ -18,7 +18,8 @@ public class Result {
    /**
     * Generic constructor for results without a special response body
     */
-   public Result() {}
+   public Result() {
+   }
 
    /**
     * Generate the default message for each result code
@@ -27,13 +28,30 @@ public class Result {
     */
    private void generateMessage(ApiRes apiCode) {
       switch (apiCode) {
-         case SUCCESS ->         message = null;
-         case BAD_REQUEST ->     message = "Error: bad request";
-         case UNAUTHORIZED ->    message = "Error: unauthorized";
-         case ALREADY_TAKEN ->   message = "Error: already taken";
-         case INTERNAL_ERROR ->  message = "Error: internal server error";
+         case SUCCESS -> message = null;
+         case BAD_REQUEST -> message = "Error: bad request";
+         case UNAUTHORIZED -> message = "Error: unauthorized";
+         case ALREADY_TAKEN -> message = "Error: already taken";
+         case INTERNAL_ERROR -> message = "Error: internal server error";
 
       }
+   }
+
+   public String getMessage() {
+      return message;
+   }
+
+   public void setMessage(String message) {
+      this.message = message;
+   }
+
+   public ApiRes getApiRes() {
+      return apiRes;
+   }
+
+   public void setApiRes(ApiRes apiRes) {
+      this.apiRes = apiRes;
+      generateMessage(apiRes);
    }
 
    /**
@@ -88,22 +106,5 @@ public class Result {
       public int getCode() {
          return code;
       }
-   }
-
-   public String getMessage() {
-      return message;
-   }
-
-   public void setMessage(String message) {
-      this.message = message;
-   }
-
-   public ApiRes getApiRes() {
-      return apiRes;
-   }
-
-   public void setApiRes(ApiRes apiRes) {
-      this.apiRes = apiRes;
-      generateMessage(apiRes);
    }
 }

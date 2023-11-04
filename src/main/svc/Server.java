@@ -4,12 +4,12 @@ import dataAccess.Database;
 import spark.Spark;
 
 public class Server {
+   public static Database db = new Database();
    Handler handler = new Handler();
+
    public static void main(String[] args) {
       new Server().run();
    }
-
-   public static Database db = new Database();
 
    private void run() {
       Spark.port(8080);

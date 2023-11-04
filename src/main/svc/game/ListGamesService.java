@@ -1,12 +1,10 @@
 package svc.game;
 
 import dao.GameDAO;
-import models.AuthToken;
 import models.Game;
 import svc.ErrorLogger;
 import svc.Result;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +13,7 @@ import java.util.List;
  */
 public class ListGamesService {
    GameDAO gameDAO = GameDAO.getInstance();
+
    /**
     * Retrieve a list of all the games in the database.
     * Return 200 with a list of all the games on success.

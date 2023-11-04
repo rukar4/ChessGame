@@ -20,7 +20,8 @@ public class LoginResult extends Result {
    /**
     * Constructor creates the message with the username and authToken and saves it.
     */
-   public LoginResult() {}
+   public LoginResult() {
+   }
 
    public String getUsername() {
       return username;

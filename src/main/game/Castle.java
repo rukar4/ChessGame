@@ -11,11 +11,6 @@ public class Castle extends Move {
 
    CastleType type;
 
-   enum CastleType {
-      QUEEN_SIDE,
-      KING_SIDE
-   }
-
    public Castle(ChessPosition position, ChessPosition endPosition) {
       super(position, endPosition);
       row = endPosition.getRow();
@@ -37,5 +32,10 @@ public class Castle extends Move {
 
    public Position getRookEnd() {
       return rookEnd;
+   }
+
+   enum CastleType {
+      QUEEN_SIDE,
+      KING_SIDE
    }
 }

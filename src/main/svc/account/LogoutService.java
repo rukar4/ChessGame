@@ -1,7 +1,6 @@
 package svc.account;
 
 import dao.AuthDAO;
-import models.AuthToken;
 import svc.ErrorLogger;
 import svc.Result;
 
