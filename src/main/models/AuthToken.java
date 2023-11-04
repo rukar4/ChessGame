@@ -1,5 +1,7 @@
 package models;
 
+import dao.AuthDAO;
+
 import java.util.UUID;
 
 /**
@@ -26,6 +28,11 @@ public class AuthToken {
       generateToken();
    }
 
+   public AuthToken(String username, String authToken) {
+      this.username = username;
+      this.authToken = authToken;
+   }
+
    /**
     * Method to manage token generation
     */
@@ -36,6 +43,10 @@ public class AuthToken {
 
    public String getAuthToken() {
       return authToken;
+   }
+
+   public void setAuthToken(String authToken) {
+      this.authToken = authToken;
    }
 
    public String getUsername() {

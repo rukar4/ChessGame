@@ -25,6 +25,8 @@ public class DaoTests {
    private final String black = "black";
    private final User user = new User(username, password);
 
+
+
    @Test
    @Order(1)
    @DisplayName("getUser")

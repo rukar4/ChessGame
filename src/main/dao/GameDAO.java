@@ -24,7 +24,6 @@ public class GameDAO {
    private static GameDAO instance;
    private final Gson gson = new Gson();
 
-
    private GameDAO() {
       this.db = Server.db;
    }

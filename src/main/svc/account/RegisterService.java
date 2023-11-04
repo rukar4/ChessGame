@@ -5,6 +5,7 @@ import dao.UserDAO;
 import dataAccess.DataAccessException;
 import models.AuthToken;
 import models.User;
+import svc.ErrorLogger;
 import svc.Result;
 
 import java.util.regex.Matcher;
@@ -60,16 +61,8 @@ public class RegisterService extends LoginService {
          }
          return result;
       } catch (Exception e) {
-         String message;
-         if (e instanceof DataAccessException) {
-            message = "Error: error accessing the database";
-         } else {
-            message = "Error: unknown error";
-         }
-         System.out.println(message + "\nError caught in the RegisterService---------------------------\n" + e);
-
-         result.setApiRes(Result.ApiRes.INTERNAL_ERROR);
-         result.setMessage(message);
+         ErrorLogger err = new ErrorLogger();
+         err.errMessage(e, "RegisterService", result);
 
          return result;
       }

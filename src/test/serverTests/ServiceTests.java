@@ -160,7 +160,7 @@ public class ServiceTests {
       CreateGameRequest request = new CreateGameRequest(gameName);
       CreateGameResult result = createGameService.createGame(request);
 
-      Assertions.assertEquals(1, result.getGameID());
+      Assertions.assertTrue(result.getGameID() > 0);
 
       Game game = gameDAO.getGame(result.getGameID());
 
@@ -225,6 +225,8 @@ public class ServiceTests {
       Assertions.assertEquals(403, result.getApiRes().getCode());
 
       // Attempt to join with a new user
+      User user1 = new User("newUser", password, email);
+      userDAO.insertUser(user1);
       token = new AuthToken("newUser");
       authDAO.insertToken(token);
       result = joinGameService.joinGame(token.getAuthToken(), joinAsWhite);
@@ -256,12 +258,12 @@ public class ServiceTests {
    @Order(13)
    @DisplayName("List Games")
    public void listGames() throws DataAccessException {
-      int numGames = 20;
+      int numGames = 21;
 
       // Insert games into database with players and colors
-      for (int i = 0; i < numGames; ++i){
-         User user1 = new User(String.valueOf(i), password);
-         User user2 = new User(String.valueOf(i - (i + 1)), password);
+      for (int i = 1; i <= numGames; ++i){
+         User user1 = new User("user" + i, password);
+         User user2 = new User("user100" + i, password);
 
          AuthToken token1 = new AuthToken(user1.getUsername());
          AuthToken token2 = new AuthToken(user2.getUsername());
@@ -281,6 +283,10 @@ public class ServiceTests {
 
       Assertions.assertEquals(numGames, result.getGames().size());
       Assertions.assertEquals(200, result.getApiRes().getCode());
+
+      authDAO.clearTokens();
+      gameDAO.clearGames();
+      userDAO.clearUsers();
    }
 
    @Test

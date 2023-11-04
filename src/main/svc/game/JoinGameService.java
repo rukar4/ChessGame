@@ -33,6 +33,7 @@ public class JoinGameService {
          if (color != null && !color.isEmpty()) {
             if (!color.equalsIgnoreCase("white") && !color.equalsIgnoreCase("black")) {
                result.setApiRes(Result.ApiRes.BAD_REQUEST);
+               result.setMessage("Error: invalid color");
                return result;
             }
             gameDAO.claimColor(username, color, gameID);

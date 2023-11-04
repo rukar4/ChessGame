@@ -53,7 +53,7 @@ public class UserDAO {
             }
          }
       } catch (Exception e) {
-         throw new DataAccessException("Database error in getUser\n" + e.getMessage());
+         throw new DataAccessException("Error: " + e.getMessage());
       } finally {
          db.returnConnection(conn);
       }
@@ -73,7 +73,7 @@ public class UserDAO {
       try (PreparedStatement query = conn.prepareStatement(sql);
            ResultSet resultSet = query.executeQuery()) {
 
-         while (resultSet.next()){
+         while (resultSet.next()) {
             User user = new User(
                     resultSet.getString("username"),
                     resultSet.getString("password"),
@@ -82,11 +82,10 @@ public class UserDAO {
             users.add(user);
          }
       } catch (Exception e) {
-         throw new DataAccessException("Database error in getAllUsers\n" + e.getMessage());
+         throw new DataAccessException("Error: " + e.getMessage());
       } finally {
          db.returnConnection(conn);
       }
-
       return users;
    }
 
@@ -114,7 +113,11 @@ public class UserDAO {
             throw new DataAccessException("Error: unable to insert user");
          }
       } catch (Exception e) {
-         throw new DataAccessException("Database error in insertUser\n" + e.getMessage());
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
       } finally {
          db.returnConnection(conn);
       }
@@ -134,7 +137,7 @@ public class UserDAO {
 
          System.out.println("The users database was cleared.\n Number of rows deleted: " + removedRows);
       } catch (Exception e) {
-         throw new DataAccessException("Database error in clearUsers\n" + e.getMessage());
+         throw new DataAccessException("Error: " + e.getMessage());
       } finally {
          db.returnConnection(conn);
       }
