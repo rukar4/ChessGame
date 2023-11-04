@@ -21,7 +21,6 @@ import java.util.List;
  */
 public class GameDAO {
    private final Database db;
-   private final ArrayList<Game> tempGameDB = new ArrayList<>();
    private static GameDAO instance;
    private final Gson gson = new Gson();
 
@@ -195,69 +194,6 @@ public class GameDAO {
          } else {
             throw new DataAccessException("Error: already taken", Result.ApiRes.ALREADY_TAKEN);
          }
-      } catch (Exception e) {
-         if (e instanceof DataAccessException) {
-            throw (DataAccessException) e;
-         } else {
-            throw new DataAccessException("Error: " + e.getMessage());
-         }
-      } finally {
-         db.returnConnection(conn);
-      }
-   }
-
-   /**
-    * Updates the game string at the given gameID by converting the given Game object
-    * to a string and replacing the game string with the new string
-    *
-    * @param gameID      The game to be updated
-    * @param updatedGame The updated game
-    * @throws DataAccessException when the gameID is invalid
-    */
-   public void updateGame(int gameID, Game updatedGame) throws DataAccessException {
-      // Check if the game exists. If it doesn't, the getGame function throws a BAD_REQUEST error
-      getGame(gameID);
-
-      var conn = db.getConnection();
-      String json = gson.toJson(updatedGame.getGame());
-      String sql =
-              "INSERT INTO games (gameData) VALUE (?) WHERE gameID = ?;";
-
-      try (PreparedStatement query = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-         query.setString(1, json);
-         query.setInt(2, gameID);
-
-         int removedRows = query.executeUpdate();
-         if (removedRows == 0) throw new DataAccessException("Error: Unable to update game " + gameID);
-
-      } catch (Exception e) {
-         if (e instanceof DataAccessException) {
-            throw (DataAccessException) e;
-         } else {
-            throw new DataAccessException("Error: " + e.getMessage());
-         }
-      } finally {
-         db.returnConnection(conn);
-      }
-   }
-
-   /**
-    * Removes a single game from the database
-    *
-    * @param gameID Game to remove from the database
-    * @throws DataAccessException when the gameID is invalid
-    */
-   public void removeGame(int gameID) throws DataAccessException {
-      var conn = db.getConnection();
-      String sql = "DELETE FROM games WHERE gameID = ?;";
-
-      try (PreparedStatement query = conn.prepareStatement(sql)) {
-         query.setInt(1, gameID);
-
-         int removedRows = query.executeUpdate();
-         if (removedRows == 0) throw new DataAccessException("Error: Unable to remove game " + gameID);
-
-         System.out.println("The game was deleted. Number of rows removed: " + removedRows);
       } catch (Exception e) {
          if (e instanceof DataAccessException) {
             throw (DataAccessException) e;
