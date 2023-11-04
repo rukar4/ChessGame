@@ -33,7 +33,7 @@ public class JoinGameService {
                result.setMessage("Error: invalid color");
                return result;
             }
-            gameDAO.claimColor(username, color, gameID);
+            gameDAO.claimColor(username, color.toLowerCase(), gameID);
          } else {
             gameDAO.getGame(gameID);
          }

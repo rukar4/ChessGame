@@ -7,6 +7,7 @@ import dataAccess.DataAccessException;
 import dataAccess.Database;
 import game.ChsGame;
 import models.Game;
+import org.junit.jupiter.api.Assertions;
 import svc.Result;
 import svc.Server;
 
@@ -178,7 +179,13 @@ public class GameDAO {
       // After verifying the game exists, we try to insert the user as the desired color
       var conn = db.getConnection();
 
-      // Color will always be white or black from the JoinGameService
+      // Color should always be white or black from the JoinGameService
+      try {
+         Assertions.assertTrue(color.equals("white") || color.equals("black"));
+      } catch (AssertionError e) {
+         throw new DataAccessException("Error: invalid color", Result.ApiRes.BAD_REQUEST);
+      }
+
       String sql = "UPDATE games SET " + color + " = ? WHERE gameID = " + gameID + " AND " + color + " IS NULL;";
 
       try (PreparedStatement query = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
