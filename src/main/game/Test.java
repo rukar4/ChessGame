@@ -28,5 +28,8 @@ public class Test {
       System.out.println(bishopMove);
 
       System.out.println(chessBoard);
+
+      chessBoard.resetBoard();
+      System.out.println(chessBoard);
    }
 }

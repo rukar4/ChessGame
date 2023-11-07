@@ -129,31 +129,53 @@ public class Board implements ChessBoard {
             if (chessBoard[row][col] == null) {
                sb.append("   |");
             } else {
-               switch (chessBoard[row][col].getPieceType()) {
-                  case ROOK:
-                     pieceString.append(" r |");
+               switch (chessBoard[row][col].getTeamColor()) {
+                  case WHITE:
+                     switch (chessBoard[row][col].getPieceType()) {
+                        case ROOK:
+                           pieceString.append(" ♖ |");
+                           break;
+                        case KNIGHT:
+                           pieceString.append(" ♘ |");
+                           break;
+                        case BISHOP:
+                           pieceString.append(" ♗ |");
+                           break;
+                        case KING:
+                           pieceString.append(" ♔ |");
+                           break;
+                        case QUEEN:
+                           pieceString.append(" ♕ |");
+                           break;
+                        case PAWN:
+                           pieceString.append(" ♙ |");
+                           break;
+                     }
                      break;
-                  case KNIGHT:
-                     pieceString.append(" n |");
-                     break;
-                  case BISHOP:
-                     pieceString.append(" b |");
-                     break;
-                  case KING:
-                     pieceString.append(" k |");
-                     break;
-                  case QUEEN:
-                     pieceString.append(" q |");
-                     break;
-                  case PAWN:
-                     pieceString.append(" p |");
+                  case BLACK:
+                     switch (chessBoard[row][col].getPieceType()) {
+                        case ROOK:
+                           pieceString.append(" ♜ |");
+                           break;
+                        case KNIGHT:
+                           pieceString.append(" ♞ |");
+                           break;
+                        case BISHOP:
+                           pieceString.append(" ♝ |");
+                           break;
+                        case KING:
+                           pieceString.append(" ♚ |");
+                           break;
+                        case QUEEN:
+                           pieceString.append(" ♛ |");
+                           break;
+                        case PAWN:
+                           pieceString.append(" ♟ |");
+                           break;
+                     }
                      break;
                }
-               if (chessBoard[row][col].getTeamColor() == ChessGame.TeamColor.WHITE) {
-                  sb.append(pieceString.toString().toUpperCase());
-               } else {
-                  sb.append(pieceString);
-               }
+               sb.append(pieceString);
             }
          }
          sb.append("\n");
