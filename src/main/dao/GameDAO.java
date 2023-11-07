@@ -133,12 +133,10 @@ public class GameDAO {
 
          int gamesInserted = query.executeUpdate();
          if (gamesInserted == 1) {
-            System.out.println("A new game was added");
             try (ResultSet generatedKeys = query.getGeneratedKeys()) {
                if (generatedKeys.next()) {
                   int gameID = generatedKeys.getInt(1);
                   game.setGameID(gameID);
-                  System.out.println("New Game ID: " + gameID);
                }
             }
          } else if (gamesInserted > 1) {
@@ -147,7 +145,6 @@ public class GameDAO {
                if (generatedKeys.next()) {
                   int gameID = generatedKeys.getInt(1);
                   game.setGameID(gameID);
-                  System.out.println("New Game ID: " + gameID);
                }
             }
          } else {
@@ -193,11 +190,9 @@ public class GameDAO {
 
          int gamesUpdated = query.executeUpdate();
 
-         if (gamesUpdated == 1) {
-            System.out.println(username + " added as " + color + " to " + gameID);
-         } else if (gamesUpdated > 1) {
+         if (gamesUpdated > 1) {
             System.out.println("WARNING: " + gamesUpdated + " games were updated");
-         } else {
+         } else if (gamesUpdated != 1){
             throw new DataAccessException("Error: already taken", Result.ApiRes.ALREADY_TAKEN);
          }
       } catch (Exception e) {
@@ -221,9 +216,7 @@ public class GameDAO {
       String sql = "DELETE FROM games;";
 
       try (PreparedStatement query = conn.prepareStatement(sql)) {
-         int removedRows = query.executeUpdate();
-
-         System.out.println("The games database was cleared.\n Number of rows deleted: " + removedRows);
+         query.executeUpdate();
       } catch (Exception e) {
          throw new DataAccessException("Error: " + e.getMessage());
       } finally {

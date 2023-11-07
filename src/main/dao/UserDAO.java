@@ -105,11 +105,9 @@ public class UserDAO {
          query.setString(3, user.getEmail());
 
          int usersInserted = query.executeUpdate();
-         if (usersInserted == 1) {
-            System.out.println("A new user was added");
-         } else if (usersInserted > 1) {
+         if (usersInserted > 1) {
             System.out.println("WARNING: " + usersInserted + " users were added");
-         } else {
+         } else if (usersInserted != 1){
             throw new DataAccessException("Error: unable to insert user");
          }
       } catch (Exception e) {
@@ -133,9 +131,7 @@ public class UserDAO {
       String sql = "DELETE FROM users;";
 
       try (PreparedStatement query = conn.prepareStatement(sql)) {
-         int removedRows = query.executeUpdate();
-
-         System.out.println("The users database was cleared.\n Number of rows deleted: " + removedRows);
+         query.executeUpdate();
       } catch (Exception e) {
          throw new DataAccessException("Error: " + e.getMessage());
       } finally {

@@ -103,11 +103,9 @@ public class AuthDAO {
          query.setString(2, authToken.getUsername());
 
          int tokensInserted = query.executeUpdate();
-         if (tokensInserted == 1) {
-            System.out.println("A new token was added");
-         } else if (tokensInserted > 1) {
+         if (tokensInserted > 1) {
             System.out.println("WARNING: " + tokensInserted + " tokens were added");
-         } else {
+         } else if (tokensInserted != 1){
             throw new DataAccessException("Error: unable to insert token");
          }
       } catch (Exception e) {
@@ -136,8 +134,6 @@ public class AuthDAO {
 
          int removedRows = query.executeUpdate();
          if (removedRows == 0) throw new DataAccessException("Error: Unable to remove token");
-
-         System.out.println("The token was deleted. Number of tokens removed: " + removedRows);
       } catch (Exception e) {
          if (e instanceof DataAccessException) {
             throw (DataAccessException) e;
@@ -159,9 +155,7 @@ public class AuthDAO {
       String sql = "DELETE FROM authTokens;";
 
       try (PreparedStatement query = conn.prepareStatement(sql)) {
-         int removedRows = query.executeUpdate();
-
-         System.out.println("The authTokens database was cleared.\n Number of rows deleted: " + removedRows);
+         query.executeUpdate();
       } catch (Exception e) {
          throw new DataAccessException("Error: " + e.getMessage());
       } finally {
