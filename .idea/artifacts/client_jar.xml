@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="client:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/client_jar</output-path>
+    <root id="archive" name="client.jar">
+      <element id="module-output" name="client" />
+      <element id="module-output" name="shared" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple/1.7.36/slf4j-simple-1.7.36.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

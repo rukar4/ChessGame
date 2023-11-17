@@ -1,10 +1,11 @@
-package svc.game;
+package svc.ServiceClasses;
 
 import dao.AuthDAO;
 import dao.GameDAO;
 import models.Game;
-import svc.ErrorLogger;
 import svc.Result;
+import svc.game.CreateGameRequest;
+import svc.game.CreateGameResult;
 
 /**
  * Service to create a new game. A game name is required in the request and then a success result returns the

@@ -1,7 +1,6 @@
-package svc.account;
+package svc.ServiceClasses;
 
 import dao.AuthDAO;
-import svc.ErrorLogger;
 import svc.Result;
 
 /**

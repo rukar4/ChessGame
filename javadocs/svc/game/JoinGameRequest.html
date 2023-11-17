@@ -87,13 +87,13 @@ loadScripts(document, 'script');</script>
 <h1 title="Class JoinGameRequest" class="title">Class JoinGameRequest</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">svc.game.JoinGameRequest</div>
+<div class="inheritance">svc.chess.JoinGameRequest</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">JoinGameRequest</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">JoinGameRequest stores the game id for the game the caller wants to join and the color that they want to join as.
+<div class="block">JoinGameRequest stores the chess id for the chess the caller wants to join and the color that they want to join as.
  The color can be WHITE, BLACK, or null. A null color means the caller will join as an observer.</div>
 </section>
 <section class="summary">
@@ -184,8 +184,8 @@ loadScripts(document, 'script');</script>
 <div class="block">Create JoinGameRequest from given playerColor and the gameId.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>playerColor</code> - The color to join game as. If it is empty, the user is added as an observer</dd>
-<dd><code>gameId</code> - The game to join</dd>
+<dd><code>playerColor</code> - The color to join chess as. If it is empty, the user is added as an observer</dd>
+<dd><code>gameId</code> - The chess to join</dd>
 </dl>
 </section>
 </li>

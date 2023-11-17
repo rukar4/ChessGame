@@ -1,6 +1,7 @@
-package svc;
+package svc.ServiceClasses;
 
 import dataAccess.DataAccessException;
+import svc.Result;
 
 public class ErrorLogger {
    public void errMessage(Exception e, String service, Result result) {

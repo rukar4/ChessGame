@@ -1,11 +1,12 @@
-package svc.account;
+package svc.ServiceClasses;
 
 import dao.AuthDAO;
 import dao.UserDAO;
 import models.AuthToken;
 import models.User;
-import svc.ErrorLogger;
 import svc.Result;
+import svc.account.LoginRequest;
+import svc.account.LoginResult;
 
 import java.util.Objects;
 
@@ -24,8 +25,8 @@ public class LoginService {
     */
    public LoginResult login(LoginRequest req) {
       LoginResult result = new LoginResult();
-      String username = req.username;
-      String password = req.password;
+      String username = req.getUsername();
+      String password = req.getPassword();
 
       if (username == null || password == null) {
          result.setApiRes(Result.ApiRes.BAD_REQUEST);

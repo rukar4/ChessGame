@@ -1,9 +1,9 @@
-package svc.game;
+package svc.ServiceClasses;
 
 import dao.GameDAO;
 import models.Game;
-import svc.ErrorLogger;
 import svc.Result;
+import svc.game.ListGamesResult;
 
 import java.util.List;
 

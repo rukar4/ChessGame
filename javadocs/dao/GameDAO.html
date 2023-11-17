@@ -125,7 +125,7 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;color,
  int&nbsp;gameId)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Sets a given user to a particular color in a game</div>
+<div class="block">Sets a given user to a particular color in a chess</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#clearGames()" class="member-name-link">clearGames</a>()</code></div>
@@ -140,24 +140,24 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>models.Game</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getGame(int)" class="member-name-link">getGame</a><wbr>(int&nbsp;gameId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Finds and returns the game with the given id from the database</div>
+<div class="block">Finds and returns the chess with the given id from the database</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#insertGame(models.Game)" class="member-name-link">insertGame</a><wbr>(models.Game&nbsp;game)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#insertGame(models.Game)" class="member-name-link">insertGame</a><wbr>(models.Game&nbsp;chess)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Inserts a game into the database.</div>
+<div class="block">Inserts a chess into the database.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#removeGame(int)" class="member-name-link">removeGame</a><wbr>(int&nbsp;gameId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Removes a single game from the database</div>
+<div class="block">Removes a single chess from the database</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateGame(int,models.Game)" class="member-name-link">updateGame</a><wbr>(int&nbsp;gameId,
  models.Game&nbsp;updatedGame)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Updates the game string at the given gameId by converting the given Game object
- to a string and replacing the game string with the new string</div>
+<div class="block">Updates the chess string at the given gameId by converting the given Game object
+ to a string and replacing the chess string with the new string</div>
 </div>
 </div>
 </div>
@@ -195,12 +195,12 @@ loadScripts(document, 'script');</script>
 <h3>getGame</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">models.Game</span>&nbsp;<span class="element-name">getGame</span><wbr><span class="parameters">(int&nbsp;gameId)</span>
                     throws <span class="exceptions">dataAccess.DataAccessException</span></div>
-<div class="block">Finds and returns the game with the given id from the database</div>
+<div class="block">Finds and returns the chess with the given id from the database</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>gameId</code> - The id of the game to find</dd>
+<dd><code>gameId</code> - The id of the chess to find</dd>
 <dt>Returns:</dt>
-<dd>Return the game found</dd>
+<dd>Return the chess found</dd>
 <dt>Throws:</dt>
 <dd><code>dataAccess.DataAccessException</code> - when gameId is invalid or no games exist with that id</dd>
 </dl>
@@ -223,12 +223,12 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="insertGame(models.Game)">
 <h3>insertGame</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">insertGame</span><wbr><span class="parameters">(models.Game&nbsp;game)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">insertGame</span><wbr><span class="parameters">(models.Game&nbsp;chess)</span>
                 throws <span class="exceptions">dataAccess.DataAccessException</span></div>
-<div class="block">Inserts a game into the database.</div>
+<div class="block">Inserts a chess into the database.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>game</code> - The game to be inserted</dd>
+<dd><code>chess</code> - The chess to be inserted</dd>
 <dt>Throws:</dt>
 <dd><code>dataAccess.DataAccessException</code> - when database is inaccessible</dd>
 </dl>
@@ -241,7 +241,7 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;color,
  int&nbsp;gameId)</span>
                 throws <span class="exceptions">dataAccess.DataAccessException</span></div>
-<div class="block">Sets a given user to a particular color in a game</div>
+<div class="block">Sets a given user to a particular color in a chess</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>player</code> - User claiming a color</dd>
@@ -258,12 +258,12 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateGame</span><wbr><span class="parameters">(int&nbsp;gameId,
  models.Game&nbsp;updatedGame)</span>
                 throws <span class="exceptions">dataAccess.DataAccessException</span></div>
-<div class="block">Updates the game string at the given gameId by converting the given Game object
- to a string and replacing the game string with the new string</div>
+<div class="block">Updates the chess string at the given gameId by converting the given Game object
+ to a string and replacing the chess string with the new string</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>gameId</code> - The game to be updated</dd>
-<dd><code>updatedGame</code> - The updated game</dd>
+<dd><code>gameId</code> - The chess to be updated</dd>
+<dd><code>updatedGame</code> - The updated chess</dd>
 <dt>Throws:</dt>
 <dd><code>dataAccess.DataAccessException</code> - when the gameId is invalid</dd>
 </dl>
@@ -274,7 +274,7 @@ loadScripts(document, 'script');</script>
 <h3>removeGame</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeGame</span><wbr><span class="parameters">(int&nbsp;gameId)</span>
                 throws <span class="exceptions">dataAccess.DataAccessException</span></div>
-<div class="block">Removes a single game from the database</div>
+<div class="block">Removes a single chess from the database</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>gameId</code> - Game to remove from the database</dd>

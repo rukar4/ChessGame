@@ -1,9 +1,9 @@
-package svc.game;
+package svc.ServiceClasses;
 
 import dao.AuthDAO;
 import dao.GameDAO;
-import svc.ErrorLogger;
 import svc.Result;
+import svc.game.JoinGameRequest;
 
 /**
  * JoinGameService manages joining a chess game from a given result. If the client is authorized and the request

@@ -5,8 +5,8 @@ import dao.AuthDAO;
 import models.AuthToken;
 import spark.Request;
 import spark.Response;
+import svc.ServiceClasses.*;
 import svc.account.*;
-import svc.clearApp.ClearAppService;
 import svc.game.*;
 
 public class Handler {

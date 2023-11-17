@@ -9,11 +9,9 @@ import models.AuthToken;
 import models.Game;
 import models.User;
 import org.junit.jupiter.api.*;
-import svc.ErrorLogger;
-import svc.Handler;
-import svc.Result;
+import svc.*;
+import svc.ServiceClasses.*;
 import svc.account.*;
-import svc.clearApp.ClearAppService;
 import svc.game.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

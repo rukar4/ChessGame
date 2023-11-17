@@ -1,11 +1,12 @@
-package svc.account;
+package svc.ServiceClasses;
 
 import dao.AuthDAO;
 import dao.UserDAO;
 import models.AuthToken;
 import models.User;
-import svc.ErrorLogger;
 import svc.Result;
+import svc.account.LoginResult;
+import svc.account.RegisterRequest;
 
 /**
  * The RegisterService extends LoginService to inherit variables. This service manages registering a new user.
@@ -29,9 +30,9 @@ public class RegisterService extends LoginService {
     */
    public LoginResult register(RegisterRequest req) {
       LoginResult result = new LoginResult();
-      String username = req.username;
-      String password = req.password;
-      String email = req.email;
+      String username = req.getUsername();
+      String password = req.getPassword();
+      String email = req.getEmail();
 
       if (username == null || password == null || email == null || username.isEmpty() || password.isEmpty()) {
          result.setApiRes(Result.ApiRes.BAD_REQUEST);

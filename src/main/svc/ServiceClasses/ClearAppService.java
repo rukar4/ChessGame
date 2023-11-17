@@ -1,9 +1,8 @@
-package svc.clearApp;
+package svc.ServiceClasses;
 
 import dao.AuthDAO;
 import dao.GameDAO;
 import dao.UserDAO;
-import svc.ErrorLogger;
 import svc.Result;
 
 /**

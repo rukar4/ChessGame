@@ -8,7 +8,7 @@ import models.AuthToken;
 import models.Game;
 import models.User;
 import org.junit.jupiter.api.*;
-import svc.ErrorLogger;
+import svc.ServiceClasses.ErrorLogger;
 import svc.Result;
 import java.util.List;
 

@@ -87,14 +87,14 @@ loadScripts(document, 'script');</script>
 <h1 title="Class JoinGameService" class="title">Class JoinGameService</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">svc.game.JoinGameService</div>
+<div class="inheritance">svc.chess.JoinGameService</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">JoinGameService</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">JoinGameService manages joining a chess game from a given result. If the client is authorized and the request
- is valid, the service adds them to the game requested.</div>
+<div class="block">JoinGameService manages joining a chess chess from a given result. If the client is authorized and the request
+ is valid, the service adds them to the chess requested.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -127,13 +127,13 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerColor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Add user to an existing game in the database.</div>
+<div class="block">Add user to an existing chess in the database.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Result.html" title="class in svc">Result</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#joinGame(java.lang.String,svc.game.JoinGameRequest)" class="member-name-link">joinGame</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="JoinGameRequest.html" title="class in svc.game">JoinGameRequest</a>&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Add user to the game.</div>
+<div class="block">Add user to the chess.</div>
 </div>
 </div>
 </div>
@@ -171,11 +171,11 @@ loadScripts(document, 'script');</script>
 <h3>joinGame</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../Result.html" title="class in svc">Result</a></span>&nbsp;<span class="element-name">joinGame</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="JoinGameRequest.html" title="class in svc.game">JoinGameRequest</a>&nbsp;request)</span></div>
-<div class="block">Add user to the game. Takes in the client username and client request to add them to the game.</div>
+<div class="block">Add user to the chess. Takes in the client username and client request to add them to the chess.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>username</code> - The user trying to join</dd>
-<dd><code>request</code> - The client request with desired color and game id</dd>
+<dd><code>request</code> - The client request with desired color and chess id</dd>
 <dt>Returns:</dt>
 <dd>the result from the request</dd>
 </dl>
@@ -187,10 +187,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addToGame</span><wbr><span class="parameters">(int&nbsp;gameId,
  <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;username,
  <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;playerColor)</span></div>
-<div class="block">Add user to an existing game in the database.</div>
+<div class="block">Add user to an existing chess in the database.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>gameId</code> - The game to add the user to</dd>
+<dd><code>gameId</code> - The chess to add the user to</dd>
 <dd><code>username</code> - The user to add</dd>
 <dd><code>playerColor</code> - The color the user will join as. This can be WHITE, BLACK, or null</dd>
 </dl>

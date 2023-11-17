@@ -87,14 +87,15 @@ loadScripts(document, 'script');</script>
 <h1 title="Class CreateGameService" class="title">Class CreateGameService</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">svc.game.CreateGameService</div>
+<div class="inheritance">svc.chess.CreateGameService</div>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">CreateGameService</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Service to create a new game. A game name is required in the request and then a success result returns the
- game id for the newly created game.</div>
+<div class="block">Service to create a new chess. A chess name is required in the request and then a success result
+    returns the
+    chess id for the newly created chess.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -125,12 +126,12 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>private models.Game</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createGame(java.lang.String)" class="member-name-link">createGame</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameName)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Method to create a new game with the given game name.</div>
+<div class="block">Method to create a new chess with the given chess name.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CreateGameResult.html" title="class in svc.game">CreateGameResult</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createGame(svc.game.CreateGameRequest)" class="member-name-link">createGame</a><wbr>(<a href="CreateGameRequest.html" title="class in svc.game">CreateGameRequest</a>&nbsp;request)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Create a game from the request.</div>
+<div class="block">Create a chess from the request.</div>
 </div>
 </div>
 </div>
@@ -167,14 +168,14 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createGame(svc.game.CreateGameRequest)">
 <h3>createGame</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CreateGameResult.html" title="class in svc.game">CreateGameResult</a></span>&nbsp;<span class="element-name">createGame</span><wbr><span class="parameters">(<a href="CreateGameRequest.html" title="class in svc.game">CreateGameRequest</a>&nbsp;request)</span></div>
-<div class="block">Create a game from the request.
+<div class="block">Create a chess from the request.
  Return 200 and gameId in result on a success.
  Return error code and message on failure.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>request</code> - The client request with the game name</dd>
+<dd><code>request</code> - The client request with the chess name</dd>
 <dt>Returns:</dt>
-<dd>the result of attempting to create a game</dd>
+<dd>the result of attempting to create a chess</dd>
 </dl>
 </section>
 </li>
@@ -182,7 +183,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createGame(java.lang.String)">
 <h3>createGame</h3>
 <div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">models.Game</span>&nbsp;<span class="element-name">createGame</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;gameName)</span></div>
-<div class="block">Method to create a new game with the given game name. The game id will be determined by the number of games in the
+<div class="block">Method to create a new chess with the given chess name. The chess id will be determined by the number of games in the
  database.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

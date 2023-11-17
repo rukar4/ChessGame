@@ -58,7 +58,7 @@
     <tr>
         <td class="endpoint" onclick="gamesList()">
             <div class="method">[GET]</div>
-            <div class="path">/game</div>
+            <div class="path">/chess</div>
         </td>
         <td>
             <span class="description">Lists all the games in the database</span> This API does not take a request body.
@@ -68,21 +68,21 @@
     <tr>
         <td class="endpoint" onclick="createGame()">
             <div class="method">[POST]</div>
-            <div class="path">/game</div>
+            <div class="path">/chess</div>
         </td>
         <td>
-            <span class="description">Create a new Chess Game</span> The request body must contain a name for the game.
-            The response JSON contains the ID of created game, or if failed, an error message describing the reason. An
+            <span class="description">Create a new Chess Game</span> The request body must contain a name for the chess.
+            The response JSON contains the ID of created chess, or if failed, an error message describing the reason. An
             authToken is required to call this endpoint.
         </td>
     </tr>
     <tr>
         <td class="endpoint" onclick="joinGame()">
             <div class="method">[PUT]</div>
-            <div class="path">/game</div>
+            <div class="path">/chess</div>
         </td>
         <td>
-            <span class="description">Join a Chess Game</span> The request body must contain the game ID. If no color is
+            <span class="description">Join a Chess Game</span> The request body must contain the chess ID. If no color is
             specified then the user is joined as an observer. An authToken is required to call this endpoint.
         </td>
     </tr>
@@ -92,7 +92,7 @@
             <div class="path">/db</div>
         </td>
         <td>
-            <span class="description">Clear ALL data from the database</span> This includes users and all game data. No
+            <span class="description">Clear ALL data from the database</span> This includes users and all chess data. No
             authorization authToken is required.
         </td>
     </tr>
