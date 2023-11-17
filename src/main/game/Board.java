@@ -127,7 +127,7 @@ public class Board implements ChessBoard {
          for (int col = 0; col < BOARD_LENGTH; ++col) {
             StringBuilder pieceString = new StringBuilder();
             if (chessBoard[row][col] == null) {
-               sb.append("   |");
+               sb.append(" \u2003 |");
             } else {
                switch (chessBoard[row][col].getTeamColor()) {
                   case WHITE:
