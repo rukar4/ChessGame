@@ -33,7 +33,7 @@ public class Result {
          case UNAUTHORIZED -> message = "Error: unauthorized";
          case ALREADY_TAKEN -> message = "Error: already taken";
          case INTERNAL_ERROR -> message = "Error: internal server error";
-
+         case NOT_FOUND -> message = "Error: not found";
       }
    }
 
