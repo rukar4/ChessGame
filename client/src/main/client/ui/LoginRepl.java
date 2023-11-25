@@ -31,6 +31,7 @@ public class LoginRepl {
       while (!(input.equalsIgnoreCase("Q") || input.equalsIgnoreCase("Quit"))) {
          Scanner scanner = new Scanner(System.in);
          input = scanner.nextLine();
+         System.out.print(SET_TEXT_COLOR_WHITE);
 
          switch (input.toLowerCase()) {
             case "q", "quit":

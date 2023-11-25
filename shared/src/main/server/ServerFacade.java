@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -47,7 +49,6 @@ public class ServerFacade {
 
          writeBody(request, http);
          http.connect();
-         throwIfNotSuccessful(http);
          return readBody(http, responseClass);
       } catch (Exception e) {
          throw new ResponseException(500, e.getMessage());
@@ -64,23 +65,37 @@ public class ServerFacade {
       }
    }
 
-   private void throwIfNotSuccessful(HttpURLConnection http) throws IOException, ResponseException {
-      var status = http.getResponseCode();
-      if (status != 200) {
-         throw new ResponseException(status, "failure: " + http.getResponseMessage());
-      }
-   }
+   private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException, ResponseException {
+      int statusCode = http.getResponseCode();
+      boolean wasSuccessful = statusCode == 200;
 
-   private static <T> T readBody(HttpURLConnection http, Class<T> responseClass) throws IOException {
-      T response = null;
+      T result = null;
       if (http.getContentLength() < 0) {
-         try (InputStream respBody = http.getInputStream()) {
-            InputStreamReader reader = new InputStreamReader(respBody);
-            if (responseClass != null) {
-               response = new GsonBuilder().create().fromJson(reader, responseClass);
-            }
+         InputStream respBody;
+
+         if (wasSuccessful) {
+            respBody = http.getInputStream();
+         } else {
+            respBody = http.getErrorStream();
+         }
+
+         InputStreamReader reader = new InputStreamReader(respBody);
+         if (responseClass != null) {
+            result = new GsonBuilder().create().fromJson(reader, responseClass);
+            if (!wasSuccessful) throw new ResponseException(statusCode, String.format("[%d] %s", statusCode, getMessage(result)));
          }
       }
-      return response;
+
+      return result;
+   }
+
+   private static <T> String getMessage(T result) {
+      try {
+         Method getMessageMethod = result.getClass().getMethod("getMessage");
+         return (String) getMessageMethod.invoke(result);
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+         System.out.println(e.getMessage());
+         return null;
+      }
    }
 }

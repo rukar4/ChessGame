@@ -5,6 +5,8 @@ import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
 
+import static client.ui.EscapeSequences.*;
+
 public class ChessClient {
    private String username = null;
    private String authToken = null;
@@ -24,10 +26,10 @@ public class ChessClient {
          this.authToken = res.getAuthToken();
          signedIn = true;
 
-         return String.format("You are signed in as %s.\n", username);
+         return String.format(SET_TEXT_COLOR_GREEN + "You are signed in as %s.\n", username);
 
       } catch (Exception e) {
-         return String.format("Login failed:\n, %s\n", e.getMessage());
+         return String.format(SET_TEXT_COLOR_RED + "Login failed:\n %s\n", e.getMessage());
       }
    }
 
@@ -38,10 +40,10 @@ public class ChessClient {
          LoginResult res = server.register(registerRequest);
          signedIn = true;
 
-         return String.format("Register successful! You are logged in as %s.\n", res.getUsername());
+         return String.format(SET_TEXT_COLOR_GREEN + "Register successful! You are logged in as %s.\n", res.getUsername());
 
       } catch (Exception e) {
-         return String.format("Register failed:\n %s\n", e.getMessage());
+         return String.format(SET_TEXT_COLOR_RED + "Register failed:\n %s\n", e.getMessage());
       }
    }
 
