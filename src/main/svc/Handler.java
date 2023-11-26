@@ -1,6 +1,7 @@
 package svc;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.AuthDAO;
 import models.AuthToken;
 import spark.Request;
@@ -44,6 +45,21 @@ public class Handler {
             ListGamesService listGamesService = new ListGamesService();
             result = listGamesService.getGames();
             break;
+         case "getGame":
+            if (isNotAuthorized(authToken, result)) break;
+
+            GetGameService getGameService = new GetGameService();
+            result = getGameService.getGame(req.attribute("gameID"));
+
+            res.type("application/json");
+            res.status(result.getApiRes().getCode());
+
+            // Include transient game variable in response
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(GetGameResult.class, new GetGameResultAdapter())
+                    .create();
+
+            return gson.toJson(result);
          case "createGame":
             if (isNotAuthorized(authToken, result)) break;
 

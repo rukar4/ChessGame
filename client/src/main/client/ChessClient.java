@@ -2,7 +2,6 @@ package client;
 
 import models.Game;
 import server.ServerFacade;
-import svc.Result;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
@@ -111,17 +110,18 @@ public class ChessClient {
    }
 
    private String createGameList(ListGamesResult res) {
+      // Table headers
       StringBuilder sb = new StringBuilder(String.format(SET_TEXT_BOLD + "\n%-10s | %-15s | %-15s | %-15s | \n", "Game ID", "Game Name", "White", "Black"));
       List<Game> gameList = res.getGames();
       sb.append(SET_TEXT_COLOR_LIGHT_GREY);
 
+      // Table body
       for (Game game : gameList) {
          String white = game.getWhiteUsername() == null ? "" : game.getWhiteUsername();
          String black = game.getBlackUsername() == null ? "" : game.getBlackUsername();
 
          sb.append(String.format("%-10d | %-15s | %-15s | %-15s | \n", game.getGameID(), game.getGameName(), white, black));
       }
-
       return sb.toString();
    }
 

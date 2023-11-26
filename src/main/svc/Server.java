@@ -26,6 +26,14 @@ public class Server {
       Spark.delete("/session", (req, res) -> handler.handler(req, res, "logout"));
 
       Spark.get("/game", (req, res) -> handler.handler(req, res, "listGames"));
+      Spark.get("/game/:gameID", (req, res) -> {
+         // Get game id from url
+         String gameIDParam = req.params(":gameID");
+         int gameID = Integer.parseInt(gameIDParam);
+         req.attribute("gameID", gameID);
+
+         return handler.handler(req, res, "getGame");
+      });
       Spark.post("/game", (req, res) -> handler.handler(req, res, "createGame"));
       Spark.put("/game", (req, res) -> handler.handler(req, res, "joinGame"));
 

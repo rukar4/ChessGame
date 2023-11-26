@@ -55,6 +55,8 @@ public class SelectGameRepl {
                System.out.println(client.joinGame(color, gameID));
 
                // TODO: Start game repl
+
+               System.out.print(start);
                break;
             case "l", "list", "list games":
                System.out.println(client.listGames());
@@ -66,6 +68,8 @@ public class SelectGameRepl {
                System.out.println(client.joinGame("", gameID));
 
                // TODO: Start game repl
+
+               System.out.print(start);
                break;
             case "h", "help":
                System.out.print("""
