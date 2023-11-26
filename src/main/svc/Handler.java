@@ -14,7 +14,7 @@ public class Handler {
 
    public Object handler(Request req, Response res, String endPoint) {
       String reqBody = req.body();
-      String authToken = req.headers("authorization");
+      String authToken = req.headers("Authorization");
       Result result = new Result();
 
       switch (endPoint) {

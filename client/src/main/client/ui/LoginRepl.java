@@ -4,7 +4,7 @@ import client.ChessClient;
 
 import java.util.Scanner;
 
-import static client.ui.EscapeSequences.*;
+import static client.ui.EscapeSequences.SET_TEXT_COLOR_WHITE;
 
 public class LoginRepl {
    private final ChessClient client;
@@ -15,14 +15,15 @@ public class LoginRepl {
 
    public void run() {
       String input = "";
-
-      System.out.print("""
+      String start = SET_TEXT_COLOR_WHITE + """
               Chess Project UI: 1.0.0
               \t[L] Login
               \t[R] Register
               \t[Q] Quit
               \t[H] Help
-              """);
+              """;
+
+      System.out.print(start);
 
       String username;
       String password;
@@ -45,7 +46,12 @@ public class LoginRepl {
 
                System.out.print(client.login(username, password));
 
-               //TODO: Start next REPL loop
+               if (client.isSignedIn()) {
+                  SelectGameRepl selectRepl = new SelectGameRepl(client);
+                  selectRepl.run();
+               }
+
+               System.out.print(start);
 
                break;
             case "r", "register":
@@ -61,22 +67,25 @@ public class LoginRepl {
                System.out.print(client.register(username, password, email));
 
                if (client.isSignedIn()) {
-                  //TODO: Start next REPL loop
+                  SelectGameRepl selectRepl = new SelectGameRepl(client);
+                  selectRepl.run();
                }
                break;
             case "h", "help":
                System.out.print("""
-                       You can use each of the following commands in the start menu.
+                       You can use each of the following commands in the login menu.
                        You can also execute a command by typing its first letter.
                        Once you are logged in, you can begin a chess game!
-                       \tLogin >>> log in as an existing user
-                       \tRegister >>> register a new user
-                       \tQuit >>> exit the program
+                       
+                       \tLogin >>> Log in as an existing user
+                       \tRegister >>> Register a new user
+                       \tQuit >>> Exit the program
                        """);
                break;
             default:
                System.out.print("""
                        The command you gave was unrecognized. Please type one of the following:
+                       
                        \tLogin >>> log in as an existing user
                        \tRegister >>> register a new user
                        \tQuit >>> exit the program

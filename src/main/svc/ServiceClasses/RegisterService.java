@@ -41,7 +41,7 @@ public class RegisterService extends LoginService {
 
       try {
          if (userDAO.getUser(username) == null) {
-            User newUser = new User(username, password);
+            User newUser = new User(username.toLowerCase(), password);
             newUser.setEmail(email);
             userDAO.insertUser(newUser);
 

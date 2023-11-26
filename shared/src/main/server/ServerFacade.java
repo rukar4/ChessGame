@@ -27,27 +27,34 @@ public class ServerFacade {
 
    public LoginResult register(RegisterRequest req) throws ResponseException {
       var path = "/user";
-      return this.makeRequest("POST", path, req, LoginResult.class);
+      return this.makeRequest("POST", path, null, req, LoginResult.class);
    }
 
    public LoginResult login(LoginRequest req) throws ResponseException {
       var path = "/session";
-      return this.makeRequest("POST", path, req, LoginResult.class);
+      return this.makeRequest("POST", path, null, req, LoginResult.class);
    }
 
    public Result logout(String token) throws ResponseException {
       var path = "/session";
-      return this.makeRequest("DELETE", path, token, Result.class);
+      return this.makeRequest("DELETE", path, token, null, Result.class);
    }
 
-   private <T> T makeRequest(String method, String path, Object request, Class<T> responseClass) throws ResponseException {
+   private <T> T makeRequest(String method, String path, String authorization, Object request, Class<T> responseClass) throws ResponseException {
       try {
          URL url = (new URI(serverUrl + path)).toURL();
          HttpURLConnection http = (HttpURLConnection) url.openConnection();
          http.setRequestMethod(method);
          http.setDoOutput(true);
 
-         writeBody(request, http);
+         if (request != null) {
+            writeBody(request, http);
+         }
+
+         if (authorization != null) {
+            http.setRequestProperty("Authorization", authorization);
+         }
+
          http.connect();
          return readBody(http, responseClass);
       } catch (Exception e) {

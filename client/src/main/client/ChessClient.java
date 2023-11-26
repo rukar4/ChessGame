@@ -1,6 +1,7 @@
 package client;
 
 import server.ServerFacade;
+import svc.Result;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
@@ -26,7 +27,7 @@ public class ChessClient {
          this.authToken = res.getAuthToken();
          signedIn = true;
 
-         return String.format(SET_TEXT_COLOR_GREEN + "You are signed in as %s.\n", username);
+         return String.format(SET_TEXT_COLOR_GREEN + "Welcome %s.\n", res.getUsername());
 
       } catch (Exception e) {
          return String.format(SET_TEXT_COLOR_RED + "Login failed:\n %s\n", e.getMessage());
@@ -40,10 +41,24 @@ public class ChessClient {
          LoginResult res = server.register(registerRequest);
          signedIn = true;
 
-         return String.format(SET_TEXT_COLOR_GREEN + "Register successful! You are logged in as %s.\n", res.getUsername());
+         return String.format(SET_TEXT_COLOR_GREEN + "Register successful! Welcome %s!\n", res.getUsername());
 
       } catch (Exception e) {
          return String.format(SET_TEXT_COLOR_RED + "Register failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public String logout(String authToken) {
+      try {
+         server.logout(authToken);
+
+         username = null;
+         this.authToken = null;
+         signedIn = false;
+
+         return String.format(SET_TEXT_COLOR_GREEN + "Logout successful.");
+      } catch (Exception e) {
+         return String.format(SET_TEXT_COLOR_RED + "Logout failed:\n %s\n", e.getMessage());
       }
    }
 
