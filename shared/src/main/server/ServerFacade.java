@@ -10,6 +10,7 @@ import svc.account.RegisterRequest;
 import svc.game.CreateGameRequest;
 import svc.game.CreateGameResult;
 import svc.game.JoinGameRequest;
+import svc.game.ListGamesResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,6 +52,11 @@ public class ServerFacade {
    public Result joinGame(JoinGameRequest req, String token) throws ResponseException {
       var path = "/game";
       return this.makeRequest("PUT", path, token, req, CreateGameResult.class);
+   }
+
+   public ListGamesResult listGames(String token) throws ResponseException {
+      var path = "/game";
+      return this.makeRequest("GET", path, token, null, ListGamesResult.class);
    }
 
    private <T> T makeRequest(String method, String path, String authorization, Object request, Class<T> responseClass) throws ResponseException {

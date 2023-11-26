@@ -1,5 +1,6 @@
 package client;
 
+import models.Game;
 import server.ServerFacade;
 import svc.Result;
 import svc.account.LoginRequest;
@@ -8,6 +9,9 @@ import svc.account.RegisterRequest;
 import svc.game.CreateGameRequest;
 import svc.game.CreateGameResult;
 import svc.game.JoinGameRequest;
+import svc.game.ListGamesResult;
+
+import java.util.List;
 
 import static client.ui.EscapeSequences.*;
 
@@ -88,13 +92,37 @@ public class ChessClient {
    public String joinGame(String teamColor, int gameID) {
       JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
       try {
-         Result res = server.joinGame(req, authToken);
+         server.joinGame(req, authToken);
 
          if (!teamColor.isEmpty()) return String.format(SET_TEXT_COLOR_GREEN + "Joined %d as %s!", gameID, teamColor);
          else return String.format(SET_TEXT_COLOR_GREEN + "Joined %d as an observer!", gameID);
       } catch (Exception e) {
          return String.format(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
       }
+   }
+
+   public String listGames() {
+      try {
+         ListGamesResult res = server.listGames(authToken);
+         return createGameList(res);
+      } catch (Exception e) {
+         return String.format(SET_TEXT_COLOR_RED + "List games failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   private String createGameList(ListGamesResult res) {
+      StringBuilder sb = new StringBuilder(String.format(SET_TEXT_BOLD + "\n%-10s | %-15s | %-15s | %-15s | \n", "Game ID", "Game Name", "White", "Black"));
+      List<Game> gameList = res.getGames();
+      sb.append(SET_TEXT_COLOR_LIGHT_GREY);
+
+      for (Game game : gameList) {
+         String white = game.getWhiteUsername() == null ? "" : game.getWhiteUsername();
+         String black = game.getBlackUsername() == null ? "" : game.getBlackUsername();
+
+         sb.append(String.format("%-10d | %-15s | %-15s | %-15s | \n", game.getGameID(), game.getGameName(), white, black));
+      }
+
+      return sb.toString();
    }
 
    public String getUsername() {

@@ -57,7 +57,7 @@ public class SelectGameRepl {
                // TODO: Start game repl
                break;
             case "l", "list", "list games":
-
+               System.out.println(client.listGames());
                break;
             case "w", "watch", "o", "observe", "watch game":
                System.out.print("Enter the game ID:\n\t");
