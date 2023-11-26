@@ -4,6 +4,7 @@ import client.ChessClient;
 
 import java.util.Scanner;
 
+import static client.ui.EscapeSequences.SET_BG_COLOR_BLACK;
 import static client.ui.EscapeSequences.SET_TEXT_COLOR_WHITE;
 
 public class LoginRepl {

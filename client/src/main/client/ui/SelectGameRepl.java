@@ -34,12 +34,13 @@ public class SelectGameRepl {
 
          switch (input.toLowerCase()) {
             case "q", "quit", "logout":
-
                System.out.println(client.logout(client.getAuthToken()));
-
                break;
-            case "l", "login":
+            case "c", "create", "create game":
+               System.out.print("Enter a name for your game:\n\t");
+               String gameName = scanner.nextLine();
 
+               System.out.println(client.createGame(gameName));
                break;
             case "r", "register":
 

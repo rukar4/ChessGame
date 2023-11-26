@@ -1,10 +1,11 @@
 package client;
 
 import server.ServerFacade;
-import svc.Result;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
+import svc.game.CreateGameRequest;
+import svc.game.CreateGameResult;
 
 import static client.ui.EscapeSequences.*;
 
@@ -39,6 +40,10 @@ public class ChessClient {
 
       try {
          LoginResult res = server.register(registerRequest);
+
+         this.username = res.getUsername();
+         this.authToken = res.getAuthToken();
+
          signedIn = true;
 
          return String.format(SET_TEXT_COLOR_GREEN + "Register successful! Welcome %s!\n", res.getUsername());
@@ -59,6 +64,22 @@ public class ChessClient {
          return String.format(SET_TEXT_COLOR_GREEN + "Logout successful.");
       } catch (Exception e) {
          return String.format(SET_TEXT_COLOR_RED + "Logout failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public String createGame(String gameName) {
+      CreateGameRequest req = new CreateGameRequest(gameName);
+
+      try {
+         CreateGameResult res = server.createGame(req, authToken);
+
+         return String.format(
+                 SET_TEXT_COLOR_GREEN + "\nNew game %s created:\n\t" +
+                         SET_TEXT_COLOR_YELLOW + "Game ID: %d\n" +
+                         SET_TEXT_COLOR_WHITE + "\nUse the \"Join Game\" command to join the game as a player"
+                 , gameName, res.getGameID());
+      } catch (Exception e) {
+         return String.format(SET_TEXT_COLOR_RED + "Create game failed:\n %s\n", e.getMessage());
       }
    }
 

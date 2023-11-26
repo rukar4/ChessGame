@@ -7,6 +7,8 @@ import svc.Result;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
+import svc.game.CreateGameRequest;
+import svc.game.CreateGameResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +42,11 @@ public class ServerFacade {
       return this.makeRequest("DELETE", path, token, null, Result.class);
    }
 
+   public CreateGameResult createGame(CreateGameRequest req, String token) throws ResponseException {
+      var path = "/game";
+      return this.makeRequest("POST", path, token, req, CreateGameResult.class);
+   }
+
    private <T> T makeRequest(String method, String path, String authorization, Object request, Class<T> responseClass) throws ResponseException {
       try {
          URL url = (new URI(serverUrl + path)).toURL();
@@ -47,12 +54,12 @@ public class ServerFacade {
          http.setRequestMethod(method);
          http.setDoOutput(true);
 
-         if (request != null) {
-            writeBody(request, http);
-         }
-
          if (authorization != null) {
             http.setRequestProperty("Authorization", authorization);
+         }
+
+         if (request != null) {
+            writeBody(request, http);
          }
 
          http.connect();
