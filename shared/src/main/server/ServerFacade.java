@@ -9,6 +9,7 @@ import svc.account.LoginResult;
 import svc.account.RegisterRequest;
 import svc.game.CreateGameRequest;
 import svc.game.CreateGameResult;
+import svc.game.JoinGameRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +46,11 @@ public class ServerFacade {
    public CreateGameResult createGame(CreateGameRequest req, String token) throws ResponseException {
       var path = "/game";
       return this.makeRequest("POST", path, token, req, CreateGameResult.class);
+   }
+
+   public Result joinGame(JoinGameRequest req, String token) throws ResponseException {
+      var path = "/game";
+      return this.makeRequest("PUT", path, token, req, CreateGameResult.class);
    }
 
    private <T> T makeRequest(String method, String path, String authorization, Object request, Class<T> responseClass) throws ResponseException {
@@ -96,7 +102,8 @@ public class ServerFacade {
          InputStreamReader reader = new InputStreamReader(respBody);
          if (responseClass != null) {
             result = new GsonBuilder().create().fromJson(reader, responseClass);
-            if (!wasSuccessful) throw new ResponseException(statusCode, String.format("[%d] %s", statusCode, getMessage(result)));
+            if (!wasSuccessful)
+               throw new ResponseException(statusCode, String.format("[%d] %s", statusCode, getMessage(result)));
          }
       }
 

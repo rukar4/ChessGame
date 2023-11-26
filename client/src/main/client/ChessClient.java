@@ -1,11 +1,13 @@
 package client;
 
 import server.ServerFacade;
+import svc.Result;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
 import svc.game.CreateGameRequest;
 import svc.game.CreateGameResult;
+import svc.game.JoinGameRequest;
 
 import static client.ui.EscapeSequences.*;
 
@@ -80,6 +82,18 @@ public class ChessClient {
                  , gameName, res.getGameID());
       } catch (Exception e) {
          return String.format(SET_TEXT_COLOR_RED + "Create game failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public String joinGame(String teamColor, int gameID) {
+      JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
+      try {
+         Result res = server.joinGame(req, authToken);
+
+         if (!teamColor.isEmpty()) return String.format(SET_TEXT_COLOR_GREEN + "Joined %d as %s!", gameID, teamColor);
+         else return String.format(SET_TEXT_COLOR_GREEN + "Joined %d as an observer!", gameID);
+      } catch (Exception e) {
+         return String.format(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
       }
    }
 

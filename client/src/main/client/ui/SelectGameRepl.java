@@ -28,9 +28,12 @@ public class SelectGameRepl {
       System.out.print(start);
 
       while (!(input.equalsIgnoreCase("Q") || input.equalsIgnoreCase("Quit"))) {
+         System.out.print(SET_TEXT_COLOR_WHITE);
+
          Scanner scanner = new Scanner(System.in);
          input = scanner.nextLine();
-         System.out.print(SET_TEXT_COLOR_WHITE);
+
+         int gameID;
 
          switch (input.toLowerCase()) {
             case "q", "quit", "logout":
@@ -42,8 +45,27 @@ public class SelectGameRepl {
 
                System.out.println(client.createGame(gameName));
                break;
-            case "r", "register":
+            case "j", "join", "join game":
+               System.out.print("Enter the game ID:\n\t");
+               gameID = Integer.parseInt(scanner.nextLine());
 
+               System.out.print("Enter the color you are claiming (white or black):\n\t");
+               String color = scanner.nextLine();
+
+               System.out.println(client.joinGame(color, gameID));
+
+               // TODO: Start game repl
+               break;
+            case "l", "list", "list games":
+
+               break;
+            case "w", "watch", "o", "observe", "watch game":
+               System.out.print("Enter the game ID:\n\t");
+               gameID = Integer.parseInt(scanner.nextLine());
+
+               System.out.println(client.joinGame("", gameID));
+
+               // TODO: Start game repl
                break;
             case "h", "help":
                System.out.print("""
