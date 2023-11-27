@@ -24,6 +24,8 @@ public class LoginRepl {
                             
               """;
 
+      System.out.print(ERASE_SCREEN);
+
       System.out.print(start);
 
       String username;
@@ -36,10 +38,10 @@ public class LoginRepl {
          Scanner scanner = new Scanner(System.in);
          input = scanner.nextLine();
 
-         System.out.print(ERASE_SCREEN);
 
          switch (input.toLowerCase()) {
             case "q", "quit":
+               System.out.print(ERASE_SCREEN);
                break;
             case "l", "login":
                System.out.print("Username:\n\t");

@@ -34,18 +34,18 @@ public class SelectGameRepl {
          Scanner scanner = new Scanner(System.in);
          input = scanner.nextLine();
 
-         System.out.print(ERASE_SCREEN);
-
          int gameID;
 
          switch (input.toLowerCase()) {
             case "q", "quit", "logout":
+               System.out.print(ERASE_SCREEN);
                System.out.println(client.logout(client.getAuthToken()));
                break;
             case "c", "create", "create game":
                System.out.print("Enter a name for your game:\n\t");
                String gameName = scanner.nextLine();
 
+               System.out.print(ERASE_SCREEN);
                System.out.println(client.createGame(gameName));
                break;
             case "j", "join", "join game":
@@ -69,6 +69,7 @@ public class SelectGameRepl {
                gameID = parseInt(scanner.nextLine());
 
                if (gameID > 0) {
+                  System.out.print(ERASE_SCREEN);
                   client.joinGame("", gameID);
                }
 
@@ -79,6 +80,7 @@ public class SelectGameRepl {
                gameID = parseInt(scanner.nextLine());
 
                if (gameID > 0) {
+                  System.out.print(ERASE_SCREEN);
                   client.rejoinGame(gameID);
                }
 
