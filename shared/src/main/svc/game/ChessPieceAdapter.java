@@ -1,4 +1,4 @@
-package dao;
+package svc.game;
 
 import chess.ChessPiece;
 import com.google.gson.*;

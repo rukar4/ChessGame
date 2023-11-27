@@ -7,8 +7,12 @@ import models.AuthToken;
 import spark.Request;
 import spark.Response;
 import svc.ServiceClasses.*;
-import svc.account.*;
-import svc.game.*;
+import svc.account.LoginRequest;
+import svc.account.RegisterRequest;
+import svc.game.CreateGameRequest;
+import svc.game.JoinGameRequest;
+
+import java.lang.reflect.Modifier;
 
 public class Handler {
    private final AuthDAO authDAO = AuthDAO.getInstance();
@@ -56,7 +60,7 @@ public class Handler {
 
             // Include transient game variable in response
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(GetGameResult.class, new GetGameResultAdapter())
+                    .excludeFieldsWithModifiers(Modifier.STATIC)
                     .create();
 
             return gson.toJson(result);

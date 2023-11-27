@@ -16,8 +16,8 @@ public class GetGameResultAdapter implements JsonSerializer<GetGameResult> {
       if (getGameResult != null && getGameResult.getGame() != null) {
          JsonObject gameObject = context.serialize(getGameResult.getGame()).getAsJsonObject();
 
-         if (getGameResult.getGame().getGame() != null) {
-            gameObject.add("gameData", context.serialize(getGameResult.getGame().getGame()));
+         if (getGameResult.getGame().getGameData() != null) {
+            gameObject.add("gameData", context.serialize(getGameResult.getGame().getGameData()));
          }
 
          obj.add("game", gameObject);

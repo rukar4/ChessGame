@@ -19,6 +19,7 @@ public class SelectGameRepl {
               Execute one of the commands below to get started:
               \t[C] Create Game
               \t[J] Join Game
+              \t[R] Return to Game
               \t[L] List Games
               \t[W] Watch Game
               \t[Q] Quit (Logout)
@@ -49,12 +50,10 @@ public class SelectGameRepl {
                System.out.print("Enter the game ID:\n\t");
                gameID = Integer.parseInt(scanner.nextLine());
 
-               System.out.print("Enter the color you are claiming (white or black):\n\t");
+               System.out.print("Enter the color to join as (white or black):\n\t");
                String color = scanner.nextLine();
 
-               System.out.println(client.joinGame(color, gameID));
-
-               // TODO: Start game repl
+               client.joinGame(color, gameID);
 
                System.out.print(start);
                break;
@@ -65,9 +64,15 @@ public class SelectGameRepl {
                System.out.print("Enter the game ID:\n\t");
                gameID = Integer.parseInt(scanner.nextLine());
 
-               System.out.println(client.joinGame("", gameID));
+               client.joinGame("", gameID);
 
-               // TODO: Start game repl
+               System.out.print(start);
+               break;
+            case "r", "return":
+               System.out.print("Enter the game ID:\n\t");
+               gameID = Integer.parseInt(scanner.nextLine());
+
+               client.rejoinGame(gameID);
 
                System.out.print(start);
                break;
@@ -79,6 +84,7 @@ public class SelectGameRepl {
                        \tList Games >>> List all existing games
                        \tCreate Game >>> Create a new game
                        \tJoin Game >>> Join a game as a player
+                       \tReturn to Game >>> Rejoin a game you have started
                        \tWatch Game >>> Watch a game as an observer
                        \tQuit (Logout) >>> Logout and return to the login menu
                        """);
@@ -86,10 +92,11 @@ public class SelectGameRepl {
             default:
                System.out.print("""
                        The command you gave was unrecognized. Please type one of the following:
-                       
+                                              
                        \tList Games >>> List all existing games
                        \tCreate Game >>> Create a new game
                        \tJoin Game >>> Join a game as a player
+                       \tReturn to Game >>> Rejoin a game you have started
                        \tWatch Game >>> Watch a game as an observer
                        \tQuit (Logout) >>> Logout and return to the login menu
                        """);

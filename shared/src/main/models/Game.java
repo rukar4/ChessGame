@@ -31,7 +31,7 @@ public class Game {
    /**
     * The chess game object holds all the information to play the game
     */
-   transient private ChessGame game = new ChsGame();
+   transient private ChsGame gameData = new ChsGame();
 
    /**
     * Game constructor initializes the chess game with the given name
@@ -40,7 +40,7 @@ public class Game {
     */
    public Game(String gameName) {
       this.gameName = gameName;
-      game.getBoard().resetBoard();
+      gameData.getBoard().resetBoard();
    }
 
    public Game(int gameID, String whiteUsername, String blackUsername, String gameName) {
@@ -82,11 +82,11 @@ public class Game {
       this.gameName = gameName;
    }
 
-   public ChessGame getGame() {
-      return game;
+   public ChessGame getGameData() {
+      return gameData;
    }
 
-   public void setGame(ChessGame game) {
-      this.game = game;
+   public void setGameData(ChsGame gameData) {
+      this.gameData = gameData;
    }
 }

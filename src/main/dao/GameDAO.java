@@ -10,6 +10,7 @@ import models.Game;
 import org.junit.jupiter.api.Assertions;
 import svc.Result;
 import svc.Server;
+import svc.game.ChessPieceAdapter;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -64,7 +65,7 @@ public class GameDAO {
                var builder = new GsonBuilder();
                builder.registerTypeAdapter(ChessPiece.class, new ChessPieceAdapter());
 
-               game.setGame(builder.create().fromJson(json, ChsGame.class));
+               game.setGameData(builder.create().fromJson(json, ChsGame.class));
 
                return game;
             } else {
@@ -129,7 +130,7 @@ public class GameDAO {
          query.setString(1, game.getGameName());
          query.setString(2, game.getWhiteUsername());
          query.setString(3, game.getBlackUsername());
-         query.setString(4, gson.toJson(game.getGame()));
+         query.setString(4, gson.toJson(game.getGameData()));
 
          int gamesInserted = query.executeUpdate();
          if (gamesInserted == 1) {

@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessPiece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exception.ResponseException;
@@ -7,10 +8,7 @@ import svc.Result;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
-import svc.game.CreateGameRequest;
-import svc.game.CreateGameResult;
-import svc.game.JoinGameRequest;
-import svc.game.ListGamesResult;
+import svc.game.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +16,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -52,6 +51,11 @@ public class ServerFacade {
    public Result joinGame(JoinGameRequest req, String token) throws ResponseException {
       var path = "/game";
       return this.makeRequest("PUT", path, token, req, CreateGameResult.class);
+   }
+
+   public GetGameResult getGame(int gameID, String token) throws ResponseException {
+      var path = "/game/" + gameID;
+      return this.makeRequest("GET", path, token, null, GetGameResult.class);
    }
 
    public ListGamesResult listGames(String token) throws ResponseException {
@@ -107,7 +111,11 @@ public class ServerFacade {
 
          InputStreamReader reader = new InputStreamReader(respBody);
          if (responseClass != null) {
-            result = new GsonBuilder().create().fromJson(reader, responseClass);
+            result = new GsonBuilder()
+                    .excludeFieldsWithModifiers(Modifier.STATIC)
+                    .registerTypeAdapter(ChessPiece.class, new ChessPieceAdapter())
+                    .create()
+                    .fromJson(reader, responseClass);
             if (!wasSuccessful)
                throw new ResponseException(statusCode, String.format("[%d] %s", statusCode, getMessage(result)));
          }

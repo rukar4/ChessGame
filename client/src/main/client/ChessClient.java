@@ -1,14 +1,13 @@
 package client;
 
+import client.ui.GameRepl;
+import exception.ResponseException;
 import models.Game;
 import server.ServerFacade;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
-import svc.game.CreateGameRequest;
-import svc.game.CreateGameResult;
-import svc.game.JoinGameRequest;
-import svc.game.ListGamesResult;
+import svc.game.*;
 
 import java.util.List;
 
@@ -88,15 +87,36 @@ public class ChessClient {
       }
    }
 
-   public String joinGame(String teamColor, int gameID) {
-      JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
+   public void joinGame(String teamColor, int gameID) {
       try {
+         JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
+
          server.joinGame(req, authToken);
 
-         if (!teamColor.isEmpty()) return String.format(SET_TEXT_COLOR_GREEN + "Joined %d as %s!", gameID, teamColor);
-         else return String.format(SET_TEXT_COLOR_GREEN + "Joined %d as an observer!", gameID);
+         // Join the game!
+         Game game = server.getGame(gameID, authToken).getGame();
+
+         GameRepl gameRepl = new GameRepl(this);
+         gameRepl.run(game);
+
       } catch (Exception e) {
-         return String.format(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
+         System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public void rejoinGame(int gameID) {
+      try {
+         Game game = server.getGame(gameID, authToken).getGame();
+
+         if (username.equalsIgnoreCase(game.getWhiteUsername()) || username.equalsIgnoreCase(game.getBlackUsername())) {
+            this.joinGame("", gameID);
+         } else {
+            int errCode = 400;
+            throw new ResponseException(errCode, String.format("[%d] You are not a player in %d", errCode, gameID));
+         }
+
+      } catch (Exception e) {
+         System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
       }
    }
 

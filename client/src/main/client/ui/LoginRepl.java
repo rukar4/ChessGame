@@ -71,6 +71,9 @@ public class LoginRepl {
                   SelectGameRepl selectRepl = new SelectGameRepl(client);
                   selectRepl.run();
                }
+
+               System.out.print(start);
+
                break;
             case "h", "help":
                System.out.print("""
