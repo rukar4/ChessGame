@@ -23,9 +23,13 @@ public class Test {
       final long endTime = System.currentTimeMillis();
       System.out.println("Total execution time: " + (endTime - startTime));
 
+      System.out.println(chessBoard);
 
       Move bishopMove = new Move(new Position(4, 5), new Position(5, 6));
       System.out.println(bishopMove);
+
+      chessBoard.addPiece(new Position(4, 5), null);
+      chessBoard.addPiece(new Position(5, 6), bishop);
 
       System.out.println(chessBoard);
 

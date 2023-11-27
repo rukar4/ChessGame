@@ -4,7 +4,7 @@ import client.ChessClient;
 
 import java.util.Scanner;
 
-import static client.ui.EscapeSequences.SET_TEXT_COLOR_WHITE;
+import static client.ui.EscapeSequences.*;
 
 public class SelectGameRepl {
    private final ChessClient client;
@@ -34,6 +34,8 @@ public class SelectGameRepl {
          Scanner scanner = new Scanner(System.in);
          input = scanner.nextLine();
 
+         System.out.print(ERASE_SCREEN);
+
          int gameID;
 
          switch (input.toLowerCase()) {
@@ -48,12 +50,14 @@ public class SelectGameRepl {
                break;
             case "j", "join", "join game":
                System.out.print("Enter the game ID:\n\t");
-               gameID = Integer.parseInt(scanner.nextLine());
+               gameID = parseInt(scanner.nextLine());
 
-               System.out.print("Enter the color to join as (white or black):\n\t");
-               String color = scanner.nextLine();
+               if (gameID > 0) {
+                  System.out.print("Enter the color to join as (white or black):\n\t");
+                  String color = scanner.nextLine();
 
-               client.joinGame(color, gameID);
+                  client.joinGame(color, gameID);
+               }
 
                System.out.print(start);
                break;
@@ -62,17 +66,21 @@ public class SelectGameRepl {
                break;
             case "w", "watch", "o", "observe", "watch game":
                System.out.print("Enter the game ID:\n\t");
-               gameID = Integer.parseInt(scanner.nextLine());
+               gameID = parseInt(scanner.nextLine());
 
-               client.joinGame("", gameID);
+               if (gameID > 0) {
+                  client.joinGame("", gameID);
+               }
 
                System.out.print(start);
                break;
             case "r", "return":
                System.out.print("Enter the game ID:\n\t");
-               gameID = Integer.parseInt(scanner.nextLine());
+               gameID = parseInt(scanner.nextLine());
 
-               client.rejoinGame(gameID);
+               if (gameID > 0) {
+                  client.rejoinGame(gameID);
+               }
 
                System.out.print(start);
                break;
@@ -101,6 +109,15 @@ public class SelectGameRepl {
                        \tQuit (Logout) >>> Logout and return to the login menu
                        """);
          }
+      }
+   }
+
+   private int parseInt(String input) {
+      try {
+         return Integer.parseInt(input);
+      } catch (NumberFormatException e) {
+         System.out.println(SET_TEXT_COLOR_RED + "Error: Please enter the game ID as an integer");
+         return -1;
       }
    }
 }
