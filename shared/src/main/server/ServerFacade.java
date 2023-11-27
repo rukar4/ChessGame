@@ -63,6 +63,11 @@ public class ServerFacade {
       return this.makeRequest("GET", path, token, null, ListGamesResult.class);
    }
 
+   public Result clearApp() throws ResponseException {
+      var path = "/db";
+      return this.makeRequest("DELETE", path, null, null, Result.class);
+   }
+
    private <T> T makeRequest(String method, String path, String authorization, Object request, Class<T> responseClass) throws ResponseException {
       try {
          URL url = (new URI(serverUrl + path)).toURL();
@@ -81,6 +86,9 @@ public class ServerFacade {
          http.connect();
          return readBody(http, responseClass);
       } catch (Exception e) {
+         if (e instanceof ResponseException) {
+            throw (ResponseException) e;
+         }
          throw new ResponseException(500, e.getMessage());
       }
    }
