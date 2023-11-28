@@ -15,7 +15,7 @@ public class SelectGameRepl {
 
    public void run() {
       String input = "";
-      String start = SET_TEXT_COLOR_WHITE + """
+      String start = RESET_BG_COLOR + SET_TEXT_COLOR_WHITE + """
               Execute one of the commands below to get started:
               \t[C] Create Game
               \t[J] Join Game
