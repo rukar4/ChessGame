@@ -1,6 +1,8 @@
 package client;
 
+import chess.ChessGame;
 import client.ui.GameRepl;
+import client.webSocket.WSFacade;
 import exception.ResponseException;
 import models.Game;
 import server.ServerFacade;
@@ -18,6 +20,7 @@ public class ChessClient {
    private String authToken = null;
    private boolean signedIn = false;
    private final ServerFacade server;
+   private WSFacade ws;
 
    public ChessClient(String serverUrl) {
       server = new ServerFacade(serverUrl);
@@ -149,23 +152,11 @@ public class ChessClient {
       return username;
    }
 
-   public void setUsername(String username) {
-      this.username = username;
-   }
-
    public String getAuthToken() {
       return authToken;
    }
 
-   public void setAuthToken(String authToken) {
-      this.authToken = authToken;
-   }
-
    public boolean isSignedIn() {
       return signedIn;
-   }
-
-   public void setSignedIn(boolean signedIn) {
-      this.signedIn = signedIn;
    }
 }

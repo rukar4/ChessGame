@@ -2,10 +2,12 @@ package svc;
 
 import dataAccess.Database;
 import spark.Spark;
+import svc.WebSocket.WSHandler;
 
 public class Server {
    public static Database db = new Database();
-   Handler handler = new Handler();
+   private final Handler handler = new Handler();
+   private final WSHandler wsHandler = new WSHandler();
 
    public static void main(String[] args) {
       new Server().run();
@@ -13,8 +15,10 @@ public class Server {
 
    private void run() {
       Spark.port(8080);
-      Spark.staticFileLocation("web");
 
+      Spark.webSocket("/connect", wsHandler);
+
+      Spark.staticFileLocation("web");
       Spark.get("/", (req, res) -> {
          res.redirect("web/index.html");
          return null;
