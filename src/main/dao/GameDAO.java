@@ -193,7 +193,7 @@ public class GameDAO {
 
          if (gamesUpdated > 1) {
             System.out.println("WARNING: " + gamesUpdated + " games were updated");
-         } else if (gamesUpdated != 1){
+         } else if (gamesUpdated != 1) {
             throw new DataAccessException("Error: already taken", Result.ApiRes.ALREADY_TAKEN);
          }
       } catch (Exception e) {

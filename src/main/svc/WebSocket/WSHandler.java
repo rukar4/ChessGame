@@ -6,7 +6,8 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import webSocketMessages.serverMessages.Notification;
-import webSocketMessages.userCommands.JoinPlayerCommand;
+import webSocketMessages.userCommands.JoinCommand;
+import webSocketMessages.userCommands.UserGameCommand;
 
 import java.io.IOException;
 
@@ -16,13 +17,24 @@ public class WSHandler {
 
    @OnWebSocketMessage
    public void onMessage(Session session, String stream) throws IOException {
-      JoinPlayerCommand command = new Gson().fromJson(stream, JoinPlayerCommand.class);
+      Gson gson = new Gson();
+
+      UserGameCommand command = gson.fromJson(stream, UserGameCommand.class);
       switch (command.getCommandType()) {
-         case JOIN_PLAYER -> joinPlayer(command, session);
+         case JOIN_PLAYER, JOIN_OBSERVER:
+            JoinCommand joinCommand = gson.fromJson(stream, JoinCommand.class);
+            joinPlayer(joinCommand, session);
+            break;
+         case MAKE_MOVE:
+            break;
+         case RESIGN:
+            break;
+         case LEAVE:
+            break;
       }
    }
 
-   private void joinPlayer(JoinPlayerCommand command, Session session) throws IOException {
+   private void joinPlayer(JoinCommand command, Session session) throws IOException {
       String player = command.getUsername();
       TeamColor color = command.getColor();
 

@@ -8,8 +8,9 @@ import models.AuthToken;
 import models.Game;
 import models.User;
 import org.junit.jupiter.api.*;
-import svc.ServiceClasses.ErrorLogger;
 import svc.Result;
+import svc.ServiceClasses.ErrorLogger;
+
 import java.util.List;
 
 import static svc.Result.ApiRes.BAD_REQUEST;
@@ -380,7 +381,7 @@ public class DaoTests {
          Assertions.assertThrows(DataAccessException.class, () -> {
             try {
                gameDAO.claimColor(white, "INVALID", gameID);
-            } catch (Exception e){
+            } catch (Exception e) {
                if (e instanceof DataAccessException dataAccessException) {
                   Assertions.assertEquals(BAD_REQUEST, dataAccessException.getResponseCode());
                   throw e;
@@ -406,7 +407,7 @@ public class DaoTests {
          Assertions.assertThrows(DataAccessException.class, () -> {
             try {
                gameDAO.claimColor(white, white, -1);
-            } catch (Exception e){
+            } catch (Exception e) {
                if (e instanceof DataAccessException dataAccessException) {
                   Assertions.assertEquals(BAD_REQUEST, dataAccessException.getResponseCode());
                   throw e;

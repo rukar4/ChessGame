@@ -1,8 +1,6 @@
 package client.ui;
 
 import client.ChessClient;
-import client.webSocket.NotificationHandler;
-import webSocketMessages.serverMessages.Notification;
 
 import java.util.Scanner;
 
@@ -10,6 +8,7 @@ import static client.ui.EscapeSequences.*;
 
 public class LoginRepl {
    private final ChessClient client;
+
    public LoginRepl(String serverUrl) {
       client = new ChessClient(serverUrl);
    }

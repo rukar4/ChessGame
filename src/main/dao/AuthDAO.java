@@ -16,6 +16,7 @@ import java.util.List;
 public class AuthDAO {
    private static AuthDAO instance;
    private final Database db;
+
    private AuthDAO() {
       this.db = Server.db;
    }
@@ -103,7 +104,7 @@ public class AuthDAO {
          int tokensInserted = query.executeUpdate();
          if (tokensInserted > 1) {
             System.out.println("WARNING: " + tokensInserted + " tokens were added");
-         } else if (tokensInserted != 1){
+         } else if (tokensInserted != 1) {
             throw new DataAccessException("Error: unable to insert token");
          }
       } catch (Exception e) {

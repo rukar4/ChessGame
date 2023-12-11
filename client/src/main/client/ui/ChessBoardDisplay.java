@@ -1,6 +1,6 @@
 package client.ui;
 
-import chess.ChessGame;
+import chess.ChessGame.TeamColor;
 import chess.ChessPiece;
 import game.Board;
 import game.ChsGame;
@@ -15,8 +15,9 @@ public class ChessBoardDisplay {
    private static final int BOARD_SIZE_IN_SQUARES = 8;
    private static final int SQUARE_SIZE_IN_CHARS = 3;
 
-   public void displayBoard(ChsGame game, ChessGame.TeamColor color) {
+   public void displayBoard(ChsGame game, TeamColor color) {
       var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+      if (color == null) color = TeamColor.WHITE;
 
       Board chessBoard = (Board) game.getBoard();
 
@@ -29,13 +30,13 @@ public class ChessBoardDisplay {
       out.print(SET_TEXT_COLOR_WHITE);
    }
 
-   private void drawLetterRow(PrintStream out, ChessGame.TeamColor color) {
+   private void drawLetterRow(PrintStream out, TeamColor color) {
       setGray(out);
       out.print(SET_TEXT_BOLD);
 
       char[] letters = {' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', ' '};
 
-      if (color == ChessGame.TeamColor.WHITE) {
+      if (color == TeamColor.WHITE) {
          for (int boardCol = 0; boardCol < BOARD_SIZE_IN_SQUARES + 2; ++boardCol) {
             drawBorderChar(out, letters[boardCol], true);
          }
@@ -87,7 +88,7 @@ public class ChessBoardDisplay {
       setGray(out);
    }
 
-   private void drawChessBoard(PrintStream out, Board chessBoard, ChessGame.TeamColor color) {
+   private void drawChessBoard(PrintStream out, Board chessBoard, TeamColor color) {
       switch (color) {
          case WHITE:
             for (int row = 8; row > 0; --row) {

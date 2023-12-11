@@ -9,10 +9,16 @@ import models.AuthToken;
 import models.Game;
 import models.User;
 import org.junit.jupiter.api.*;
-import svc.*;
+import svc.Handler;
+import svc.Result;
 import svc.ServiceClasses.*;
-import svc.account.*;
-import svc.game.*;
+import svc.account.LoginRequest;
+import svc.account.LoginResult;
+import svc.account.RegisterRequest;
+import svc.game.CreateGameRequest;
+import svc.game.CreateGameResult;
+import svc.game.JoinGameRequest;
+import svc.game.ListGamesResult;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ServiceTests {

@@ -5,8 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exception.ResponseException;
 import webSocketMessages.serverMessages.Notification;
-import webSocketMessages.serverMessages.ServerMessage;
-import webSocketMessages.userCommands.JoinPlayerCommand;
+import webSocketMessages.userCommands.JoinCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -16,13 +15,13 @@ import java.util.Arrays;
 
 public class WSFacade extends Endpoint {
    Session session;
-   NotificationHandler notificationHandler;
+   ServerMessageHandler serverMessageHandler;
 
-   public WSFacade(String url, NotificationHandler notificationHandler) throws ResponseException {
+   public WSFacade(String url, ServerMessageHandler serverMessageHandler) throws ResponseException {
       try {
          url = url.replace("http", "ws");
          URI socketURI = new URI(url + "/connect");
-         this.notificationHandler = notificationHandler;
+         this.serverMessageHandler = serverMessageHandler;
 
          WebSocketContainer container = ContainerProvider.getWebSocketContainer();
          this.session = container.connectToServer(this, socketURI);
@@ -31,7 +30,7 @@ public class WSFacade extends Endpoint {
             @Override
             public void onMessage(String message) {
                Notification notification = new Gson().fromJson(message, Notification.class);
-               notificationHandler.notify(notification);
+               serverMessageHandler.displayMessage(notification);
             }
          });
 
@@ -47,7 +46,7 @@ public class WSFacade extends Endpoint {
 
    public void joinPlayer(String authToken, int gameID, String username, TeamColor color) throws ResponseException {
       try {
-         var command = new JoinPlayerCommand(authToken, gameID, username, color);
+         var command = new JoinCommand(authToken, gameID, username, color);
 
          Gson gson = new GsonBuilder().serializeNulls().create();
 

@@ -1,8 +1,8 @@
 package client;
 
-import chess.ChessGame;
+import chess.ChessGame.TeamColor;
 import client.ui.GameRepl;
-import client.webSocket.NotificationHandler;
+import client.webSocket.ServerMessageHandler;
 import client.webSocket.WSFacade;
 import exception.ResponseException;
 import models.Game;
@@ -10,20 +10,25 @@ import server.ServerFacade;
 import svc.account.LoginRequest;
 import svc.account.LoginResult;
 import svc.account.RegisterRequest;
-import svc.game.*;
+import svc.game.CreateGameRequest;
+import svc.game.CreateGameResult;
+import svc.game.JoinGameRequest;
+import svc.game.ListGamesResult;
 
 import java.util.List;
 
 import static client.ui.EscapeSequences.*;
 
 public class ChessClient {
+   private final String serverURL;
+   private final ServerFacade server;
    private String username = null;
    private String authToken = null;
-   private final String serverURL;
    private boolean signedIn = false;
-   private final ServerFacade server;
-   private NotificationHandler notificationHandler;
+   private ServerMessageHandler serverMessageHandler;
    private WSFacade ws;
+
+   private TeamColor playerColor = null;
 
    public ChessClient(String serverUrl) {
       server = new ServerFacade(serverUrl);
@@ -99,14 +104,15 @@ public class ChessClient {
          JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
          server.joinGame(req, authToken);
 
-         ws = new WSFacade(serverURL, notificationHandler);
+         ws = new WSFacade(serverURL, serverMessageHandler);
          if (teamColor.isEmpty()) {
-            ws.joinPlayer(authToken, gameID, username, null);
+            ws.joinPlayer(authToken, gameID, username, playerColor);
          } else {
-            ws.joinPlayer(authToken, gameID, username, ChessGame.TeamColor.valueOf(teamColor.toUpperCase()));
+            playerColor = TeamColor.valueOf(teamColor.toUpperCase());
+            ws.joinPlayer(authToken, gameID, username, playerColor);
          }
          // Join the game!
-         Game game = server.getGame(gameID, authToken).getGame();
+         Game game = getCurrentGameState(gameID);
 
          GameRepl gameRepl = new GameRepl(this);
          gameRepl.run(game);
@@ -118,14 +124,18 @@ public class ChessClient {
 
    public void rejoinGame(int gameID) {
       try {
-         Game game = server.getGame(gameID, authToken).getGame();
+         Game game = getCurrentGameState(gameID);
 
-         if (username.equalsIgnoreCase(game.getWhiteUsername()) || username.equalsIgnoreCase(game.getBlackUsername())) {
-            this.joinGame("", gameID);
+         if (username.equalsIgnoreCase(game.getWhiteUsername())) {
+            playerColor = TeamColor.WHITE;
+         } else if (username.equalsIgnoreCase(game.getBlackUsername())) {
+            playerColor = TeamColor.BLACK;
          } else {
             int errCode = 400;
             throw new ResponseException(errCode, String.format("[%d] You are not a player in %d", errCode, gameID));
          }
+
+         this.joinGame("", gameID);
 
       } catch (Exception e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
@@ -157,6 +167,15 @@ public class ChessClient {
       return sb.toString();
    }
 
+   public Game getCurrentGameState(int gameID) {
+      try {
+         return server.getGame(gameID, authToken).getGame();
+      } catch (ResponseException e) {
+         System.out.printf(SET_TEXT_COLOR_RED + "Update game failed:\n %s\n", e.getMessage());
+         return null;
+      }
+   }
+
    public String getUsername() {
       return username;
    }
@@ -169,7 +188,15 @@ public class ChessClient {
       return signedIn;
    }
 
-   public void setNotificationHandler(NotificationHandler notificationHandler) {
-      this.notificationHandler = notificationHandler;
+   public void setNotificationHandler(ServerMessageHandler serverMessageHandler) {
+      this.serverMessageHandler = serverMessageHandler;
+   }
+
+   public TeamColor getPlayerColor() {
+      return playerColor;
+   }
+
+   public void setPlayerColor(TeamColor playerColor) {
+      this.playerColor = playerColor;
    }
 }

@@ -107,7 +107,7 @@ public class UserDAO {
          int usersInserted = query.executeUpdate();
          if (usersInserted > 1) {
             System.out.println("WARNING: " + usersInserted + " users were added");
-         } else if (usersInserted != 1){
+         } else if (usersInserted != 1) {
             throw new DataAccessException("Error: unable to insert user");
          }
       } catch (Exception e) {
