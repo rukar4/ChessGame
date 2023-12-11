@@ -106,10 +106,10 @@ public class ChessClient {
 
          ws = new WSFacade(serverURL, serverMessageHandler);
          if (teamColor.isEmpty()) {
-            ws.joinPlayer(authToken, gameID, username, playerColor);
+            ws.joinGame(authToken, gameID, username, playerColor);
          } else {
             playerColor = TeamColor.valueOf(teamColor.toUpperCase());
-            ws.joinPlayer(authToken, gameID, username, playerColor);
+            ws.joinGame(authToken, gameID, username, playerColor);
          }
          // Join the game!
          Game game = getCurrentGameState(gameID);
@@ -117,7 +117,7 @@ public class ChessClient {
          GameRepl gameRepl = new GameRepl(this);
          gameRepl.run(game);
 
-      } catch (Exception e) {
+      } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
       }
    }
@@ -137,8 +137,17 @@ public class ChessClient {
 
          this.joinGame("", gameID);
 
-      } catch (Exception e) {
+      } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public void leaveGame(int gameID) {
+      try {
+         ws = new WSFacade(serverURL, serverMessageHandler);
+         ws.leaveGame(authToken, gameID, username);
+      } catch (ResponseException e) {
+         System.out.printf(SET_TEXT_COLOR_RED + "Leave game failed:\n %s\n", e.getMessage());
       }
    }
 
@@ -146,7 +155,7 @@ public class ChessClient {
       try {
          ListGamesResult res = server.listGames(authToken);
          return createGameList(res);
-      } catch (Exception e) {
+      } catch (ResponseException e) {
          return String.format(SET_TEXT_COLOR_RED + "List games failed:\n %s\n", e.getMessage());
       }
    }

@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import exception.ResponseException;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.userCommands.JoinCommand;
+import webSocketMessages.userCommands.LeaveCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -16,6 +17,8 @@ import java.util.Arrays;
 public class WSFacade extends Endpoint {
    Session session;
    ServerMessageHandler serverMessageHandler;
+   private final Gson gson = new GsonBuilder().serializeNulls().create();
+   private final int errCode = 500;
 
    public WSFacade(String url, ServerMessageHandler serverMessageHandler) throws ResponseException {
       try {
@@ -36,7 +39,7 @@ public class WSFacade extends Endpoint {
 
       } catch (DeploymentException | IOException | URISyntaxException e) {
          System.out.println(Arrays.toString(e.getStackTrace()));
-         throw new ResponseException(500, e.getMessage());
+         throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));
       }
    }
 
@@ -44,15 +47,21 @@ public class WSFacade extends Endpoint {
    public void onOpen(Session session, EndpointConfig endpointConfig) {
    }
 
-   public void joinPlayer(String authToken, int gameID, String username, TeamColor color) throws ResponseException {
+   public void joinGame(String authToken, int gameID, String username, TeamColor color) throws ResponseException {
       try {
          var command = new JoinCommand(authToken, gameID, username, color);
-
-         Gson gson = new GsonBuilder().serializeNulls().create();
-
          this.session.getBasicRemote().sendText(gson.toJson(command));
       } catch (IOException e) {
-         throw new ResponseException(500, e.getMessage());
+         throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));
+      }
+   }
+
+   public void leaveGame(String authToken, int gameID, String username) throws ResponseException {
+      try {
+         var command = new LeaveCommand(authToken, gameID, username);
+         this.session.getBasicRemote().sendText(gson.toJson(command));
+      } catch (IOException e) {
+         throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));
       }
    }
 }

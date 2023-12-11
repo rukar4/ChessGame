@@ -16,8 +16,6 @@ public class Server {
    private void run() {
       Spark.port(8080);
 
-      Spark.externalStaticFileLocation("public");
-
       Spark.webSocket("/connect", wsHandler);
 
       Spark.staticFileLocation("web");
