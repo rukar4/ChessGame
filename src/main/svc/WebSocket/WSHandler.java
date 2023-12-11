@@ -6,9 +6,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import webSocketMessages.serverMessages.Notification;
-import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.JoinPlayerCommand;
-import webSocketMessages.userCommands.UserGameCommand;
 
 import java.io.IOException;
 
@@ -17,10 +15,10 @@ public class WSHandler {
    private final ConnectionManager connections = new ConnectionManager();
 
    @OnWebSocketMessage
-   public void onMessage(Session session, String message) throws IOException {
-      UserGameCommand command = new Gson().fromJson(message, UserGameCommand.class);
+   public void onMessage(Session session, String stream) throws IOException {
+      JoinPlayerCommand command = new Gson().fromJson(stream, JoinPlayerCommand.class);
       switch (command.getCommandType()) {
-         case JOIN_PLAYER -> joinPlayer((JoinPlayerCommand) command, session);
+         case JOIN_PLAYER -> joinPlayer(command, session);
       }
    }
 
@@ -31,10 +29,13 @@ public class WSHandler {
       connections.add(player, session);
 
       String message;
-      switch (color) {
-         case WHITE -> message = String.format("%s joined as white!", player);
-         case BLACK -> message = String.format("%s joined as black!", player);
-         default -> message = String.format("%s joined as an observer!", player);
+      if (color == null) message = String.format("%s joined as an observer!", player);
+      else {
+         switch (color) {
+            case WHITE -> message = String.format("%s joined as white!", player);
+            case BLACK -> message = String.format("%s joined as black!", player);
+            default -> message = String.format("%s joined as an observer!", player);
+         }
       }
       Notification notification = new Notification(message);
 

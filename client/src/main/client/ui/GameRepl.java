@@ -2,18 +2,21 @@ package client.ui;
 
 import chess.ChessGame;
 import client.ChessClient;
+import client.webSocket.NotificationHandler;
 import game.ChsGame;
 import models.Game;
+import webSocketMessages.serverMessages.Notification;
 
 import java.util.Scanner;
 
 import static client.ui.EscapeSequences.*;
 
-public class GameRepl {
+public class GameRepl implements NotificationHandler {
    private final ChessClient client;
    private final ChessBoardDisplay display = new ChessBoardDisplay();
 
    public GameRepl(ChessClient client) {
+      client.setNotificationHandler(this);
       this.client = client;
    }
 
@@ -40,5 +43,11 @@ public class GameRepl {
 
          System.out.print(ERASE_SCREEN);
       }
+   }
+
+   @Override
+   public void notify(Notification notification) {
+      System.out.println(SET_TEXT_COLOR_GREEN + notification.getMessage());
+      System.out.print(SET_TEXT_COLOR_WHITE);
    }
 }

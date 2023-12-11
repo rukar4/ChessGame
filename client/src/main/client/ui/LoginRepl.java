@@ -8,11 +8,10 @@ import java.util.Scanner;
 
 import static client.ui.EscapeSequences.*;
 
-public class LoginRepl implements NotificationHandler{
+public class LoginRepl {
    private final ChessClient client;
-
    public LoginRepl(String serverUrl) {
-      client = new ChessClient(serverUrl, this);
+      client = new ChessClient(serverUrl);
    }
 
    public void run() {
@@ -104,11 +103,5 @@ public class LoginRepl implements NotificationHandler{
                        """);
          }
       }
-   }
-
-   @Override
-   public void notify(Notification notification) {
-      System.out.println(SET_TEXT_COLOR_GREEN + notification.getMessage());
-      System.out.print(SET_TEXT_COLOR_WHITE);
    }
 }

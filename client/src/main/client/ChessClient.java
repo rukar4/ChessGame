@@ -22,13 +22,12 @@ public class ChessClient {
    private final String serverURL;
    private boolean signedIn = false;
    private final ServerFacade server;
-   private final NotificationHandler notificationHandler;
+   private NotificationHandler notificationHandler;
    private WSFacade ws;
 
-   public ChessClient(String serverUrl, NotificationHandler notificationHandler) {
+   public ChessClient(String serverUrl) {
       server = new ServerFacade(serverUrl);
       this.serverURL = serverUrl;
-      this.notificationHandler = notificationHandler;
    }
 
    public String login(String username, String password) {
@@ -168,5 +167,9 @@ public class ChessClient {
 
    public boolean isSignedIn() {
       return signedIn;
+   }
+
+   public void setNotificationHandler(NotificationHandler notificationHandler) {
+      this.notificationHandler = notificationHandler;
    }
 }
