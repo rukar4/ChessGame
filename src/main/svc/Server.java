@@ -16,6 +16,8 @@ public class Server {
    private void run() {
       Spark.port(8080);
 
+      Spark.externalStaticFileLocation("public");
+
       Spark.webSocket("/connect", wsHandler);
 
       Spark.staticFileLocation("web");
@@ -42,5 +44,7 @@ public class Server {
       Spark.put("/game", (req, res) -> handler.handler(req, res, "joinGame"));
 
       Spark.delete("/db", (req, res) -> handler.handler(req, res, "clearApp"));
+
+      Spark.awaitInitialization();
    }
 }

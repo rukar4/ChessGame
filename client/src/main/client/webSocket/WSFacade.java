@@ -2,6 +2,7 @@ package client.webSocket;
 
 import chess.ChessGame.TeamColor;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import exception.ResponseException;
 import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
@@ -11,6 +12,7 @@ import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 public class WSFacade extends Endpoint {
    Session session;
@@ -25,12 +27,16 @@ public class WSFacade extends Endpoint {
          WebSocketContainer container = ContainerProvider.getWebSocketContainer();
          this.session = container.connectToServer(this, socketURI);
 
-         this.session.addMessageHandler((MessageHandler.Whole<String>) message -> {
-            Notification notification = new Gson().fromJson(message, Notification.class);
-            notificationHandler.notify(notification);
+         this.session.addMessageHandler(new MessageHandler.Whole<String>() {
+            @Override
+            public void onMessage(String message) {
+               Notification notification = new Gson().fromJson(message, Notification.class);
+               notificationHandler.notify(notification);
+            }
          });
 
       } catch (DeploymentException | IOException | URISyntaxException e) {
+         System.out.println(Arrays.toString(e.getStackTrace()));
          throw new ResponseException(500, e.getMessage());
       }
    }
@@ -42,7 +48,10 @@ public class WSFacade extends Endpoint {
    public void joinPlayer(String authToken, int gameID, String username, TeamColor color) throws ResponseException {
       try {
          var command = new JoinPlayerCommand(authToken, gameID, username, color);
-         this.session.getBasicRemote().sendText(new Gson().toJson(command));
+
+         Gson gson = new GsonBuilder().serializeNulls().create();
+
+         this.session.getBasicRemote().sendText(gson.toJson(command));
       } catch (IOException e) {
          throw new ResponseException(500, e.getMessage());
       }

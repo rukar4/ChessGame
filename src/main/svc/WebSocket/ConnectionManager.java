@@ -11,7 +11,7 @@ public class ConnectionManager {
    public final ConcurrentHashMap<String, Connection> connections = new ConcurrentHashMap<>();
 
    public void add(String user, Session session) {
-      Connection connection = new Connection(user, session);
+      var connection = new Connection(user, session);
       connections.put(user, connection);
    }
 

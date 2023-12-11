@@ -2,6 +2,7 @@ package client;
 
 import chess.ChessGame;
 import client.ui.GameRepl;
+import client.webSocket.NotificationHandler;
 import client.webSocket.WSFacade;
 import exception.ResponseException;
 import models.Game;
@@ -18,12 +19,16 @@ import static client.ui.EscapeSequences.*;
 public class ChessClient {
    private String username = null;
    private String authToken = null;
+   private final String serverURL;
    private boolean signedIn = false;
    private final ServerFacade server;
+   private final NotificationHandler notificationHandler;
    private WSFacade ws;
 
-   public ChessClient(String serverUrl) {
+   public ChessClient(String serverUrl, NotificationHandler notificationHandler) {
       server = new ServerFacade(serverUrl);
+      this.serverURL = serverUrl;
+      this.notificationHandler = notificationHandler;
    }
 
    public String login(String username, String password) {
@@ -93,9 +98,14 @@ public class ChessClient {
    public void joinGame(String teamColor, int gameID) {
       try {
          JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
-
          server.joinGame(req, authToken);
 
+         ws = new WSFacade(serverURL, notificationHandler);
+         if (teamColor.isEmpty()) {
+            ws.joinPlayer(authToken, gameID, username, null);
+         } else {
+            ws.joinPlayer(authToken, gameID, username, ChessGame.TeamColor.valueOf(teamColor.toUpperCase()));
+         }
          // Join the game!
          Game game = server.getGame(gameID, authToken).getGame();
 
