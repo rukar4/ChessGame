@@ -16,6 +16,8 @@ public class Server {
    private void run() {
       Spark.port(8080);
 
+      // Disable closing connections for being idle
+      Spark.webSocketIdleTimeoutMillis(0);
       Spark.webSocket("/connect", wsHandler);
 
       Spark.staticFileLocation("web");

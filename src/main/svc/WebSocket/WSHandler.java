@@ -2,6 +2,9 @@ package svc.WebSocket;
 
 import chess.ChessGame.TeamColor;
 import com.google.gson.Gson;
+import dao.AuthDAO;
+import dao.GameDAO;
+import dataAccess.DataAccessException;
 import models.Game;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
@@ -53,7 +56,8 @@ public class WSHandler {
    }
 
    private void joinGame(JoinCommand command, Session session) throws IOException {
-      String player = command.getUsername();
+      String player = getUsername(command.getAuthString());
+
       int gameID = command.getGameID();
       TeamColor color = command.getColor();
 
@@ -68,15 +72,43 @@ public class WSHandler {
             default -> message = String.format("%s joined as an observer!", player);
          }
       }
+      // Send game to the new player
+      Game game = getGame(command.getGameID());
+      ServerMessage loadGameMessage = generateMessage(ServerMessageType.LOAD_GAME, null, game);
+      session.getRemote().sendString(loadGameMessage.toString());
+
+      // Broadcast new player's arrival
       connections.broadcast(player, gameID, generateMessage(ServerMessageType.NOTIFICATION, message, null));
    }
 
    private void leaveGame(LeaveCommand command) throws IOException {
-      String player = command.getUsername();
+      String player = getUsername(command.getAuthString());
       connections.remove(player);
 
       String message = String.format("%s has left the game.", player);
       connections.broadcast(player, command.getGameID(), generateMessage(ServerMessageType.NOTIFICATION, message, null));
+   }
+
+   private String getUsername(String authToken) {
+      AuthDAO authDAO = AuthDAO.getInstance();
+      String username = "";
+      try {
+         username = authDAO.getToken(authToken).getUsername();
+      } catch (DataAccessException e) {
+         System.out.printf("[%d] Error: %s\n", e.getResponseCode().getCode(), e.getMessage());
+      }
+      return username;
+   }
+
+   private Game getGame(int gameID) {
+      GameDAO gameDAO = GameDAO.getInstance();
+      Game game = null;
+      try {
+         game = gameDAO.getGame(gameID);
+      } catch (DataAccessException e) {
+         System.out.printf("[%d] Error: %s\n", e.getResponseCode().getCode(), e.getMessage());
+      }
+      return game;
    }
 
    private ServerMessage generateMessage(ServerMessageType serverMessageType, String message, Game game) {

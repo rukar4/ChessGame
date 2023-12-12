@@ -108,15 +108,13 @@ public class ChessClient {
 
          ws = new WSFacade(serverURL, serverMessageHandler);
          if (teamColor.isEmpty()) {
-            ws.joinGame(authToken, gameID, username, playerColor);
+            ws.joinGame(authToken, gameID, playerColor);
          } else {
             playerColor = TeamColor.valueOf(teamColor.toUpperCase());
-            ws.joinGame(authToken, gameID, username, playerColor);
+            ws.joinGame(authToken, gameID, playerColor);
          }
          // Join the game!
-         Game game = getCurrentGameState(gameID);
-
-         gameRepl.run(game);
+         gameRepl.run();
 
       } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
@@ -146,7 +144,7 @@ public class ChessClient {
    public void leaveGame(int gameID) {
       try {
          ws = new WSFacade(serverURL, serverMessageHandler);
-         ws.leaveGame(authToken, gameID, username);
+         ws.leaveGame(authToken, gameID);
       } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Leave game failed:\n %s\n", e.getMessage());
       }
@@ -177,13 +175,8 @@ public class ChessClient {
       return sb.toString();
    }
 
-   public Game getCurrentGameState(int gameID) {
-      try {
-         return server.getGame(gameID, authToken).getGame();
-      } catch (ResponseException e) {
-         System.out.printf(SET_TEXT_COLOR_RED + "Update game failed:\n %s\n", e.getMessage());
-         return null;
-      }
+   public Game getCurrentGameState(int gameID) throws ResponseException {
+      return server.getGame(gameID, authToken).getGame();
    }
 
    public String getUsername() {

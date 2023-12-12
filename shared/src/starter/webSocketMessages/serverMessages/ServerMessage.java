@@ -1,7 +1,10 @@
 package webSocketMessages.serverMessages;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import models.Game;
 
+import java.lang.reflect.Modifier;
 import java.util.Objects;
 
 /**
@@ -51,6 +54,13 @@ public class ServerMessage {
    @Override
    public int hashCode() {
       return Objects.hash(getServerMessageType());
+   }
+
+   public String toString() {
+      Gson gson = new GsonBuilder()
+              .excludeFieldsWithModifiers(Modifier.STATIC)
+              .create();
+      return gson.toJson(this);
    }
 
    public enum ServerMessageType {

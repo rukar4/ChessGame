@@ -1,14 +1,18 @@
 package client.webSocket;
 
 import chess.ChessGame.TeamColor;
+import chess.ChessPiece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exception.ResponseException;
+import svc.game.ChessPieceAdapter;
+import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.JoinCommand;
 import webSocketMessages.userCommands.LeaveCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -30,9 +34,13 @@ public class WSFacade extends Endpoint {
 
          this.session.addMessageHandler(new MessageHandler.Whole<String>() {
             @Override
-            public void onMessage(String message) {
-               Notification notification = new Gson().fromJson(message, Notification.class);
-               serverMessageHandler.displayMessage(notification);
+            public void onMessage(String stream) {
+               ServerMessage message = new GsonBuilder()
+                       .excludeFieldsWithModifiers(Modifier.STATIC)
+                       .registerTypeAdapter(ChessPiece.class, new ChessPieceAdapter())
+                       .create()
+                       .fromJson(stream, ServerMessage.class);
+               serverMessageHandler.displayMessage(message);
             }
          });
 
@@ -46,18 +54,18 @@ public class WSFacade extends Endpoint {
    public void onOpen(Session session, EndpointConfig endpointConfig) {
    }
 
-   public void joinGame(String authToken, int gameID, String username, TeamColor color) throws ResponseException {
+   public void joinGame(String authToken, int gameID, TeamColor color) throws ResponseException {
       try {
-         var command = new JoinCommand(authToken, gameID, username, color);
+         var command = new JoinCommand(authToken, gameID, color);
          this.session.getBasicRemote().sendText(gson.toJson(command));
       } catch (IOException e) {
          throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));
       }
    }
 
-   public void leaveGame(String authToken, int gameID, String username) throws ResponseException {
+   public void leaveGame(String authToken, int gameID) throws ResponseException {
       try {
-         var command = new LeaveCommand(authToken, gameID, username);
+         var command = new LeaveCommand(authToken, gameID);
          this.session.getBasicRemote().sendText(gson.toJson(command));
       } catch (IOException e) {
          throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));

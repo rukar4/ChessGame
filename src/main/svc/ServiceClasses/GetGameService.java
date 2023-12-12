@@ -20,7 +20,7 @@ public class GetGameService {
          return result;
       } catch (Exception e) {
          ErrorLogger err = new ErrorLogger();
-         err.errMessage(e, "LogoutService", result);
+         err.errMessage(e, "GetGameService", result);
 
          return result;
       }
