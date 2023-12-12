@@ -52,6 +52,7 @@ public class GameRepl implements ServerMessageHandler {
    public void run(Game game) {
       this.game = game;
       this.chess = (ChsGame) game.getGameData();
+
       String input = "";
       String start = String.format(SET_TEXT_COLOR_GREEN + """
               Welcome to %s %s %s

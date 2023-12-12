@@ -104,6 +104,8 @@ public class ChessClient {
          JoinGameRequest req = new JoinGameRequest(teamColor, gameID);
          server.joinGame(req, authToken);
 
+         GameRepl gameRepl = new GameRepl(this);
+
          ws = new WSFacade(serverURL, serverMessageHandler);
          if (teamColor.isEmpty()) {
             ws.joinGame(authToken, gameID, username, playerColor);
@@ -114,7 +116,6 @@ public class ChessClient {
          // Join the game!
          Game game = getCurrentGameState(gameID);
 
-         GameRepl gameRepl = new GameRepl(this);
          gameRepl.run(game);
 
       } catch (ResponseException e) {
