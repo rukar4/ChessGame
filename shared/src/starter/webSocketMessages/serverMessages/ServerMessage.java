@@ -1,5 +1,7 @@
 package webSocketMessages.serverMessages;
 
+import models.Game;
+
 import java.util.Objects;
 
 /**
@@ -10,6 +12,8 @@ import java.util.Objects;
  */
 public class ServerMessage {
    ServerMessageType serverMessageType;
+   private String message;
+   private Game game;
 
    public ServerMessage(ServerMessageType type) {
       this.serverMessageType = type;
@@ -17,6 +21,22 @@ public class ServerMessage {
 
    public ServerMessageType getServerMessageType() {
       return this.serverMessageType;
+   }
+
+   public String getMessage() {
+      return message;
+   }
+
+   public void setMessage(String message) {
+      this.message = message;
+   }
+
+   public Game getGame() {
+      return game;
+   }
+
+   public void setGame(Game game) {
+      this.game = game;
    }
 
    @Override

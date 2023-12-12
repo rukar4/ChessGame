@@ -4,7 +4,6 @@ import chess.ChessGame.TeamColor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import exception.ResponseException;
-import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.userCommands.JoinCommand;
 import webSocketMessages.userCommands.LeaveCommand;
 

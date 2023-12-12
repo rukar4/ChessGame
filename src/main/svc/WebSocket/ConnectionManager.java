@@ -1,8 +1,7 @@
 package svc.WebSocket;
 
 import org.eclipse.jetty.websocket.api.Session;
-import webSocketMessages.serverMessages.Error;
-import webSocketMessages.serverMessages.Notification;
+import webSocketMessages.serverMessages.ServerMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,12 +19,12 @@ public class ConnectionManager {
       connections.remove(username);
    }
 
-   public void broadcast(String currentUser, int gameID, Notification notification) throws IOException {
+   public void broadcast(String userToSkip, int gameID, ServerMessage message) throws IOException {
       var removeList = new ArrayList<Connection>();
       for (Connection c : connections.values()) {
          if (c.session.isOpen()) {
-            if (!c.username.equals(currentUser) && c.gameID == gameID) {
-               c.send(notification.toString());
+            if (!c.username.equals(userToSkip) && c.gameID == gameID) {
+               c.send(message.toString());
             }
          } else {
             removeList.add(c);

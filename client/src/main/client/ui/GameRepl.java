@@ -5,8 +5,6 @@ import client.ChessClient;
 import client.webSocket.ServerMessageHandler;
 import game.ChsGame;
 import models.Game;
-import webSocketMessages.serverMessages.Error;
-import webSocketMessages.serverMessages.Notification;
 import webSocketMessages.serverMessages.ServerMessage;
 
 import java.util.Scanner;
@@ -20,16 +18,14 @@ public class GameRepl implements ServerMessageHandler {
    private ChsGame chess;
 
    @Override
-   public void displayMessage(ServerMessage message) {
-      switch (message.getServerMessageType()) {
+   public void displayMessage(ServerMessage serverMessage) {
+      switch (serverMessage.getServerMessageType()) {
          case NOTIFICATION:
-            Notification notification = (Notification) message;
-            System.out.println(SET_TEXT_COLOR_GREEN + notification.getMessage());
+            System.out.println(SET_TEXT_COLOR_GREEN + serverMessage.getMessage());
             System.out.print(SET_TEXT_COLOR_WHITE);
             break;
          case ERROR:
-            Error error = (Error) message;
-            System.out.println(SET_TEXT_COLOR_RED + error.getErrorMessage());
+            System.out.println(SET_TEXT_COLOR_RED + serverMessage.getMessage());
             System.out.print(SET_TEXT_COLOR_WHITE);
             break;
          case LOAD_GAME:

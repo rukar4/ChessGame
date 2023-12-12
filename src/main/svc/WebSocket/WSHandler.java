@@ -2,12 +2,13 @@ package svc.WebSocket;
 
 import chess.ChessGame.TeamColor;
 import com.google.gson.Gson;
+import models.Game;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
-import webSocketMessages.serverMessages.Notification;
-import webSocketMessages.serverMessages.Error;
+import webSocketMessages.serverMessages.ServerMessage;
+import webSocketMessages.serverMessages.ServerMessage.ServerMessageType;
 import webSocketMessages.userCommands.JoinCommand;
 import webSocketMessages.userCommands.LeaveCommand;
 import webSocketMessages.userCommands.UserGameCommand;
@@ -43,9 +44,11 @@ public class WSHandler {
 
    @OnWebSocketError
    public void onError(Session session, Throwable error) throws IOException {
-      System.out.println(error.getMessage());
+      String message = String.format("[500] Error: %s", error.getMessage());
+      System.out.println();
 
-      Error errorMessage = new Error(error.getMessage());
+      ServerMessage errorMessage = generateMessage(ServerMessageType.ERROR, message, null);
+
       session.getRemote().sendString(errorMessage.toString());
    }
 
@@ -65,7 +68,7 @@ public class WSHandler {
             default -> message = String.format("%s joined as an observer!", player);
          }
       }
-      connections.broadcast(player, gameID, new Notification(message));
+      connections.broadcast(player, gameID, generateMessage(ServerMessageType.NOTIFICATION, message, null));
    }
 
    private void leaveGame(LeaveCommand command) throws IOException {
@@ -73,6 +76,15 @@ public class WSHandler {
       connections.remove(player);
 
       String message = String.format("%s has left the game.", player);
-      connections.broadcast(player, command.getGameID(), new Notification(message));
+      connections.broadcast(player, command.getGameID(), generateMessage(ServerMessageType.NOTIFICATION, message, null));
+   }
+
+   private ServerMessage generateMessage(ServerMessageType serverMessageType, String message, Game game) {
+      ServerMessage serverMessage = new ServerMessage(serverMessageType);
+      switch (serverMessageType) {
+         case NOTIFICATION, ERROR -> serverMessage.setMessage(message);
+         case LOAD_GAME -> serverMessage.setGame(game);
+      }
+      return serverMessage;
    }
 }
