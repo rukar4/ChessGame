@@ -8,6 +8,8 @@ import java.util.Collection;
 public class ChsGame implements ChessGame {
    private TeamColor TeamTurn = TeamColor.WHITE;
    private Board chessBoard = new Board();
+   GameStatus status = GameStatus.ONGOING;
+   TeamColor victor = null;
 
    @Override
    public TeamColor getTeamTurn() {
@@ -144,7 +146,10 @@ public class ChsGame implements ChessGame {
 
    @Override
    public boolean isInCheckmate(TeamColor teamColor) {
-      return (isInCheck(teamColor) && isInStalemate(teamColor));
+      if ((isInCheck(teamColor) && isInStalemate(teamColor))) {
+         status = GameStatus.CHECKMATE;
+         return true;
+      } else return false;
    }
 
    @Override
@@ -156,6 +161,7 @@ public class ChsGame implements ChessGame {
             if (piece != null && piece.getTeamColor() == teamColor && !validMoves(position).isEmpty()) return false;
          }
       }
+      status = GameStatus.STALEMATE;
       return true;
    }
 
@@ -179,5 +185,28 @@ public class ChsGame implements ChessGame {
    @Override
    public void setBoard(ChessBoard board) {
       this.chessBoard = new Board(board);
+   }
+
+   public GameStatus getStatus() {
+      return status;
+   }
+
+   public void setStatus(GameStatus status) {
+      this.status = status;
+   }
+
+   public TeamColor getVictor() {
+      return victor;
+   }
+
+   public void setVictor(TeamColor victor) {
+      this.victor = victor;
+   }
+
+   public enum GameStatus {
+      CHECKMATE,
+      STALEMATE,
+      RESIGN,
+      ONGOING
    }
 }

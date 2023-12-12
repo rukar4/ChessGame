@@ -1,6 +1,5 @@
 package dao;
 
-import chess.ChessGame;
 import chess.ChessPiece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Data access object for the Game database
@@ -198,6 +196,42 @@ public class GameDAO {
          } else if (gamesUpdated != 1) {
             throw new DataAccessException("Error: already taken", Result.ApiRes.ALREADY_TAKEN);
          }
+      } catch (Exception e) {
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
+      } finally {
+         db.returnConnection(conn);
+      }
+   }
+
+   /**
+    * Updates the game string at the given gameID by converting the given Game object
+    * to a string and replacing the game string with the new string
+    *
+    * @param gameID      The game to be updated
+    * @param updatedGame The updated game
+    * @throws DataAccessException when the gameID is invalid
+    */
+   public void updateGame(int gameID, Game updatedGame) throws DataAccessException {
+      // Check if the game exists. If it doesn't, the getGame function throws a BAD_REQUEST error
+      getGame(gameID);
+
+      var conn = db.getConnection();
+      String sql =
+              "UPDATE games SET gameData = ? WHERE gameID = ?;";
+
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.setString(1, gson.toJson(updatedGame.getGameData()));
+         query.setInt(2, gameID);
+
+         int updatedRows = query.executeUpdate();
+         if (updatedRows == 0) {
+            throw new DataAccessException("Error: Unable to update game " + gameID);
+         }
+
       } catch (Exception e) {
          if (e instanceof DataAccessException) {
             throw (DataAccessException) e;

@@ -3,6 +3,8 @@ package models;
 import chess.ChessGame;
 import game.ChsGame;
 
+import java.util.Objects;
+
 /**
  * Game class manages the creation of a chess game. It stores its id, the usernames of the players, the game name, and
  * the chess game itself.
@@ -50,6 +52,38 @@ public class Game {
       this.gameName = gameName;
    }
 
+   public String getPlayerFromColor(ChessGame.TeamColor color) {
+      switch (color) {
+         case WHITE -> {
+            return whiteUsername;
+         }
+         case BLACK -> {
+            return blackUsername;
+         }
+         default -> {
+            return null;
+         }
+      }
+   }
+
+   public ChessGame.TeamColor getPlayerColor(String username) {
+      if (Objects.equals(whiteUsername, username)) return ChessGame.TeamColor.WHITE;
+      else if (Objects.equals(blackUsername, username)) return ChessGame.TeamColor.BLACK;
+      else return null;
+   }
+
+   public ChessGame.TeamColor getOpponentColor(String username) {
+      if (Objects.equals(whiteUsername, username)) return ChessGame.TeamColor.BLACK;
+      else if (Objects.equals(blackUsername, username)) return ChessGame.TeamColor.WHITE;
+      else return null;
+   }
+
+   public String getOpponentName(String username) {
+      if (Objects.equals(whiteUsername, username)) return blackUsername;
+      else if (Objects.equals(blackUsername, username)) return whiteUsername;
+      else return null;
+   }
+
    public int getGameID() {
       return gameID;
    }
@@ -82,7 +116,7 @@ public class Game {
       this.gameName = gameName;
    }
 
-   public ChessGame getGameData() {
+   public ChsGame getGameData() {
       return gameData;
    }
 

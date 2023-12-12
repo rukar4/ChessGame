@@ -14,10 +14,13 @@ import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.serverMessages.ServerMessage.ServerMessageType;
 import webSocketMessages.userCommands.JoinCommand;
 import webSocketMessages.userCommands.LeaveCommand;
+import webSocketMessages.userCommands.ResignCommand;
 import webSocketMessages.userCommands.UserGameCommand;
 
 import java.io.IOException;
 import java.util.Objects;
+
+import static game.ChsGame.GameStatus.*;
 
 @WebSocket
 public class WSHandler {
@@ -39,7 +42,8 @@ public class WSHandler {
                System.out.println("Show me your moves!");
                break;
             case RESIGN:
-               System.out.println("I never learned how to read!!!");
+               ResignCommand resignCommand = gson.fromJson(stream, ResignCommand.class);
+               resign(resignCommand);
                break;
             case LEAVE:
                LeaveCommand leaveCommand = gson.fromJson(stream, LeaveCommand.class);
@@ -47,7 +51,7 @@ public class WSHandler {
                break;
          }
       } catch (DataAccessException e) {
-         ServerMessage errorMessage = generateMessage(ServerMessageType.ERROR, e.getMessage(), null);
+         ServerMessage errorMessage = constructServerMessage(ServerMessageType.ERROR, e.getMessage(), null);
          session.getRemote().sendString(errorMessage.toString());
       }
    }
@@ -57,7 +61,7 @@ public class WSHandler {
       String message = String.format("[500] Error: %s", error.getMessage());
       System.out.println(message);
 
-      ServerMessage errorMessage = generateMessage(ServerMessageType.ERROR, message, null);
+      ServerMessage errorMessage = constructServerMessage(ServerMessageType.ERROR, message, null);
       session.getRemote().sendString(errorMessage.toString());
    }
 
@@ -69,29 +73,35 @@ public class WSHandler {
 
       connections.add(player, gameID, session);
 
-      String message;
-      if (color == null) message = String.format("%s joined as an observer!", player);
-      else {
-         // Check if player is rejoining their color
-         switch (color) {
-            case WHITE -> {
-               if (!Objects.equals(game.getWhiteUsername(), player))
-                  throw new DataAccessException("Error: already taken");
-            }
-            case BLACK -> {
-               if (!Objects.equals(game.getBlackUsername(), player))
-                  throw new DataAccessException("Error: already taken");
-            }
-            default -> throw new DataAccessException("Error: bad request");
-         }
-         message = String.format("%s joined as an %s!", player, color);
-      }
+      String message = getJoinMessage(color, player, game);
+
       // Send game to the new player
-      ServerMessage loadGameMessage = generateMessage(ServerMessageType.LOAD_GAME, null, game);
+      ServerMessage loadGameMessage = constructServerMessage(ServerMessageType.LOAD_GAME, null, game);
       session.getRemote().sendString(loadGameMessage.toString());
 
       // Broadcast new player's arrival
-      connections.broadcast(player, gameID, generateMessage(ServerMessageType.NOTIFICATION, message, null));
+      connections.broadcast(player, gameID, constructServerMessage(ServerMessageType.NOTIFICATION, message, null));
+   }
+
+   private void resign(ResignCommand command) throws IOException, DataAccessException {
+      String player = getUsername(command.getAuthString());
+      int gameID = command.getGameID();
+      Game game = gameDAO.getGame(gameID);
+
+      if (game.getGameData().getStatus() != ONGOING) throw new DataAccessException("Error: game has already concluded");
+
+      TeamColor victorColor = game.getOpponentColor(player);
+
+      if (victorColor == null) throw new DataAccessException("Error: resigning user is not a player");
+      else {
+         game.getGameData().setVictor(victorColor);
+         game.getGameData().setStatus(RESIGN);
+         gameDAO.updateGame(gameID, game);
+
+         String message = String.format("%s has resigned. %s WINS!", player, game.getOpponentName(player));
+         ServerMessage resignationNotice = constructServerMessage(ServerMessageType.NOTIFICATION, message, null);
+         connections.broadcast("", gameID, resignationNotice);
+      }
    }
 
    private void leaveGame(LeaveCommand command) throws IOException, DataAccessException {
@@ -99,7 +109,7 @@ public class WSHandler {
       connections.remove(player);
 
       String message = String.format("%s has left the game.", player);
-      connections.broadcast(player, command.getGameID(), generateMessage(ServerMessageType.NOTIFICATION, message, null));
+      connections.broadcast(player, command.getGameID(), constructServerMessage(ServerMessageType.NOTIFICATION, message, null));
    }
 
    private String getUsername(String authToken) throws DataAccessException {
@@ -107,7 +117,7 @@ public class WSHandler {
       return authDAO.getToken(authToken).getUsername();
    }
 
-   private ServerMessage generateMessage(ServerMessageType serverMessageType, String message, Game game) {
+   private ServerMessage constructServerMessage(ServerMessageType serverMessageType, String message, Game game) {
       ServerMessage serverMessage = new ServerMessage(serverMessageType);
       switch (serverMessageType) {
          case NOTIFICATION -> serverMessage.setMessage(message);
@@ -115,5 +125,20 @@ public class WSHandler {
          case ERROR -> serverMessage.setErrorMessage(message);
       }
       return serverMessage;
+   }
+
+   private static String getJoinMessage(TeamColor color, String player, Game game) throws DataAccessException {
+      String message;
+      if (color == null) message = String.format("%s joined as an observer!", player);
+      else {
+         // Check if player is joining as their color
+         String playerInGame = game.getPlayerFromColor(color);
+         if (Objects.equals(playerInGame, player)) {
+            message = String.format("%s joined as %s!", player, color.toString().toLowerCase());
+         } else {
+            throw new DataAccessException("Error: bad request");
+         }
+      }
+      return message;
    }
 }

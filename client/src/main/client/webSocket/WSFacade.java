@@ -9,6 +9,7 @@ import svc.game.ChessPieceAdapter;
 import webSocketMessages.serverMessages.ServerMessage;
 import webSocketMessages.userCommands.JoinCommand;
 import webSocketMessages.userCommands.LeaveCommand;
+import webSocketMessages.userCommands.ResignCommand;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -66,6 +67,15 @@ public class WSFacade extends Endpoint {
    public void leaveGame(String authToken, int gameID) throws ResponseException {
       try {
          var command = new LeaveCommand(authToken, gameID);
+         this.session.getBasicRemote().sendText(gson.toJson(command));
+      } catch (IOException e) {
+         throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));
+      }
+   }
+
+   public void resign(String authToken, int gameID) throws ResponseException {
+      try {
+         var command = new ResignCommand(authToken, gameID);
          this.session.getBasicRemote().sendText(gson.toJson(command));
       } catch (IOException e) {
          throw new ResponseException(errCode, String.format("[%d] %s", errCode, e.getMessage()));

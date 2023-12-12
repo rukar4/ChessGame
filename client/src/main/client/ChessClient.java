@@ -134,7 +134,7 @@ public class ChessClient {
             throw new ResponseException(errCode, String.format("[%d] You are not a player in %d", errCode, gameID));
          }
 
-         this.joinGame(playerColor.toString(), gameID);
+         this.joinGame("", gameID);
 
       } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
@@ -147,6 +147,15 @@ public class ChessClient {
          ws.leaveGame(authToken, gameID);
       } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Leave game failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public void resign(int gameID) {
+      try {
+         ws = new WSFacade(serverURL, serverMessageHandler);
+         ws.resign(authToken, gameID);
+      } catch (ResponseException e) {
+         System.out.printf(SET_TEXT_COLOR_RED + "Resign game failed:\n %s\n", e.getMessage());
       }
    }
 

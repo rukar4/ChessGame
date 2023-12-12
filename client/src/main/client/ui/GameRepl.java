@@ -31,7 +31,63 @@ public class GameRepl implements ServerMessageHandler {
          Scanner scanner = new Scanner(System.in);
          input = scanner.nextLine();
 
-         System.out.print(ERASE_SCREEN);
+         switch (input.toLowerCase()) {
+            case "r", "redraw":
+               display.displayBoard(chess, client.getPlayerColor());
+               break;
+            case "s", "show", "show moves", "moves":
+               System.out.println("SHOW ME YOUR MOVES!");
+               break;
+            case "x", "resign":
+               System.out.print(SET_TEXT_COLOR_RED + "Are you sure you want to resign? Type yes to confirm:\n\t");
+               input = scanner.nextLine();
+               if (input.equalsIgnoreCase("yes")) {
+                  client.resign(game.getGameID());
+                  break;
+               } else {
+                  System.out.print(ERASE_SCREEN);
+                  display.displayBoard(chess, client.getPlayerColor());
+               }
+            case "h", "help":
+               System.out.printf("""
+                       Use the following commands to play chess!
+                                              
+                       \tRedraw >>> Redraws the chess board.
+                       \tShow Moves >>> Highlights the valid moves for a piece.
+                       \t\t\tSelect the piece by entering its position on the board. Ex: d2
+                       \tMove >>> Move a piece by entering the starting and ending positions.
+                       \t\t\tFormat your moves like this: %sd2 d4%s
+                       \t\t\tThe first is your piece's starting position, and the second is
+                       \t\t\twhere you want to move to.
+                       \tResign [X] >>> Forfeits the game to your opponent.
+                       \tLeave >>> Return to the previous menu.
+                                              
+                       You can also use the first letter to select a command, except for resign
+                       where X is the shortcut.
+                       """, SET_TEXT_COLOR_GREEN, SET_TEXT_COLOR_WHITE);
+               break;
+            case "l":
+               System.out.print(ERASE_SCREEN);
+               break;
+            default:
+               System.out.print("""
+                       The command you gave was unrecognized. Please type one of the following:
+                                              
+                       \tRedraw >>> Redraws the chess board.
+                       \tShow Moves >>> Highlights the valid moves for a piece.
+                       \t\t\tSelect the piece by entering its position on the board. Ex: d2
+                       \tMove >>> Move a piece by entering the starting and ending positions.
+                       \t\t\tFormat your moves like this: %sd2 d4%s
+                       \t\t\tThe first is your piece's starting position, and the second is
+                       \t\t\twhere you want to move to.
+                       \tResign [X] >>> Forfeits the game to your opponent.
+                       \tLeave >>> Return to the previous menu.
+                                              
+                       You can also use the first letter to select a command, except for resign
+                       where X is the shortcut.
+                       """);
+               break;
+         }
       }
 
       client.setPlayerColor(null);
