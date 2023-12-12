@@ -1,5 +1,6 @@
 package dao;
 
+import chess.ChessGame;
 import chess.ChessPiece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Data access object for the Game database
@@ -179,7 +181,7 @@ public class GameDAO {
 
       // Color should always be white or black from the JoinGameService
       try {
-         Assertions.assertTrue(color.equals("white") || color.equals("black"));
+         Assertions.assertTrue(color.equalsIgnoreCase("white") || color.equalsIgnoreCase("black"));
       } catch (AssertionError e) {
          throw new DataAccessException("Error: invalid color", Result.ApiRes.BAD_REQUEST);
       }

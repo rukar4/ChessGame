@@ -48,7 +48,7 @@ public class AuthDAO {
 
                return new AuthToken(username, authToken);
             } else {
-               return null;
+               throw new DataAccessException("Unauthorized");
             }
          }
       } catch (Exception e) {

@@ -51,7 +51,7 @@ public class GameRepl implements ServerMessageHandler {
             System.out.print(SET_TEXT_COLOR_WHITE);
             break;
          case ERROR:
-            System.out.println(SET_TEXT_COLOR_RED + serverMessage.getMessage());
+            System.out.println(SET_TEXT_COLOR_RED + serverMessage.getErrorMessage());
             System.out.print(SET_TEXT_COLOR_WHITE);
             break;
          case LOAD_GAME:

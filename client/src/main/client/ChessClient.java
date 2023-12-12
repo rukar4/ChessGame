@@ -116,7 +116,7 @@ public class ChessClient {
          // Join the game!
          gameRepl.run();
 
-      } catch (ResponseException e) {
+      } catch (Exception e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
       }
    }
@@ -134,7 +134,7 @@ public class ChessClient {
             throw new ResponseException(errCode, String.format("[%d] You are not a player in %d", errCode, gameID));
          }
 
-         this.joinGame("", gameID);
+         this.joinGame(playerColor.toString(), gameID);
 
       } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Join game failed:\n %s\n", e.getMessage());
