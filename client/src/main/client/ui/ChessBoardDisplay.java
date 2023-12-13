@@ -216,4 +216,24 @@ public class ChessBoardDisplay {
       out.print(RESET_BG_COLOR);
       out.print(SET_TEXT_COLOR_BLACK);
    }
+
+   public void displayStart(String gameName) {
+      String start = String.format(SET_TEXT_COLOR_GREEN + "%s %s\n\n", gameName, SET_TEXT_COLOR_WHITE);
+      System.out.print(ERASE_SCREEN + start);
+   }
+
+   public void displayGameUI(int gameID, ChsGame chess) {
+      if (client.getPlayerColor() == null)
+         System.out.printf(
+                 SET_TEXT_COLOR_GREEN + "Watching %d\n" +
+                         SET_TEXT_COLOR_WHITE + "Team turn: %s\n",
+                 gameID, chess.getTeamTurn().toString()
+         );
+      else if (chess.getTeamTurn() == client.getPlayerColor()) {
+         System.out.println("What's your next move?");
+      } else {
+         System.out.printf("Waiting for %s to move...\n", chess.getTeamTurn().toString().toLowerCase());
+      }
+      System.out.println("Type [h]elp for command details");
+   }
 }

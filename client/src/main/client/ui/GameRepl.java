@@ -1,6 +1,5 @@
 package client.ui;
 
-import chess.ChessMove;
 import client.ChessClient;
 import client.webSocket.ServerMessageHandler;
 import game.ChsGame;
@@ -18,6 +17,7 @@ public class GameRepl implements ServerMessageHandler {
    private final ChessBoardDisplay display;
    private Game game;
    private ChsGame chess;
+   private boolean justEntered = true;
 
    public GameRepl(ChessClient client) {
       client.setNotificationHandler(this);
@@ -148,22 +148,27 @@ public class GameRepl implements ServerMessageHandler {
          case LOAD_GAME:
             updateGameState(serverMessage.getGame());
 
-            String start = String.format(SET_TEXT_COLOR_GREEN + "%s %s\n\n", game.getGameName(), SET_TEXT_COLOR_WHITE);
-            System.out.print(ERASE_SCREEN + start);
+            if (justEntered) {
+               display.displayStart(game.getGameName());
+               justEntered = false;
+            }
 
             display.displayBoard(chess, null);
-            if (client.getPlayerColor() == null)
-               System.out.printf(
-                       SET_TEXT_COLOR_GREEN + "Watching %d\n" +
-                               SET_TEXT_COLOR_WHITE + "Team turn: %s\n",
-                       game.getGameID(), game.getGameData().getTeamTurn().toString()
-               );
-            else if (chess.getTeamTurn() == client.getPlayerColor()) {
-               System.out.println("What's your next move?");
-            } else {
-               System.out.printf("Waiting for %s to move...\n", game.getGameData().getTeamTurn().toString().toLowerCase());
+            switch (chess.getStatus()) {
+               case ONGOING:
+                  display.displayGameUI(game.getGameID(), chess);
+                  break;
+               case CHECKMATE:
+                  System.out.printf("%s won by checkmate!\n", chess.getVictor());
+                  break;
+               case STALEMATE:
+                  System.out.println("The game ended in stalemate.");
+                  break;
+               case RESIGN:
+                  System.out.printf("%s resigned. %s WINS!\n", game.getPlayerFromColor(chess.getVictor()), chess.getVictor());
+                  break;
             }
-            System.out.println("Type [h]elp for command details");
+
       }
    }
 }
