@@ -133,7 +133,7 @@ public class WSHandler {
       chsGame.makeMove(move);
 
       ServerMessage moveMessage = constructServerMessage(NOTIFICATION, String.format("%s: %s", playerName, move), null);
-      connections.broadcast("", gameID, moveMessage);
+      connections.broadcast(playerName, gameID, moveMessage);
 
       boolean isInCheck = chsGame.isInCheck(opponentColor);
       updateGameStatus(chsGame, isInCheck, playerColor, opponentColor);
