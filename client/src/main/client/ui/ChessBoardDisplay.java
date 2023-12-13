@@ -1,6 +1,7 @@
 package client.ui;
 
 import chess.ChessGame.TeamColor;
+import chess.ChessMove;
 import chess.ChessPiece;
 import game.Board;
 import game.ChsGame;
@@ -8,6 +9,7 @@ import game.Position;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 
 import static client.ui.EscapeSequences.*;
 
@@ -15,15 +17,15 @@ public class ChessBoardDisplay {
    private static final int BOARD_SIZE_IN_SQUARES = 8;
    private static final int SQUARE_SIZE_IN_CHARS = 3;
 
-   public void displayBoard(ChsGame game, TeamColor color) {
-      var out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
+   public void displayBoard(ChsGame game, TeamColor color, Position position) {
+      PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
       if (color == null) color = TeamColor.WHITE;
 
       Board chessBoard = (Board) game.getBoard();
 
       drawLetterRow(out, color);
 
-      drawChessBoard(out, chessBoard, color);
+      drawChessBoard(out, chessBoard, color, position, getMoves(game, position));
 
       drawLetterRow(out, color);
 
@@ -88,48 +90,68 @@ public class ChessBoardDisplay {
       setGray(out);
    }
 
-   private void drawChessBoard(PrintStream out, Board chessBoard, TeamColor color) {
+   private void drawChessBoard(PrintStream out, Board chessBoard, TeamColor color, Position startPosition, Collection<ChessMove> moves) {
+      int startRow, endRow, rowIncrement;
+
       switch (color) {
          case WHITE:
-            for (int row = 8; row > 0; --row) {
-               char rowLabel = (char) (row + '0');
-               drawBorderChar(out, rowLabel, true);
-
-               for (int col = 1; col <= BOARD_SIZE_IN_SQUARES; ++col) {
-                  boolean isLight = (row + col) % 2 == 0;
-
-                  ChessPiece piece = chessBoard.getPiece(new Position(row, col));
-                  drawSquare(out, isLight, piece);
-               }
-
-               drawBorderChar(out, rowLabel, false);
-               setBlack(out);
-               out.println();
-            }
+            startRow = 8;
+            endRow = 1;
+            rowIncrement = -1;
             break;
          case BLACK:
-            for (int row = 1; row <= BOARD_SIZE_IN_SQUARES; ++row) {
-               char rowLabel = (char) (row + '0');
-               drawBorderChar(out, rowLabel, true);
+            startRow = 1;
+            endRow = 8;
+            rowIncrement = 1;
+            break;
+         default:
+            throw new IllegalArgumentException("Invalid color");
+      }
 
-               for (int col = 8; col > 0; --col) {
-                  boolean isDark = (row + col) % 2 == 0;
+      for (int row = startRow; row != endRow + rowIncrement; row += rowIncrement) {
+         char rowLabel = (char) (row + '0');
+         drawBorderChar(out, rowLabel, true);
 
-                  ChessPiece piece = chessBoard.getPiece(new Position(row, col));
-                  drawSquare(out, isDark, piece);
+         for (int col = (color == TeamColor.WHITE) ? 1 : 8;
+              (color == TeamColor.WHITE) ? col <= BOARD_SIZE_IN_SQUARES : col > 0;
+              col += (color == TeamColor.WHITE) ? 1 : -1) {
+
+            Position currentPosition = new Position(row, col);
+            ChessPiece piece = chessBoard.getPiece(currentPosition);
+
+            boolean highlight = false;
+            boolean isStart = false;
+
+            if (currentPosition.equals(startPosition)) isStart = true;
+            else if (moves != null && !moves.isEmpty()) {
+               for (ChessMove move : moves) {
+                  if (currentPosition.equals(move.getEndPosition())) {
+                     moves.remove(move);
+                     highlight = true;
+                     break;
+                  }
                }
-
-               drawBorderChar(out, rowLabel, false);
-               setBlack(out);
-               out.println();
             }
+            boolean isDark = (row + col) % 2 == 0;
+            drawSquare(out, piece, isDark, highlight, isStart);
+         }
+         drawBorderChar(out, rowLabel, false);
+         setBlack(out);
+         out.println();
       }
    }
 
 
-   private void drawSquare(PrintStream out, boolean isDark, ChessPiece piece) {
-      if (isDark) out.print(SET_BG_COLOR_DARK_RED);
-      else out.print(SET_BG_COLOR_CREAM);
+   private void drawSquare(PrintStream out, ChessPiece piece, boolean isDark, boolean highlight, boolean isStart) {
+      // Choose background color based on booleans
+      if (isStart) out.print(SET_BG_COLOR_YELLOW);
+      else if (isDark) {
+         if (highlight) out.print(SET_BG_COLOR_DARK_GREEN);
+         else out.print(SET_BG_COLOR_DARK_RED);
+      } else {
+         if (highlight) out.print(SET_BG_COLOR_GREEN);
+         else out.print(SET_BG_COLOR_CREAM);
+      }
       out.print(RESET_TEXT_BOLD_FAINT);
 
       if (piece == null) out.print(EMPTY);
@@ -170,6 +192,14 @@ public class ChessBoardDisplay {
       }
 
       out.print(SET_TEXT_COLOR_WHITE);
+   }
+
+   private Collection<ChessMove> getMoves(ChsGame game, Position position) {
+      if (position != null) {
+         if (!position.isInBounds()) throw new IndexOutOfBoundsException("Position is out of bounds");
+         else return game.validMoves(position);
+      }
+      return null;
    }
 
    private void setGray(PrintStream out) {
