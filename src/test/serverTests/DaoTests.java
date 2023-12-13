@@ -274,8 +274,8 @@ public class DaoTests {
 
          authDAO.removeToken(token.getAuthToken());
 
-         // getToken should return null if it doesn't exist
-         Assertions.assertNull(authDAO.getToken(token.getAuthToken()));
+         // getToken should throw unauthorized if it doesn't exist
+         Assertions.assertThrows(DataAccessException.class, () ->authDAO.removeToken(token.getAuthToken()));
 
       } catch (Exception e) {
          throw new AssertionError(e);

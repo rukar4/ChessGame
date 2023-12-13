@@ -3,6 +3,7 @@ package dao;
 import dataAccess.DataAccessException;
 import dataAccess.Database;
 import models.AuthToken;
+import svc.Result;
 import svc.Server;
 
 import java.sql.PreparedStatement;
@@ -48,11 +49,15 @@ public class AuthDAO {
 
                return new AuthToken(username, authToken);
             } else {
-               throw new DataAccessException("Unauthorized");
+               throw new DataAccessException("Error: unauthorized", Result.ApiRes.UNAUTHORIZED);
             }
          }
       } catch (Exception e) {
-         throw new DataAccessException("Error: " + e.getMessage());
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
       } finally {
          db.returnConnection(conn);
       }

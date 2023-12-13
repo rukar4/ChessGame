@@ -99,7 +99,7 @@ public class Handler {
 
          AuthToken userToken = authDAO.getToken(authToken);
 
-         if (userToken == null || !userToken.getAuthToken().equals(authToken)) {
+         if (!userToken.getAuthToken().equals(authToken)) {
             result.setApiRes(Result.ApiRes.UNAUTHORIZED);
             return true;
          }

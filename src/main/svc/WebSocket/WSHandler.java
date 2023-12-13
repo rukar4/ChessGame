@@ -1,6 +1,5 @@
 package svc.WebSocket;
 
-import chess.ChessGame;
 import chess.ChessGame.TeamColor;
 import chess.ChessMove;
 import chess.InvalidMoveException;
