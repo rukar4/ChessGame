@@ -26,16 +26,19 @@ public class ChsGame implements ChessGame {
    public Collection<ChessMove> validMoves(ChessPosition startPosition) {
       Piece piece = (Piece) chessBoard.getPiece(startPosition);
       Collection<ChessMove> pieceMoves = new ArrayList<>();
-      for (ChessMove move : piece.pieceMoves(chessBoard, startPosition)) {
-         ChsGame testGame = new ChsGame();
-         testGame.setBoard(chessBoard);
-         ChessPiece testPiece = testGame.getBoard().getPiece(startPosition);
 
-         testGame.movePiece(move, testPiece);
-         if (!testGame.isInCheck(piece.getTeamColor())) pieceMoves.add(move);
-      }
-      if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-         checkValidCastles(piece, pieceMoves, startPosition);
+      if (piece != null) {
+         for (ChessMove move : piece.pieceMoves(chessBoard, startPosition)) {
+            ChsGame testGame = new ChsGame();
+            testGame.setBoard(chessBoard);
+            ChessPiece testPiece = testGame.getBoard().getPiece(startPosition);
+
+            testGame.movePiece(move, testPiece);
+            if (!testGame.isInCheck(piece.getTeamColor())) pieceMoves.add(move);
+         }
+         if (piece.getPieceType() == ChessPiece.PieceType.KING) {
+            checkValidCastles(piece, pieceMoves, startPosition);
+         }
       }
       return pieceMoves;
    }
@@ -63,7 +66,6 @@ public class ChsGame implements ChessGame {
 
    @Override
    public void makeMove(ChessMove move) throws InvalidMoveException {
-
       ChessPiece piece = chessBoard.getPiece(move.getStartPosition());
       ArrayList<ChessMove> validMoves = (ArrayList<ChessMove>) validMoves(move.getStartPosition());
       if (validMoves.contains(move) && piece.getTeamColor() == getTeamTurn()) {

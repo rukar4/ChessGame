@@ -3,6 +3,7 @@ package client.ui;
 import chess.ChessGame.TeamColor;
 import chess.ChessMove;
 import chess.ChessPiece;
+import client.ChessClient;
 import game.Board;
 import game.ChsGame;
 import game.Position;
@@ -16,17 +17,21 @@ import static client.ui.EscapeSequences.*;
 public class ChessBoardDisplay {
    private static final int BOARD_SIZE_IN_SQUARES = 8;
    private static final int SQUARE_SIZE_IN_CHARS = 3;
+   private final ChessClient client;
 
-   public void displayBoard(ChsGame game, TeamColor color, Position position) {
+   public ChessBoardDisplay(ChessClient client) {
+      this.client = client;
+   }
+
+   public void displayBoard(ChsGame game, Position position) {
       PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
-      if (color == null) color = TeamColor.WHITE;
-
       Board chessBoard = (Board) game.getBoard();
 
+      TeamColor color = client.getPlayerColor();
+      if (color == null) color = TeamColor.WHITE;
+
       drawLetterRow(out, color);
-
       drawChessBoard(out, chessBoard, color, position, getMoves(game, position));
-
       drawLetterRow(out, color);
 
       out.print(SET_TEXT_COLOR_WHITE);

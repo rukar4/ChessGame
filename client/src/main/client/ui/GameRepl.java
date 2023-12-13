@@ -13,13 +13,14 @@ import static client.ui.EscapeSequences.*;
 
 public class GameRepl implements ServerMessageHandler {
    private final ChessClient client;
-   private final ChessBoardDisplay display = new ChessBoardDisplay();
+   private final ChessBoardDisplay display;
    private Game game;
    private ChsGame chess;
 
    public GameRepl(ChessClient client) {
       client.setNotificationHandler(this);
       this.client = client;
+      this.display = new ChessBoardDisplay(client);
    }
 
    public void run() {
@@ -34,7 +35,7 @@ public class GameRepl implements ServerMessageHandler {
 
          switch (input.toLowerCase()) {
             case "r", "redraw":
-               display.displayBoard(chess, client.getPlayerColor(), null);
+               display.displayBoard(chess, null);
                break;
             case "s", "show", "show moves", "moves":
                System.out.printf("Enter the position in this format: %sd2%s\n\t", SET_TEXT_COLOR_GREEN, SET_TEXT_COLOR_WHITE);
@@ -44,7 +45,7 @@ public class GameRepl implements ServerMessageHandler {
 
                try {
                   Position position = parsePosition(input);
-                  display.displayBoard(chess, client.getPlayerColor(), position);
+                  display.displayBoard(chess, position);
                } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
                   System.out.println(SET_TEXT_COLOR_RED + e.getMessage());
                   System.out.print(SET_TEXT_COLOR_WHITE);
@@ -58,7 +59,7 @@ public class GameRepl implements ServerMessageHandler {
                   break;
                } else {
                   System.out.print(ERASE_SCREEN);
-                  display.displayBoard(chess, client.getPlayerColor(), null);
+                  display.displayBoard(chess, null);
                }
             case "h", "help":
                System.out.printf("""
@@ -139,7 +140,7 @@ public class GameRepl implements ServerMessageHandler {
             String start = String.format(SET_TEXT_COLOR_GREEN + "%s %s\n\n", game.getGameName(), SET_TEXT_COLOR_WHITE);
             System.out.print(ERASE_SCREEN + start);
 
-            display.displayBoard(chess, client.getPlayerColor(), null);
+            display.displayBoard(chess, null);
             if (client.getPlayerColor() == null)
                System.out.printf(
                        SET_TEXT_COLOR_GREEN + "Watching %d\n" +
