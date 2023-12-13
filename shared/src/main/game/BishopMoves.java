@@ -6,6 +6,7 @@ import chess.ChessMove;
 import chess.ChessPosition;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 public class BishopMoves extends Piece {
    public BishopMoves(ChessGame.TeamColor color) {
@@ -14,6 +15,8 @@ public class BishopMoves extends Piece {
 
    @Override
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<ChessMove> moves = new HashSet<>();
+
       int row = start.getRow();
       int col = start.getColumn();
       for (int i = 1; row + i <= 8 && col + i <= 8; ++i) {

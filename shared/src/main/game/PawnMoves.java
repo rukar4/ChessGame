@@ -17,6 +17,8 @@ public class PawnMoves extends Piece {
    }
 
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<ChessMove> moves = new HashSet<>();
+
       int row = start.getRow();
       int col = start.getColumn();
       int direction = 1;
@@ -55,11 +57,11 @@ public class PawnMoves extends Piece {
          }
          moves.add(new Move(start, position));
       }
-      addEnPassant(board, start, direction);
+      addEnPassant(board, start, direction, moves);
       return moves;
    }
 
-   private void addEnPassant(ChessBoard board, ChessPosition start, int direction) {
+   private void addEnPassant(ChessBoard board, ChessPosition start, int direction, Collection<ChessMove> moves) {
       if (!hasMoved) return;
 
       Collection<Position> positions = new ArrayList<>();

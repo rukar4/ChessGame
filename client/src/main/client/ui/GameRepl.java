@@ -1,8 +1,10 @@
 package client.ui;
 
+import chess.ChessMove;
 import client.ChessClient;
 import client.webSocket.ServerMessageHandler;
 import game.ChsGame;
+import game.Move;
 import game.Position;
 import models.Game;
 import webSocketMessages.serverMessages.ServerMessage;
@@ -50,6 +52,16 @@ public class GameRepl implements ServerMessageHandler {
                   System.out.println(SET_TEXT_COLOR_RED + e.getMessage());
                   System.out.print(SET_TEXT_COLOR_WHITE);
                }
+               break;
+            case "m", "move", "make move":
+               System.out.printf("Enter the move in this format: %sd2 d4%s\n\t", SET_TEXT_COLOR_GREEN, SET_TEXT_COLOR_WHITE);
+               String startString = scanner.next();
+               String endString = scanner.next();
+
+               Position start = parsePosition(startString);
+               Position end = parsePosition(endString);
+
+               client.makeMove(game.getGameID(), new Move(start, end));
                break;
             case "x", "resign":
                System.out.print(SET_TEXT_COLOR_RED + "Are you sure you want to resign? Type yes to confirm:\n\t");
@@ -102,7 +114,6 @@ public class GameRepl implements ServerMessageHandler {
                break;
          }
       }
-
       client.setPlayerColor(null);
       client.leaveGame(game.getGameID());
    }

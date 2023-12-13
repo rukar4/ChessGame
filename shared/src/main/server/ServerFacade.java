@@ -1,5 +1,6 @@
 package server;
 
+import chess.ChessMove;
 import chess.ChessPiece;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,7 +32,7 @@ public class ServerFacade {
    private static void writeBody(Object request, HttpURLConnection http) throws IOException {
       if (request != null) {
          http.addRequestProperty("Content-Type", "application/json");
-         String reqData = new Gson().toJson(request);
+         String reqData = new GsonBuilder().registerTypeAdapter(ChessMove.class, new ChessMoveAdapter()).create().toJson(request);
          try (OutputStream reqBody = http.getOutputStream()) {
             reqBody.write(reqData.getBytes());
          }
@@ -57,6 +58,7 @@ public class ServerFacade {
             result = new GsonBuilder()
                     .excludeFieldsWithModifiers(Modifier.STATIC)
                     .registerTypeAdapter(ChessPiece.class, new ChessPieceAdapter())
+                    .registerTypeAdapter(ChessMove.class, new ChessMoveAdapter())
                     .create()
                     .fromJson(reader, responseClass);
             if (!wasSuccessful)

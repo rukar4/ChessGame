@@ -14,6 +14,8 @@ public class KnightMoves extends Piece {
    }
 
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<ChessMove> moves = new HashSet<>();
+
       int row = start.getRow();
       int col = start.getColumn();
       Collection<Position> possiblePositions = new HashSet<>();

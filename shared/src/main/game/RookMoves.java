@@ -6,6 +6,7 @@ import chess.ChessMove;
 import chess.ChessPosition;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 public class RookMoves extends Piece {
    public RookMoves(ChessGame.TeamColor color) {
@@ -14,6 +15,8 @@ public class RookMoves extends Piece {
 
    @Override
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<ChessMove> moves = new HashSet<>();
+
       int row = start.getRow();
       int col = start.getColumn();
       int direction = -1;

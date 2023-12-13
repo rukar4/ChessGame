@@ -35,6 +35,7 @@ public class KingMoves extends Piece {
    }
 
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<ChessMove> moves = new HashSet<>();
       Collection<Position> possiblePositions = getPositions(start);
 
       for (Position position : possiblePositions) {
@@ -45,13 +46,13 @@ public class KingMoves extends Piece {
          moves.add(new Move(start, position));
       }
 
-      addCastles(board, start, 1);
-      addCastles(board, start, 8);
+      addCastles(board, start, 1, moves);
+      addCastles(board, start, 8, moves);
 
       return moves;
    }
 
-   private void addCastles(ChessBoard board, ChessPosition start, int rookCol) {
+   private void addCastles(ChessBoard board, ChessPosition start, int rookCol, Collection<ChessMove> moves) {
       if (hasMoved) return;
 
       // Check for valid rook piece

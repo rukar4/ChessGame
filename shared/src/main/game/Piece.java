@@ -3,12 +3,10 @@ package game;
 import chess.*;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 public abstract class Piece implements ChessPiece {
    ChessGame.TeamColor color;
    PieceType piece;
-   Collection<ChessMove> moves = new HashSet<>();
    boolean hasMoved = false;
 
    public Piece(ChessGame.TeamColor color, PieceType piece) {
@@ -19,7 +17,6 @@ public abstract class Piece implements ChessPiece {
    public Piece(Piece otherPiece) {
       this.color = otherPiece.color;
       this.piece = otherPiece.piece;
-      this.moves = otherPiece.moves;
       this.hasMoved = otherPiece.hasMoved;
    }
 
@@ -40,16 +37,12 @@ public abstract class Piece implements ChessPiece {
       this.hasMoved = hasMoved;
    }
 
-   public boolean hasMoved() {
-      return hasMoved;
-   }
-
    @Override
    public boolean equals(Object obj) {
       if (this == obj) return true;
       if (obj == null) return false;
       if (obj instanceof Piece objPiece) {
-         return moves.equals(objPiece.moves) && hasMoved == objPiece.hasMoved;
+         return hasMoved == objPiece.hasMoved;
       } else return false;
    }
 }

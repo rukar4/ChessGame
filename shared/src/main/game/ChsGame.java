@@ -148,10 +148,7 @@ public class ChsGame implements ChessGame {
 
    @Override
    public boolean isInCheckmate(TeamColor teamColor) {
-      if ((isInCheck(teamColor) && isInStalemate(teamColor))) {
-         status = GameStatus.CHECKMATE;
-         return true;
-      } else return false;
+      return isInCheck(teamColor) && isInStalemate(teamColor);
    }
 
    @Override
@@ -163,7 +160,6 @@ public class ChsGame implements ChessGame {
             if (piece != null && piece.getTeamColor() == teamColor && !validMoves(position).isEmpty()) return false;
          }
       }
-      status = GameStatus.STALEMATE;
       return true;
    }
 

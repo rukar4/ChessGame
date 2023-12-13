@@ -6,6 +6,7 @@ import chess.ChessMove;
 import chess.ChessPosition;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 public class QueenMoves extends Piece {
 
@@ -14,6 +15,8 @@ public class QueenMoves extends Piece {
    }
 
    public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition start) {
+      Collection<ChessMove> moves = new HashSet<>();
+
       RookMoves lateralMoves = new RookMoves(color);
       BishopMoves diagonalMoves = new BishopMoves(color);
       moves.addAll(lateralMoves.pieceMoves(board, start));

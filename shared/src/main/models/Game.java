@@ -28,7 +28,7 @@ public class Game {
    /**
     * Name of the game
     */
-   private String gameName;
+   private final String gameName;
 
    /**
     * The chess game object holds all the information to play the game
@@ -110,10 +110,6 @@ public class Game {
 
    public String getGameName() {
       return gameName;
-   }
-
-   public void setGameName(String gameName) {
-      this.gameName = gameName;
    }
 
    public ChsGame getGameData() {

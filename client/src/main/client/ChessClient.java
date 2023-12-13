@@ -1,10 +1,12 @@
 package client;
 
 import chess.ChessGame.TeamColor;
+import chess.ChessMove;
 import client.ui.GameRepl;
 import client.webSocket.ServerMessageHandler;
 import client.webSocket.WSFacade;
 import exception.ResponseException;
+import game.Move;
 import models.Game;
 import server.ServerFacade;
 import svc.account.LoginRequest;
@@ -156,6 +158,15 @@ public class ChessClient {
          ws.resign(authToken, gameID);
       } catch (ResponseException e) {
          System.out.printf(SET_TEXT_COLOR_RED + "Resign game failed:\n %s\n", e.getMessage());
+      }
+   }
+
+   public void makeMove(int gameID, Move move) {
+      try {
+         ws = new WSFacade(serverURL, serverMessageHandler);
+         ws.makeMove(authToken, gameID, move);
+      } catch (ResponseException e) {
+         System.out.printf(SET_TEXT_COLOR_RED + "Make move failed:\n %s\n", e.getMessage());
       }
    }
 
