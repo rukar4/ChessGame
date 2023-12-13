@@ -1,6 +1,5 @@
 package client.ui;
 
-import chess.ChessPiece;
 import client.ChessClient;
 import client.webSocket.ServerMessageHandler;
 import game.ChsGame;
@@ -38,16 +37,18 @@ public class GameRepl implements ServerMessageHandler {
                display.displayBoard(chess, client.getPlayerColor(), null);
                break;
             case "s", "show", "show moves", "moves":
-               Position position = new Position(7, 2);
+               System.out.printf("Enter the position in this format: %sd2%s\n\t", SET_TEXT_COLOR_GREEN, SET_TEXT_COLOR_WHITE);
+               input = scanner.nextLine();
+
+               System.out.printf("Highlighting: %s\n", input);
 
                try {
+                  Position position = parsePosition(input);
                   display.displayBoard(chess, client.getPlayerColor(), position);
-               } catch (IndexOutOfBoundsException e) {
+               } catch (IndexOutOfBoundsException | IllegalArgumentException e) {
                   System.out.println(SET_TEXT_COLOR_RED + e.getMessage());
                   System.out.print(SET_TEXT_COLOR_WHITE);
                }
-
-
                break;
             case "x", "resign":
                System.out.print(SET_TEXT_COLOR_RED + "Are you sure you want to resign? Type yes to confirm:\n\t");
@@ -108,6 +109,17 @@ public class GameRepl implements ServerMessageHandler {
    private void updateGameState(Game game) {
       this.game = game;
       chess = game.getGameData();
+   }
+
+   private Position parsePosition(String input) {
+      if (input.length() != 2) throw new IllegalArgumentException("Invalid input length");
+      char fileChar = input.charAt(0);
+      char rankChar = input.charAt(1);
+
+      int file = fileChar - 'a' + 1;
+      int rank = Character.getNumericValue(rankChar);
+
+      return new Position(rank, file);
    }
 
    @Override
