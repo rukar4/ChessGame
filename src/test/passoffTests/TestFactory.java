@@ -12,7 +12,7 @@ public class TestFactory {
    }
 
    public static ChessGame getNewGame() {
-      return new Game();
+      return new ChsGame();
    }
 
    public static ChessPiece getNewPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
@@ -49,7 +49,7 @@ public class TestFactory {
    //------------------------------------------------------------------------------------------------------------------
 
 
-   //Server API's
+   //svc.Server API's
    //------------------------------------------------------------------------------------------------------------------
    public static String getServerPort() {
       return "8080";

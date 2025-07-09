@@ -1,23 +1,28 @@
 package dao;
 
 import dataAccess.DataAccessException;
+import dataAccess.Database;
 import models.User;
+import svc.Server;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data access object for the User database
  */
 public class UserDAO {
-   private final Map<String, User> tempUserDB = new HashMap<>();
    private static UserDAO instance;
+   private final Database db;
 
    private UserDAO() {
+      this.db = Server.db;
    }
 
    public static UserDAO getInstance() {
-      if (instance == null){
+      if (instance == null) {
          instance = new UserDAO();
       }
       return instance;
@@ -31,17 +36,57 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public User getUser(String username) throws DataAccessException {
-      return tempUserDB.get(username);
+      var conn = db.getConnection();
+      String sql = "SELECT password, email FROM users WHERE username = ?;";
+
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.setString(1, username);
+
+         try (ResultSet resultSet = query.executeQuery()) {
+            if (resultSet.next()) {
+               String password = resultSet.getString("password");
+               String email = resultSet.getString("email");
+
+               return new User(username, password, email);
+            } else {
+               return null;
+            }
+         }
+      } catch (Exception e) {
+         throw new DataAccessException("Error: " + e.getMessage());
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 
    /**
     * Retrieve all users in the database
     *
-    * @return an array of all the users
+    * @return a list of all the users
     * @throws DataAccessException when database is inaccessible
     */
-   public Map<String, User> getAllUsers() throws DataAccessException {
-      return tempUserDB;
+   public List<User> getAllUsers() throws DataAccessException {
+      var conn = db.getConnection();
+      String sql = "SELECT * FROM users";
+      List<User> users = new ArrayList<>();
+
+      try (PreparedStatement query = conn.prepareStatement(sql);
+           ResultSet resultSet = query.executeQuery()) {
+
+         while (resultSet.next()) {
+            User user = new User(
+                    resultSet.getString("username"),
+                    resultSet.getString("password"),
+                    resultSet.getString("email")
+            );
+            users.add(user);
+         }
+      } catch (Exception e) {
+         throw new DataAccessException("Error: " + e.getMessage());
+      } finally {
+         db.returnConnection(conn);
+      }
+      return users;
    }
 
    /**
@@ -51,42 +96,29 @@ public class UserDAO {
     * @throws DataAccessException when user is not found
     */
    public void insertUser(User user) throws DataAccessException {
-      tempUserDB.put(user.getUsername(), user);
-   }
+      var conn = db.getConnection();
+      String sql = "INSERT INTO users (username, password, email) VALUE (?, ?, ?);";
 
-   /**
-    * Remove a user from the database
-    *
-    * @param username User to remove
-    * @throws DataAccessException when user is not found
-    */
-   public void removeUser(String username) throws DataAccessException {
-      tempUserDB.remove(username);
-   }
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.setString(1, user.getUsername());
+         query.setString(2, user.getPassword());
+         query.setString(3, user.getEmail());
 
-   /**
-    * Updates the user's username
-    *
-    * @param user        The user to update
-    * @param newUsername The new username
-    * @throws DataAccessException when user is not found
-    */
-   public void updateUsername(User user, String newUsername) throws DataAccessException {
-      User updatedUser = new User(newUsername, user.getPassword());
-      removeUser(user.getUsername());
-      insertUser(updatedUser);
-   }
-
-   /**
-    * Updates the user's password
-    *
-    * @param user    The user to update
-    * @param newPass The new password
-    * @throws DataAccessException when user is not found
-    */
-   public void updatePassword(User user, String newPass) throws DataAccessException {
-      User updatedUser = new User(user.getUsername(), newPass);
-      tempUserDB.put(user.getUsername(), updatedUser);
+         int usersInserted = query.executeUpdate();
+         if (usersInserted > 1) {
+            System.out.println("WARNING: " + usersInserted + " users were added");
+         } else if (usersInserted != 1) {
+            throw new DataAccessException("Error: unable to insert user");
+         }
+      } catch (Exception e) {
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 
    /**
@@ -95,6 +127,15 @@ public class UserDAO {
     * @throws DataAccessException when database is inaccessible
     */
    public void clearUsers() throws DataAccessException {
-      tempUserDB.clear();
+      var conn = db.getConnection();
+      String sql = "DELETE FROM users;";
+
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.executeUpdate();
+      } catch (Exception e) {
+         throw new DataAccessException("Error: " + e.getMessage());
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 }

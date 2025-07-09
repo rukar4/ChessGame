@@ -1,23 +1,29 @@
 package dao;
 
 import dataAccess.DataAccessException;
+import dataAccess.Database;
 import models.AuthToken;
+import svc.Result;
+import svc.Server;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data access object for auth tokens.
  */
 public class AuthDAO {
-   private final Map<String, AuthToken> tempAuthDB = new HashMap<>();
    private static AuthDAO instance;
+   private final Database db;
 
    private AuthDAO() {
+      this.db = Server.db;
    }
 
-   public static AuthDAO getInstance(){
-      if (instance == null){
+   public static AuthDAO getInstance() {
+      if (instance == null) {
          instance = new AuthDAO();
       }
       return instance;
@@ -31,7 +37,30 @@ public class AuthDAO {
     * @throws DataAccessException if database is inaccessible
     */
    public AuthToken getToken(String authToken) throws DataAccessException {
-      return tempAuthDB.get(authToken);
+      var conn = db.getConnection();
+      String sql = "SELECT * FROM authTokens WHERE authToken = ?;";
+
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.setString(1, authToken);
+
+         try (ResultSet resultSet = query.executeQuery()) {
+            if (resultSet.next()) {
+               String username = resultSet.getString("username");
+
+               return new AuthToken(username, authToken);
+            } else {
+               throw new DataAccessException("Error: unauthorized", Result.ApiRes.UNAUTHORIZED);
+            }
+         }
+      } catch (Exception e) {
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 
    /**
@@ -40,8 +69,27 @@ public class AuthDAO {
     * @return all tokens in the database
     * @throws DataAccessException if database is inaccessible
     */
-   public Map<String, AuthToken> getAllTokens() throws DataAccessException {
-      return tempAuthDB;
+   public List<AuthToken> getAllTokens() throws DataAccessException {
+      var conn = db.getConnection();
+      String sql = "SELECT * FROM authTokens";
+      List<AuthToken> authTokens = new ArrayList<>();
+
+      try (PreparedStatement query = conn.prepareStatement(sql);
+           ResultSet resultSet = query.executeQuery()) {
+
+         while (resultSet.next()) {
+            AuthToken authToken = new AuthToken(
+                    resultSet.getString("username"),
+                    resultSet.getString("authToken")
+            );
+            authTokens.add(authToken);
+         }
+      } catch (Exception e) {
+         throw new DataAccessException("Error: " + e.getMessage());
+      } finally {
+         db.returnConnection(conn);
+      }
+      return authTokens;
    }
 
    /**
@@ -51,17 +99,28 @@ public class AuthDAO {
     * @throws DataAccessException if database is inaccessible
     */
    public void insertToken(AuthToken authToken) throws DataAccessException {
-      tempAuthDB.put(authToken.getAuthToken(), authToken);
-   }
+      var conn = db.getConnection();
+      String sql = "INSERT INTO authTokens (authToken, username) VALUE (?, ?);";
 
-   /**
-    * Update the token for a given user to the given token
-    *
-    * @param newToken The new token to replace the old one
-    * @throws DataAccessException if the user does not have a token to update
-    */
-   public void updateToken(AuthToken newToken) throws DataAccessException {
-      tempAuthDB.put(newToken.getUsername(), newToken);
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.setString(1, authToken.getAuthToken());
+         query.setString(2, authToken.getUsername());
+
+         int tokensInserted = query.executeUpdate();
+         if (tokensInserted > 1) {
+            System.out.println("WARNING: " + tokensInserted + " tokens were added");
+         } else if (tokensInserted != 1) {
+            throw new DataAccessException("Error: unable to insert token");
+         }
+      } catch (Exception e) {
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 
    /**
@@ -71,7 +130,23 @@ public class AuthDAO {
     * @throws DataAccessException if the token cannot be found
     */
    public void removeToken(String authToken) throws DataAccessException {
-      AuthToken removedToken = tempAuthDB.remove(authToken);
+      var conn = db.getConnection();
+      String sql = "DELETE FROM authTokens WHERE authToken = ?;";
+
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.setString(1, authToken);
+
+         int removedRows = query.executeUpdate();
+         if (removedRows == 0) throw new DataAccessException("Error: Unable to remove token");
+      } catch (Exception e) {
+         if (e instanceof DataAccessException) {
+            throw (DataAccessException) e;
+         } else {
+            throw new DataAccessException("Error: " + e.getMessage());
+         }
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 
    /**
@@ -80,6 +155,15 @@ public class AuthDAO {
     * @throws DataAccessException if database is inaccessible
     */
    public void clearTokens() throws DataAccessException {
-      tempAuthDB.clear();
+      var conn = db.getConnection();
+      String sql = "DELETE FROM authTokens;";
+
+      try (PreparedStatement query = conn.prepareStatement(sql)) {
+         query.executeUpdate();
+      } catch (Exception e) {
+         throw new DataAccessException("Error: " + e.getMessage());
+      } finally {
+         db.returnConnection(conn);
+      }
    }
 }

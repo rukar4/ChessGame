@@ -1,20 +1,25 @@
 package svc;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.AuthDAO;
 import models.AuthToken;
 import spark.Request;
 import spark.Response;
-import svc.account.*;
-import com.google.gson.Gson;
-import svc.clearApp.ClearAppService;
-import svc.game.*;
+import svc.ServiceClasses.*;
+import svc.account.LoginRequest;
+import svc.account.RegisterRequest;
+import svc.game.CreateGameRequest;
+import svc.game.JoinGameRequest;
+
+import java.lang.reflect.Modifier;
 
 public class Handler {
    private final AuthDAO authDAO = AuthDAO.getInstance();
 
    public Object handler(Request req, Response res, String endPoint) {
       String reqBody = req.body();
-      String authToken = req.headers("authorization");
+      String authToken = req.headers("Authorization");
       Result result = new Result();
 
       switch (endPoint) {
@@ -44,6 +49,21 @@ public class Handler {
             ListGamesService listGamesService = new ListGamesService();
             result = listGamesService.getGames();
             break;
+         case "getGame":
+            if (isNotAuthorized(authToken, result)) break;
+
+            GetGameService getGameService = new GetGameService();
+            result = getGameService.getGame(req.attribute("gameID"));
+
+            res.type("application/json");
+            res.status(result.getApiRes().getCode());
+
+            // Include transient game variable in response
+            Gson gson = new GsonBuilder()
+                    .excludeFieldsWithModifiers(Modifier.STATIC)
+                    .create();
+
+            return gson.toJson(result);
          case "createGame":
             if (isNotAuthorized(authToken, result)) break;
 
@@ -79,7 +99,7 @@ public class Handler {
 
          AuthToken userToken = authDAO.getToken(authToken);
 
-         if (userToken == null || !userToken.getAuthToken().equals(authToken)) {
+         if (!userToken.getAuthToken().equals(authToken)) {
             result.setApiRes(Result.ApiRes.UNAUTHORIZED);
             return true;
          }
